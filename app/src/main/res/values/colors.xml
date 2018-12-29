@@ -3,7 +3,7 @@
     <color name="colorPrimary">@color/lightOrange</color>
     <color name="yellow">#ffe57f</color>
     <color name="colorPrimaryDark">@color/colorAccent</color>
-    <color name="lightOrange">#fdd835</color>
+    <color name="lightOrange">#fdba35</color>
     <color name="colorAccent">#f57f17</color>
     <color name="white">#FFFFFF</color>
     <color name="white_trans">#99FFFFFF</color>

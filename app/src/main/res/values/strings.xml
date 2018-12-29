@@ -1,3 +1,10 @@
 <resources>
-    <string name="app_name">Baltazar2</string>
+    <string name="app_name">بالتازار</string>
+    <string name="base_url">http://mybaltazar.com/api/v1/</string>
+    <string name="ok">تائید</string>
+    <string name="error">خطا</string>
+    <string name="no_network">در دسترسی به اینترنت مشکلی به وجود آمده است، لطفا تنظیمات شبگه گوشی خود را بررسی نمایید.</string>
+    <string name="wifi_settings">تنظیمات wifi</string>
+    <string name="mobile_data_settings">تنظیمات دیتا</string>
+    <string name="exit">خروج</string>
 </resources>
