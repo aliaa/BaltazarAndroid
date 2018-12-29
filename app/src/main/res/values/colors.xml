@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">@color/lightOrange</color>
+    <color name="yellow">#ffe57f</color>
+    <color name="colorPrimaryDark">@color/colorAccent</color>
+    <color name="lightOrange">#fdd835</color>
+    <color name="colorAccent">#f57f17</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_trans">#99FFFFFF</color>
+    <color name="middleYellow">#fac724</color>
+    <color name="black">#000000</color>
+    <color name="backGroundGray">#eeeeee</color>
+    <color name="blue">#005eff</color>
+    <color name="red">#d50000</color>
+    <color name="content_text_color">#373737</color>
+    <color name="transparentWhite">#99ffffff</color>
+</resources>
