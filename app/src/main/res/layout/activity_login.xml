@@ -24,18 +24,23 @@
         android:id="@+id/txtMobileNum"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/mobile_number_hint"/>
+        android:hint="@string/mobile_number_hint"
+        android:textDirection="ltr"
+        android:inputType="phone"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/melli_code"/>
+        android:text="@string/melli_code"
+        android:inputType="number"/>
 
     <EditText
         android:id="@+id/txtMelliCode"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:textDirection="ltr"
+        android:inputType="number"/>
 
     <Button
         android:id="@+id/btnLogin"

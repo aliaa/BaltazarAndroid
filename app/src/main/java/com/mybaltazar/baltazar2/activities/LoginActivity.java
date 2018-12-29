@@ -15,6 +15,7 @@ import com.mybaltazar.baltazar2.web.ServerResponse;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import khangtran.preferenceshelper.PrefHelper;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -32,7 +33,7 @@ public class LoginActivity extends BaseActivity
     }
 
     @OnClick(R.id.btnLogin)
-    private void btnLogin_Click()
+    protected void btnLogin_Click()
     {
         final ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage(getString(R.string.connecting_to_server));
@@ -53,9 +54,11 @@ public class LoginActivity extends BaseActivity
                 switch (response.code()) {
                     case 200:
                         if (resp != null) {
+                            PrefHelper.setVal(PREF_SESSION_ID, resp.access_token);
                             cacheItem(resp.user, "user");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
                         break;
                     case 400:
@@ -81,7 +84,7 @@ public class LoginActivity extends BaseActivity
     }
 
     @OnClick(R.id.lblRegister)
-    private void lblRegister_Click()
+    protected void lblRegister_Click()
     {
         Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);

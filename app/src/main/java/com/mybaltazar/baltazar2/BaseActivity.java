@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.google.gson.Gson;
@@ -43,6 +44,24 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         this.layoutId = layoutId;
         this.liveValidation = liveValidation;
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+        setContentView(layoutId);
+        ButterKnife.bind(this);
+        getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
+        if(liveValidation)
+            FormValidator.startLiveValidation(this, findViewById(android.R.id.content), new SimpleErrorPopupCallback(this));
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if(liveValidation)
+            FormValidator.stopLiveValidation(this);
     }
 
     public static <T> void cacheItem(Context context, T item, String name) {
@@ -96,24 +115,6 @@ public abstract class BaseActivity extends AppCompatActivity
     protected <T> T loadCache(String name, Type type) {
         return loadCache(this, name, type);
     }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
-    {
-        super.onCreate(savedInstanceState);
-        setContentView(layoutId);
-        ButterKnife.bind(this);
-        if(liveValidation)
-            FormValidator.startLiveValidation(this, findViewById(android.R.id.content), new SimpleErrorPopupCallback(this));
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if(liveValidation)
-            FormValidator.stopLiveValidation(this);
-    }
-
 
     public Retrofit getWebServiceClient() {
         return getWebServiceClient(this);

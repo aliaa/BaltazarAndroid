@@ -15,4 +15,10 @@
     <string name="connecting_to_server">در حال برقراری ارتباط…</string>
     <string name="wrong_credentials">شماره تلفن همراه یا رمزعبور اشتباه است</string>
     <string name="server_problem">لطفا از برقراری ارتباط اینترنت خود اطمینان حاصل نمایید</string>
+    <string name="name">نام</string>
+    <string name="last_name">نام خانوادگی</string>
+    <string name="level">پایه تحصیلی</string>
+    <string name="field">رشته</string>
+    <string name="invitation_code">کد دعوت</string>
+    <string name="register">ثبت نام</string>
 </resources>
