@@ -2,7 +2,6 @@ package com.mybaltazar.baltazar2.activities;
 
 import android.os.Bundle;
 
-import com.mybaltazar.baltazar2.BaseActivity;
 import com.mybaltazar.baltazar2.R;
 
 public class MainActivity extends BaseActivity {
