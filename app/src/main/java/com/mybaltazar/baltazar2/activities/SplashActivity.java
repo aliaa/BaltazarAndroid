@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
 
-import com.mybaltazar.baltazar2.BaseActivity;
 import com.mybaltazar.baltazar2.R;
 
 public class SplashActivity extends BaseActivity implements Runnable {

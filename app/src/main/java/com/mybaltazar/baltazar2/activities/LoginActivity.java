@@ -6,9 +6,8 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.mybaltazar.baltazar2.BaseActivity;
 import com.mybaltazar.baltazar2.R;
-import com.mybaltazar.baltazar2.RetryableCallback;
+import com.mybaltazar.baltazar2.web.RetryableCallback;
 import com.mybaltazar.baltazar2.web.Requests;
 import com.mybaltazar.baltazar2.web.ServerRequest;
 import com.mybaltazar.baltazar2.web.ServerResponse;

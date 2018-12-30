@@ -1,4 +1,4 @@
-package com.mybaltazar.baltazar2;
+package com.mybaltazar.baltazar2.activities;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -11,6 +11,7 @@ import android.widget.ImageView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mybaltazar.baltazar2.R;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;

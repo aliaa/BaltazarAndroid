@@ -1,4 +1,4 @@
-package com.mybaltazar.baltazar2;
+package com.mybaltazar.baltazar2.web;
 
 import android.util.Log;
 

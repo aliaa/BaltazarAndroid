@@ -5,9 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
 
-import com.mybaltazar.baltazar2.BaseActivity;
 import com.mybaltazar.baltazar2.R;
-import com.mybaltazar.baltazar2.RetryableCallback;
+import com.mybaltazar.baltazar2.web.RetryableCallback;
 import com.mybaltazar.baltazar2.models.Degree;
 import com.mybaltazar.baltazar2.models.Field;
 import com.mybaltazar.baltazar2.web.Requests;
