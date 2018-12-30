@@ -34,13 +34,7 @@ public class LoginActivity extends BaseActivity
     @OnClick(R.id.btnLogin)
     protected void btnLogin_Click()
     {
-        final ProgressDialog progress = new ProgressDialog(this);
-        progress.setMessage(getString(R.string.connecting_to_server));
-        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        progress.setIndeterminate(true);
-        progress.setProgress(0);
-        progress.show();
-
+        final ProgressDialog progress = showProgress();
         ServerRequest req = new ServerRequest();
         req.phone = txtMobileNum.getText().toString();
         req.password = txtMelliCode.getText().toString();

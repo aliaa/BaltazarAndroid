@@ -21,4 +21,6 @@
     <string name="field">رشته</string>
     <string name="invitation_code">کد دعوت</string>
     <string name="register">ثبت نام</string>
+    <string name="is_empty">خالی است!</string>
+    <string name="not_correct">صحیح نیست!</string>
 </resources>

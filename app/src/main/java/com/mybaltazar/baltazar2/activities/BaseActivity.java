@@ -1,6 +1,7 @@
 package com.mybaltazar.baltazar2.activities;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -198,5 +199,16 @@ public abstract class BaseActivity extends AppCompatActivity
     public static String getSessionId()
     {
         return PrefHelper.getStringVal(PREF_SESSION_ID, null);
+    }
+
+    protected ProgressDialog showProgress()
+    {
+        ProgressDialog progress = new ProgressDialog(this);
+        progress.setMessage(getString(R.string.connecting_to_server));
+        progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        progress.setIndeterminate(true);
+        progress.setProgress(0);
+        progress.show();
+        return progress;
     }
 }

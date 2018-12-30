@@ -31,7 +31,9 @@
             android:id="@+id/txtFirstName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textDirection="rtl"/>
+            android:imeOptions="actionNext"
+            android:singleLine="true"
+            android:textDirection="rtl" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -42,7 +44,9 @@
         <EditText
             android:id="@+id/txtLastName"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:singleLine="true"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,9 +55,12 @@
             android:layout_marginTop="16dp"/>
 
         <EditText
+            android:id="@+id/txtMobileNum"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="phone"/>
+            android:inputType="phone"
+            android:imeOptions="actionNext"
+            android:singleLine="true"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -65,7 +72,9 @@
             android:id="@+id/txtMelliCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number" />
+            android:inputType="number"
+            android:imeOptions="actionNext"
+            android:singleLine="true"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -100,9 +109,12 @@
             android:id="@+id/txtInvitationCode"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"/>
+            android:inputType="number"
+            android:imeOptions="actionDone"
+            android:singleLine="true"/>
 
         <Button
+            android:id="@+id/btnRegister"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
