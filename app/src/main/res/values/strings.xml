@@ -23,4 +23,13 @@
     <string name="register">ثبت نام</string>
     <string name="is_empty">خالی است!</string>
     <string name="not_correct">صحیح نیست!</string>
+    <string name="qa">سوالات</string>
+    <string name="shop">فروشگاه</string>
+    <string name="league">لیگ</string>
+    <string name="blog">وبلاگ</string>
+    <string name="profile">پروفایل</string>
+    <string name="my_questions">سوالات من</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
