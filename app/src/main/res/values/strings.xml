@@ -29,7 +29,14 @@
     <string name="blog">وبلاگ</string>
     <string name="profile">پروفایل</string>
     <string name="my_questions">سوالات من</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="lesson_name_colon">نام درس:</string>
+    <string name="level_colon">پایه:</string>
+    <string name="correct_answer_colon">جواب صحیح:</string>
+    <string name="coin">سکه</string>
+    <string name="minute">دقیقه</string>
+    <string name="hour">ساعت</string>
+    <string name="day">روز</string>
+    <string name="week">هفته</string>
+    <string name="month">ماه</string>
+    <string name="year">سال</string>
 </resources>
