@@ -127,7 +127,7 @@ public class RegisterActivity extends BaseActivity
                 ServerResponse resp = response.body();
                 if(resp != null && response.code() == 200 && resp.code == 200)
                 {
-                    PrefHelper.setVal(PREF_SESSION_ID, resp.access_token);
+                    PrefHelper.setVal(PREF_SESSION_ID, "bearer " + resp.access_token);
                     cacheItem(resp.user, "user");
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);

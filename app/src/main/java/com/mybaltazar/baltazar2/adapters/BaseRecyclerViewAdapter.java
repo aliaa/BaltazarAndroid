@@ -50,7 +50,7 @@ public abstract class BaseRecyclerViewAdapter<VH extends RecyclerView.ViewHolder
             return;
         I item = list.get(position);
         holder.itemView.setTag(item);
-
+        onBindViewHolder(holder, item);
     }
 
     protected abstract VH createViewHolder(View view);

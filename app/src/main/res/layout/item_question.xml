@@ -10,7 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layoutDirection="rtl">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,12 +58,18 @@
                 android:text="97/01/01"
                 android:layout_marginRight="8dp"/>
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/lblText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layoutDirection="rtl"
-            android:layout_marginTop="8dp"
             android:gravity="center_vertical">
 
             <TextView

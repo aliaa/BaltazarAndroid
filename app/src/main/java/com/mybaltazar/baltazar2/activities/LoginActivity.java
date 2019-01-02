@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity
                 switch (response.code()) {
                     case 200:
                         if (resp != null) {
-                            PrefHelper.setVal(PREF_SESSION_ID, resp.access_token);
+                            PrefHelper.setVal(PREF_SESSION_ID, "bearer " + resp.access_token);
                             cacheItem(resp.user, "user");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);

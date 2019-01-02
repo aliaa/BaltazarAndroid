@@ -13,9 +13,12 @@ import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.fragments.BlogFragment;
 import com.mybaltazar.baltazar2.fragments.LeagueFragment;
 import com.mybaltazar.baltazar2.fragments.MyQuestionsFragment;
+import com.mybaltazar.baltazar2.fragments.NewQuestionFragment;
 import com.mybaltazar.baltazar2.fragments.ProfileFragment;
 import com.mybaltazar.baltazar2.fragments.QAFragment;
+import com.mybaltazar.baltazar2.fragments.QuestionDetailFragment;
 import com.mybaltazar.baltazar2.fragments.ShopFragment;
+import com.mybaltazar.baltazar2.models.Question;
 
 import butterknife.BindView;
 
@@ -40,6 +43,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private Fragment[] pagesFragments;
     private Fragment currentFragment;
     private MyQuestionsFragment myQuestionsFragment;
+    private NewQuestionFragment newQuestionFragment;
 
     @BindView(R.id.fragmentContainer)
     FrameLayout fragmentContainer;
@@ -62,6 +66,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         pagesFragments[3] = new BlogFragment();
         pagesFragments[4] = new ProfileFragment();
         myQuestionsFragment = new MyQuestionsFragment();
+        newQuestionFragment = new NewQuestionFragment();
 
         for (int i = 0; i < 5; i++)
             bottomNavigationBar.addItem(new BottomNavigationItem(PAGES_ICON[i], PAGES_TITLE[i]));
@@ -105,5 +110,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();
+    }
+
+    public void openNewQuestionFragment() {
+        changeFragment(newQuestionFragment);
+    }
+
+    public void openQuestionDetailsFragment(Question item) {
+        QuestionDetailFragment frag = new QuestionDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("item", item);
+        frag.setArguments(bundle);
+        changeFragment(frag);
     }
 }

@@ -26,6 +26,7 @@ class QuestionItemViewHolder extends RecyclerView.ViewHolder
     @BindView(R.id.lblDate)         TextView lblDate;
     @BindView(R.id.lblCoinCount)    TextView lblCoinCount;
     @BindView(R.id.imgIcon)         ImageView imgIcon;
+    @BindView(R.id.lblText)         TextView lblText;
 
     QuestionItemViewHolder(View itemView) {
         super(itemView);
@@ -46,8 +47,10 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
 
     @Override
     protected void onBindViewHolder(QuestionItemViewHolder vh, Question item) {
-        vh.lblLevel.setText(item.level.title);
-        vh.lblLessonName.setText(item.course.title);
+        vh.lblLevel.setText(item.getLevelTitle());
+        vh.lblLessonName.setText(item.getCourseTitle());
+        vh.lblCoinCount.setText(String.valueOf(item.prize));
+        vh.lblText.setText(item.context);
 
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date;

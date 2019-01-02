@@ -7,13 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".activities.MainActivity"
     android:orientation="vertical"
-    android:layout_margin="12dp">
+    android:background="@drawable/shape_background_gray">
 
     <FrameLayout
         android:id="@+id/fragmentContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
         android:animateLayoutChanges="true"/>
 
     <com.ashokvarma.bottomnavigation.BottomNavigationBar

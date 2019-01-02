@@ -4,8 +4,8 @@ import com.mybaltazar.baltazar2.models.Question;
 
 import java.util.ArrayList;
 
-public class QuestionListResponse
+public class QuestionListResponse extends ServerResponse
 {
-    ArrayList<Question> list;
-    ArrayList<Question> questions;
+    public ArrayList<Question> list;
+    public ArrayList<Question> questions;
 }
