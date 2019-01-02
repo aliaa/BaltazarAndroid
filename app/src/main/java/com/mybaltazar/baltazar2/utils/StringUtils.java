@@ -1,6 +1,8 @@
-package com.mybaltazar.baltazar2;
+package com.mybaltazar.baltazar2.utils;
 
 import android.content.Context;
+
+import com.mybaltazar.baltazar2.R;
 
 public class StringUtils {
     private static StringBuilder sb = new StringBuilder();

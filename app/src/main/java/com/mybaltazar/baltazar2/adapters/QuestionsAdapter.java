@@ -5,7 +5,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.mybaltazar.baltazar2.JalaliCalendar;
+import com.mybaltazar.baltazar2.utils.JalaliCalendar;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.models.Question;

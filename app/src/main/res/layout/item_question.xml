@@ -85,7 +85,7 @@
                 android:layout_marginRight="4dp"
                 android:textColor="@color/green"
                 android:textStyle="bold"
-                android:textSize="18sp"/>
+                android:textSize="16sp"/>
 
             <TextView
                 android:layout_width="wrap_content"

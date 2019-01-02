@@ -39,7 +39,5 @@
     <string name="week">هفته</string>
     <string name="month">ماه</string>
     <string name="year">سال</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_question">سوال جدید</string>
 </resources>

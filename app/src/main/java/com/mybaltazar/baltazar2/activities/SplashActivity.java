@@ -13,7 +13,7 @@ import android.provider.Settings;
 import com.mybaltazar.baltazar2.R;
 
 public class SplashActivity extends BaseActivity implements Runnable {
-    static final int DELAY_MILLIS = 1500;
+    static final int DELAY_MILLIS = 1000;
 
     public SplashActivity() {
         super(R.layout.activity_splash, false);

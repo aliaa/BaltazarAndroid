@@ -2,6 +2,7 @@ package com.mybaltazar.baltazar2.activities;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -10,6 +11,7 @@ import android.widget.FrameLayout;
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.mybaltazar.baltazar2.R;
+import com.mybaltazar.baltazar2.fragments.BaseFragment;
 import com.mybaltazar.baltazar2.fragments.BlogFragment;
 import com.mybaltazar.baltazar2.fragments.LeagueFragment;
 import com.mybaltazar.baltazar2.fragments.MyQuestionsFragment;
@@ -40,8 +42,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             R.string.profile
     };
 
-    private Fragment[] pagesFragments;
-    private Fragment currentFragment;
+    private BaseFragment[] pagesFragments;
+    private BaseFragment currentFragment;
     private MyQuestionsFragment myQuestionsFragment;
     private NewQuestionFragment newQuestionFragment;
 
@@ -59,7 +61,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        pagesFragments = new Fragment[5];
+        pagesFragments = new BaseFragment[5];
         pagesFragments[0] = new QAFragment();
         pagesFragments[1] = new ShopFragment();
         pagesFragments[2] = new LeagueFragment();
@@ -105,11 +107,24 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             changeFragment(pagesFragments[position]);
     }
 
-    private void changeFragment(Fragment fragment) {
+    private void changeFragment(BaseFragment fragment)
+    {
         currentFragment = fragment;
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();
+
+        refreshTitle();
+    }
+
+    private void refreshTitle()
+    {
+        int titleId = currentFragment.getTitleId();
+        if(titleId == 0)
+            setTitle(R.string.app_name);
+        else
+            setTitle(titleId);
     }
 
     public void openNewQuestionFragment() {
@@ -122,5 +137,21 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         bundle.putSerializable("item", item);
         frag.setArguments(bundle);
         changeFragment(frag);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(isPageFragment(currentFragment))
+            super.onBackPressed();
+        else
+            changeFragment(pagesFragments[0]);
+    }
+
+    private boolean isPageFragment(BaseFragment fragment)
+    {
+        for (BaseFragment f : pagesFragments)
+            if(f == fragment)
+                return true;
+        return false;
     }
 }

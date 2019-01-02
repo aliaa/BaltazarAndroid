@@ -57,6 +57,13 @@ public abstract class BaseActivity extends AppCompatActivity
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         if(liveValidation)
             FormValidator.startLiveValidation(this, findViewById(android.R.id.content), new SimpleErrorPopupCallback(this));
+
+        //TODO uncomment this
+//            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+//                @Override
+//                public void uncaughtException(Thread thread, Throwable t) {
+//                }
+//            });
     }
 
     @Override
