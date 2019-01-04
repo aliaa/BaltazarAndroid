@@ -79,6 +79,7 @@ public class RegisterActivity extends BaseActivity
                 if(resp != null && response.code() == 200) {
                     setLevels(resp.levels);
                     setFields(resp.fields);
+                    cacheItem(resp, "tools");
                 }
                 else {
                     Toast.makeText(RegisterActivity.this, R.string.server_problem, Toast.LENGTH_SHORT).show();
@@ -95,13 +96,13 @@ public class RegisterActivity extends BaseActivity
 
     private void setLevels(ArrayList<Level> levels)
     {
-        ArrayAdapter<Level> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, levels);
+        ArrayAdapter<Level> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, levels);
         spinnerLevel.setAdapter(adapter);
     }
 
     private void setFields(ArrayList<Field> fields)
     {
-        ArrayAdapter<Field> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, fields);
+        ArrayAdapter<Field> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, fields);
         spinnerField.setAdapter(adapter);
     }
 

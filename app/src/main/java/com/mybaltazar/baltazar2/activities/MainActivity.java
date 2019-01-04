@@ -54,7 +54,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     BottomNavigationBar bottomNavigationBar;
 
     public MainActivity() {
-        super(R.layout.activity_main, false);
+        super(R.layout.activity_main, true);
     }
 
     @Override

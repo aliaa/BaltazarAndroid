@@ -28,4 +28,11 @@ public class ServerResponse
     public Error error;
     @SerializedName("states")
     public ArrayList<LevelField> levelFields;
+
+
+    public String getErrorMessage() {
+        if(error != null)
+            return error.error;
+        return null;
+    }
 }

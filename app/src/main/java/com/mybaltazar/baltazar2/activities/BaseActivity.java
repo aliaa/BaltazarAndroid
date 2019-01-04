@@ -208,7 +208,7 @@ public abstract class BaseActivity extends AppCompatActivity
         return PrefHelper.getStringVal(PREF_SESSION_ID, null);
     }
 
-    protected ProgressDialog showProgress()
+    public ProgressDialog showProgress()
     {
         ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage(getString(R.string.connecting_to_server));

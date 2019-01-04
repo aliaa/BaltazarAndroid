@@ -40,4 +40,10 @@
     <string name="month">ماه</string>
     <string name="year">سال</string>
     <string name="new_question">سوال جدید</string>
+    <string name="title">عنوان</string>
+    <string name="description">توضیحات</string>
+    <string name="address">آدرس</string>
+    <string name="send">ارسال</string>
+    <string name="sendSuccess">با موفقیت ارسال شد</string>
+    <string name="questionWillShowAfterConfirm">سوال شما پس از تایید به کاربران نشان داده خواهد شد</string>
 </resources>
