@@ -5,15 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.SplashActivity"
-    android:background="@color/lightOrange">
-
-    <ImageView
-        android:id="@+id/BackgroundImage"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:alpha="0.7"
-        android:scaleType="centerCrop"
-        app:srcCompat="@drawable/background_white" />
+    android:background="@drawable/background_splash">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
