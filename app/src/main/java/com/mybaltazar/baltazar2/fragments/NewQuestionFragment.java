@@ -44,12 +44,10 @@ import static android.app.Activity.RESULT_OK;
 
 public class NewQuestionFragment extends BaseFragment
 {
-    @BindView(R.id.spLevel)
-    Spinner spLevel;
-    @BindView(R.id.spField)
-    Spinner spField;
-    @BindView(R.id.spLesson)
-    Spinner spLesson;
+    @BindView(R.id.spLevel)     Spinner spLevel;
+    @BindView(R.id.spField)     Spinner spField;
+    @BindView(R.id.spLesson)    Spinner spLesson;
+    @BindView(R.id.img)         ImageView img;
 
     @NotEmpty(messageId = R.string.is_empty)
     @BindView(R.id.txtTitle)
@@ -59,10 +57,7 @@ public class NewQuestionFragment extends BaseFragment
     @BindView(R.id.txtDescription)
     EditText txtDescription;
 
-    @BindView(R.id.img)
-    ImageView img;
-
-    File imageFile;
+    private File imageFile;
 
     @Override
     public int getTitleId() {
@@ -151,7 +146,7 @@ public class NewQuestionFragment extends BaseFragment
 
         CropImage.activity()
                 .setGuidelines(CropImageView.Guidelines.ON)
-                .setMaxCropResultSize(1280, 720)
+//                .setMaxCropResultSize(1280, 720)
                 .start(getContext(), this);
 
     }

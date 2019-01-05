@@ -1,6 +1,8 @@
 package com.mybaltazar.baltazar2.models;
 
-public class Answer
+import java.io.Serializable;
+
+public class Answer implements Serializable
 {
     private String voice;
     private String image;

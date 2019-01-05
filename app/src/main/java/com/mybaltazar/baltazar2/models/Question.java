@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Question implements Serializable
 {
     public Integer id, user_id, prize;
-    public String title,context,image,status,created_at;
+    public String title, context, image, video, voice, status, created_at;
     public Course course;
     public Field field;
     public User user;

@@ -109,6 +109,9 @@ public class RegisterActivity extends BaseActivity
     @OnClick(R.id.btnRegister)
     protected void btnRegister_Click()
     {
+        if(!validateForm())
+            return;
+
         final ProgressDialog progress = showProgress();
 
         ServerRequest req = new ServerRequest();

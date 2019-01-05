@@ -14,15 +14,18 @@ import com.mybaltazar.baltazar2.web.ServerResponse;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import khangtran.preferenceshelper.PrefHelper;
 import retrofit2.Call;
 import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity
 {
+    @NotEmpty(messageId = R.string.is_empty)
     @BindView(R.id.txtMobileNum)
     EditText txtMobileNum;
 
+    @NotEmpty(messageId = R.string.is_empty)
     @BindView(R.id.txtMelliCode)
     EditText txtMelliCode;
 
@@ -34,6 +37,9 @@ public class LoginActivity extends BaseActivity
     @OnClick(R.id.btnLogin)
     protected void btnLogin_Click()
     {
+        if(!validateForm())
+            return;
+
         final ProgressDialog progress = showProgress();
         ServerRequest req = new ServerRequest();
         req.phone = txtMobileNum.getText().toString();

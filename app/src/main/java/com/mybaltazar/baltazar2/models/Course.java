@@ -1,6 +1,8 @@
 package com.mybaltazar.baltazar2.models;
 
-public class Course
+import java.io.Serializable;
+
+public class Course implements Serializable
 {
     public int id;
     public String title, description;

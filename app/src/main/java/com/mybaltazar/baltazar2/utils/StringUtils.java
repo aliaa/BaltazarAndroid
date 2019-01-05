@@ -4,6 +4,11 @@ import android.content.Context;
 
 import com.mybaltazar.baltazar2.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 public class StringUtils {
     private static StringBuilder sb = new StringBuilder();
     private static StringBuilder lsb = new StringBuilder();
@@ -70,5 +75,22 @@ public class StringUtils {
         lsb.setLength(0);
         lsb.append(getPersianNumber(number)).append(' ').append(word);
         return lsb.toString();
+    }
+
+    public static String getPersianDate(String dateString)
+    {
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        Date date;
+        try {
+            date = fmt.parse(dateString);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            JalaliCalendar.YearMonthDate cDate = JalaliCalendar.gregorianToJalali(new JalaliCalendar.YearMonthDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE)));
+            return cDate.toPersianString();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

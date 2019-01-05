@@ -9,6 +9,7 @@ import com.mybaltazar.baltazar2.utils.JalaliCalendar;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.models.Question;
+import com.mybaltazar.baltazar2.utils.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -51,20 +52,7 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
         vh.lblLessonName.setText(item.getCourseTitle());
         vh.lblCoinCount.setText(String.valueOf(item.prize));
         vh.lblText.setText(item.context);
-
-        SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-        Date date;
-        try {
-            date = fmt.parse(item.created_at);
-            Calendar calendar = Calendar.getInstance();
-            calendar.setTime(date);
-            JalaliCalendar.YearMonthDate cDate = JalaliCalendar.gregorianToJalali(new JalaliCalendar.YearMonthDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE)));
-            vh.lblDate.setText( cDate.toPersianString());
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-            vh.lblDate.setText("");
-        }
+        vh.lblDate.setText(StringUtils.getPersianDate(item.created_at));
 
         // TODO: set icon
     }

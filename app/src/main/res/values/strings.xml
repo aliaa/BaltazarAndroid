@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">بالتازار</string>
     <string name="base_url">http://mybaltazar.com/api/v1/</string>
+    <string name="media_base_url">http://mybaltazar.com/public/storage/</string>
+    <string name="image_dir">images/</string>
+    <string name="video_dir">videos/</string>
+    <string name="voice_dir">voices/</string>
     <string name="ok">تائید</string>
     <string name="error">خطا</string>
     <string name="no_network">در دسترسی به اینترنت مشکلی به وجود آمده است، لطفا تنظیمات شبگه گوشی خود را بررسی نمایید.</string>
@@ -46,4 +50,9 @@
     <string name="send">ارسال</string>
     <string name="sendSuccess">با موفقیت ارسال شد</string>
     <string name="questionWillShowAfterConfirm">سوال شما پس از تایید به کاربران نشان داده خواهد شد</string>
+    <string name="you">شما</string>
+    <string name="answer">پاسخ</string>
+    <string name="sendingAnswer">در حال ارسال پاسخ</string>
+    <string name="recorded_voice">صدای ضبط شده</string>
+    <string name="voice_error">خطا در پخش صدا!</string>
 </resources>

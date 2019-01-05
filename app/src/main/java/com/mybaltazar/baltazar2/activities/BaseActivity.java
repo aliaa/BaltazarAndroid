@@ -168,7 +168,7 @@ public abstract class BaseActivity extends AppCompatActivity
         catch (Throwable e) { e.printStackTrace(); }
     }
 
-    protected boolean validateForm()
+    public boolean validateForm()
     {
         return FormValidator.validate(this, new SimpleErrorPopupCallback(this));
     }
@@ -196,7 +196,7 @@ public abstract class BaseActivity extends AppCompatActivity
     public void loadImage(final String url, final ImageView target)
     {
         try {
-            Picasso.get().load(url).into(target);
+            Picasso.get().load(url).error(R.drawable.ic_error).into(target);
         }
         catch (Throwable t){
             t.printStackTrace();
@@ -210,8 +210,13 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public ProgressDialog showProgress()
     {
+        return showProgress(R.string.connecting_to_server);
+    }
+
+    public ProgressDialog showProgress(int messageId)
+    {
         ProgressDialog progress = new ProgressDialog(this);
-        progress.setMessage(getString(R.string.connecting_to_server));
+        progress.setMessage(getString(messageId));
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progress.setIndeterminate(true);
         progress.setProgress(0);
