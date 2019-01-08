@@ -59,6 +59,12 @@
                 android:layout_marginRight="8dp"/>
         </LinearLayout>
 
+        <ozaydin.serkan.com.image_zoom_view.ImageViewZoom
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="12dp"
+            android:id="@+id/imgQuestionImage"/>
+
         <TextView
             android:id="@+id/lblText"
             android:layout_width="match_parent"
@@ -75,7 +81,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/correct_answer_colon"/>
+                android:text="@string/answer_count_colon"/>
 
             <TextView
                 android:id="@+id/lblCount"
@@ -86,12 +92,6 @@
                 android:textColor="@color/green"
                 android:textStyle="bold"
                 android:textSize="16sp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/coin"
-                android:layout_marginRight="8dp"/>
 
             <View
                 android:layout_width="0dp"

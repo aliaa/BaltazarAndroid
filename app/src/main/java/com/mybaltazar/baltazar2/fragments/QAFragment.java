@@ -1,6 +1,5 @@
 package com.mybaltazar.baltazar2.fragments;
 
-
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -83,7 +82,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
                     QuestionListResponse resp = response.body();
                     if (response.code() == 200 && resp != null)
                     {
-                        adapter = new QuestionsAdapter(activity, resp.list);
+                        adapter = new QuestionsAdapter(activity, resp.list, false);
                         adapter.setOnItemClickListener(QAFragment.this);
                         recycler.setAdapter(adapter);
                         lastUpdated = System.currentTimeMillis();

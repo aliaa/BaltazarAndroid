@@ -173,7 +173,7 @@ public abstract class BaseActivity extends AppCompatActivity
         return FormValidator.validate(this, new SimpleErrorPopupCallback(this));
     }
 
-    public void loadImage(final String url, final ImageView target, boolean forceOffline)
+    public static void loadImage(final String url, final ImageView target, boolean forceOffline)
     {
         if(forceOffline)
         {
@@ -193,7 +193,7 @@ public abstract class BaseActivity extends AppCompatActivity
             loadImage(url, target);
     }
 
-    public void loadImage(final String url, final ImageView target)
+    public static void loadImage(final String url, final ImageView target)
     {
         try {
             Picasso.get().load(url).error(R.drawable.ic_error).into(target);

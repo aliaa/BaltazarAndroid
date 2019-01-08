@@ -96,7 +96,7 @@ public class QuestionDetailFragment extends BaseFragment
 
         if (item.image != null && !item.image.equals(""))
         {
-            ((BaseActivity) getActivity()).loadImage(getString(R.string.media_base_url) + getString(R.string.image_dir) + item.image, imgQuestionImage);
+            BaseActivity.loadImage(getString(R.string.media_base_url) + getString(R.string.image_dir) + item.image, imgQuestionImage);
             imgQuestionImage.setVisibility(View.VISIBLE);
         }
         else

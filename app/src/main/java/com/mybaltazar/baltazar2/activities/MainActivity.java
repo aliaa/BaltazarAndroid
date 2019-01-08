@@ -14,6 +14,7 @@ import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.fragments.BaseFragment;
 import com.mybaltazar.baltazar2.fragments.BlogFragment;
 import com.mybaltazar.baltazar2.fragments.LeagueFragment;
+import com.mybaltazar.baltazar2.fragments.MyQuestionDetailsFragment;
 import com.mybaltazar.baltazar2.fragments.MyQuestionsFragment;
 import com.mybaltazar.baltazar2.fragments.NewQuestionFragment;
 import com.mybaltazar.baltazar2.fragments.ProfileFragment;
@@ -133,6 +134,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     public void openQuestionDetailsFragment(Question item) {
         QuestionDetailFragment frag = new QuestionDetailFragment();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("item", item);
+        frag.setArguments(bundle);
+        changeFragment(frag);
+    }
+
+    public void openMyQuestionDetailsFragment(Question item) {
+        MyQuestionDetailsFragment frag = new MyQuestionDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putSerializable("item", item);
         frag.setArguments(bundle);
