@@ -1,5 +1,6 @@
 package com.mybaltazar.baltazar2.adapters;
 
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,6 +19,7 @@ import ozaydin.serkan.com.image_zoom_view.ImageViewZoom;
 
 class QuestionItemViewHolder extends RecyclerView.ViewHolder
 {
+    @BindView(R.id.cardView)        CardView cardView;
     @BindView(R.id.lblLevel)        TextView lblLevel;
     @BindView(R.id.lblLessonName)   TextView lblLessonName;
     @BindView(R.id.lblDate)         TextView lblDate;
@@ -58,7 +60,11 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
     }
 
     @Override
-    protected void onBindViewHolder(QuestionItemViewHolder vh, Question item) {
+    protected void onBindViewHolder(QuestionItemViewHolder vh, Question item)
+    {
+        BaseActivity activity = activityRef.get();
+        if(activity == null)
+            return;
         vh.lblLevel.setText(item.getLevelTitle());
         vh.lblLessonName.setText(item.getCourseTitle());
         vh.lblText.setText(item.context);
@@ -68,14 +74,13 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
         if(myQuestion) {
             MyQuestionItemViewHolder mvh = (MyQuestionItemViewHolder)vh;
             mvh.lblCount.setText(String.valueOf(item.new_answers));
-            BaseActivity activity = activityRef.get();
-            if(activity != null) {
-                String url = activity.getString(R.string.media_base_url) + activity.getString(R.string.image_dir) + item.image;
-                BaseActivity.loadImage(url, mvh.imgQuestionImage);
-            }
+            String url = activity.getString(R.string.media_base_url) + activity.getString(R.string.image_dir) + item.image;
+            BaseActivity.loadImage(url, mvh.imgQuestionImage);
         }
         else {
             vh.lblCount.setText(String.valueOf(item.prize));
+            if(item.total_answers == 0)
+                vh.cardView.setCardBackgroundColor(activity.getResources().getColor(R.color.yellow));
         }
     }
 }

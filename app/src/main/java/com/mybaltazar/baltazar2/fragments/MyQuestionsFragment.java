@@ -39,6 +39,10 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
     private QuestionsAdapter adapter;
     private long lastUpdated = 0;
 
+    public int getTitleId() {
+        return R.string.my_questions;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
