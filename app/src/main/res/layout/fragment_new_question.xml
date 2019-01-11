@@ -25,7 +25,8 @@
             android:layout_height="42dp"
             android:background="@drawable/spinner_style"
             android:textDirection="rtl"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:visibility="gone"/>
 
         <Spinner
             android:id="@+id/spLesson"
@@ -35,11 +36,11 @@
             android:textDirection="rtl"
             android:layout_marginTop="16dp"/>
 
-        <EditText
-            android:id="@+id/txtTitle"
+        <Spinner
+            android:id="@+id/spChapter"
             android:layout_width="match_parent"
             android:layout_height="42dp"
-            android:hint="@string/title"
+            android:hint="@string/chapter"
             android:background="@drawable/rounded_border"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"

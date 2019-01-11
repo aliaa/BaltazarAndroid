@@ -47,7 +47,7 @@ public class LoginActivity extends BaseActivity
         Call<ServerResponse> response = createWebService(Requests.class).login(req);
         response.enqueue(new RetryableCallback<ServerResponse>(response) {
             @Override
-            public void onFinalResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 progress.dismiss();
                 ServerResponse resp = response.body();
                 switch (response.code()) {
@@ -76,6 +76,7 @@ public class LoginActivity extends BaseActivity
             @Override
             public void onFinalFailure(Call<ServerResponse> call, Throwable t) {
                 Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                progress.dismiss();
                 Log.d("error:", t.getMessage());
             }
         });

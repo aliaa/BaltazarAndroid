@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -48,10 +49,7 @@ public class NewQuestionFragment extends BaseFragment
     @BindView(R.id.spField)     Spinner spField;
     @BindView(R.id.spLesson)    Spinner spLesson;
     @BindView(R.id.img)         ImageView img;
-
-    @NotEmpty(messageId = R.string.is_empty)
-    @BindView(R.id.txtTitle)
-    EditText txtTitle;
+    @BindView(R.id.spChapter)   Spinner spChapter;
 
     @NotEmpty(messageId = R.string.is_empty)
     @BindView(R.id.txtDescription)
@@ -84,6 +82,16 @@ public class NewQuestionFragment extends BaseFragment
     private void loadSpinners(ServerResponse data)
     {
         setSpinnerAdapter(spField, data.fields);
+        spField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                spLevel.setVisibility(i > 11 ? View.VISIBLE : View.GONE);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) { }
+        });
+
         setSpinnerAdapter(spLevel, data.levels);
         setSpinnerAdapter(spLesson, data.courses);
     }
@@ -100,7 +108,7 @@ public class NewQuestionFragment extends BaseFragment
         Call<ServerResponse> call = activity.createWebService(Requests.class).registerTools();
         call.enqueue(new RetryableCallback<ServerResponse>(call) {
             @Override
-            public void onFinalResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 if (dialog != null)
                     dialog.dismiss();
                 ServerResponse data = response.body();
@@ -175,7 +183,7 @@ public class NewQuestionFragment extends BaseFragment
         final ProgressDialog dialog = activity.showProgress();
         Call<ServerResponse> call = activity.createWebService(Requests.class).askQuestion(
                 BaseActivity.getSessionId(),
-                RequestBody.create(MultipartBody.FORM, txtTitle.getText().toString()),
+                RequestBody.create(MultipartBody.FORM, spChapter.getSelectedItem().toString()), //TODO
                 RequestBody.create(MultipartBody.FORM, txtDescription.getText().toString()),
                 RequestBody.create(MediaType.parse("text/plain"), String.valueOf(((Course)spLesson.getSelectedItem()).id)),
                 MultipartBody.Part.createFormData("image", imageFile.getName(),
@@ -192,7 +200,6 @@ public class NewQuestionFragment extends BaseFragment
                     Toast.makeText(activity, R.string.sendSuccess, Toast.LENGTH_SHORT).show();
                     Toast.makeText(activity, R.string.questionWillShowAfterConfirm, Toast.LENGTH_LONG).show();
                     activity.onBackPressed();
-                    txtTitle.setText("");
                     txtDescription.setText("");
                 }
                 else if(resp != null)

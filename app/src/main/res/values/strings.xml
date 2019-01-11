@@ -36,7 +36,7 @@
     <string name="lesson_name_colon">نام درس:</string>
     <string name="level_colon">پایه:</string>
     <string name="correct_answer_colon">جواب صحیح:</string>
-    <string name="answer_count_colon">تعداد جواب:</string>
+    <string name="count_colon">تعداد:</string>
     <string name="coin">سکه</string>
     <string name="minute">دقیقه</string>
     <string name="hour">ساعت</string>
@@ -45,7 +45,7 @@
     <string name="month">ماه</string>
     <string name="year">سال</string>
     <string name="new_question">سوال جدید</string>
-    <string name="title">عنوان</string>
+    <string name="chapter">سرفصل</string>
     <string name="description">توضیحات</string>
     <string name="address">آدرس</string>
     <string name="send">ارسال</string>
@@ -56,7 +56,11 @@
     <string name="sendingAnswer">در حال ارسال پاسخ</string>
     <string name="recorded_voice">صدای ضبط شده</string>
     <string name="voice_error">خطا در پخش صدا!</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="view_answer">مشاهده پاسخ</string>
+    <string name="unpublished">منتظر تائید</string>
+    <string name="published">منتشر شده</string>
+    <string name="has_answer">دارای پاسخ</string>
+    <string name="correct_answer">جواب گرفتم!</string>
+    <string name="answer_not_clear">پاسخ گویا نبود</string>
+    <string name="irrelevant_answer">پاسخ نامرتبظ</string>
 </resources>

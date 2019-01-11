@@ -73,7 +73,7 @@ public class RegisterActivity extends BaseActivity
         Call<ServerResponse> call = createWebService(Requests.class).registerTools();
         call.enqueue(new RetryableCallback<ServerResponse>(call) {
             @Override
-            public void onFinalResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 progress.dismiss();
                 ServerResponse resp = response.body();
                 if(resp != null && response.code() == 200) {
@@ -126,7 +126,7 @@ public class RegisterActivity extends BaseActivity
         Call<ServerResponse> call = createWebService(Requests.class).register(req);
         call.enqueue(new RetryableCallback<ServerResponse>(call) {
             @Override
-            public void onFinalResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
                 progress.dismiss();
                 ServerResponse resp = response.body();
                 if(resp != null && response.code() == 200 && resp.code == 200)

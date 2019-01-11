@@ -150,7 +150,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void onBackPressed() {
-        if(isPageFragment(currentFragment))
+        if(currentFragment instanceof MyQuestionDetailsFragment)
+            changeFragment(myQuestionsFragment);
+        else if(isPageFragment(currentFragment))
             super.onBackPressed();
         else
             changeFragment(pagesFragments[0]);

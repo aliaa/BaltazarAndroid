@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
+import com.mybaltazar.baltazar2.adapters.MyQuestionsAdapter;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.adapters.QuestionsAdapter;
 import com.mybaltazar.baltazar2.models.Question;
@@ -36,7 +37,7 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
 
     private static final int TIME_TO_SAVE_CACHE_MILLIS = 60000;
 
-    private QuestionsAdapter adapter;
+    private MyQuestionsAdapter adapter;
     private long lastUpdated = 0;
 
     public int getTitleId() {
@@ -82,13 +83,13 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
             Call<QuestionListResponse> call = activity.createWebService(Requests.class).myQuestions(BaseActivity.getSessionId());
             call.enqueue(new RetryableCallback<QuestionListResponse>(call) {
                 @Override
-                public void onFinalResponse(Call<QuestionListResponse> call, Response<QuestionListResponse> response) {
+                public void onResponse(Call<QuestionListResponse> call, Response<QuestionListResponse> response) {
                     swipe.setRefreshing(false);
                     QuestionListResponse resp = response.body();
                     if (response.code() == 200 && resp != null)
                     {
-                        adapter = new QuestionsAdapter(activity, resp.questions, true);
-                        adapter.setOnItemClickListener(MyQuestionsFragment.this);
+                        adapter = new MyQuestionsAdapter(activity, resp.questions);
+//                        adapter.setOnItemClickListener(MyQuestionsFragment.this);
                         recycler.setAdapter(adapter);
                         lastUpdated = System.currentTimeMillis();
                     }

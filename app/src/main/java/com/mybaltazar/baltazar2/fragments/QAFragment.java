@@ -77,12 +77,12 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
             Call<QuestionListResponse> call = activity.createWebService(Requests.class).questionList(BaseActivity.getSessionId());
             call.enqueue(new RetryableCallback<QuestionListResponse>(call) {
                 @Override
-                public void onFinalResponse(Call<QuestionListResponse> call, Response<QuestionListResponse> response) {
+                public void onResponse(Call<QuestionListResponse> call, Response<QuestionListResponse> response) {
                     swipe.setRefreshing(false);
                     QuestionListResponse resp = response.body();
                     if (response.code() == 200 && resp != null)
                     {
-                        adapter = new QuestionsAdapter(activity, resp.list, false);
+                        adapter = new QuestionsAdapter(activity, resp.list);
                         adapter.setOnItemClickListener(QAFragment.this);
                         recycler.setAdapter(adapter);
                         lastUpdated = System.currentTimeMillis();
