@@ -2,13 +2,12 @@ package com.mybaltazar.baltazar2.models;
 
 import java.io.Serializable;
 
-public class Field implements Serializable
+public class StudyField implements Serializable
 {
-    public int id;
-    public String title,description;
+    public String id, name;
 
     @Override
     public String toString() {
-        return title;
+        return name;
     }
 }

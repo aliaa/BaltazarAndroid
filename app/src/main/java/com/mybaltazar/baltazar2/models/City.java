@@ -1,7 +1,14 @@
 package com.mybaltazar.baltazar2.models;
 
-public class City
+import java.io.Serializable;
+
+public class City implements Serializable
 {
-    public int id, province_id;
+    public String id, provinceId;
     public String name;
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

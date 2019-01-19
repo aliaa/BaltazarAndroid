@@ -201,7 +201,7 @@ public class QuestionDetailFragment extends BaseFragment
         final BaseActivity activity = (BaseActivity)getActivity();
         Question question = (Question)getArguments().getSerializable("item");
         Call<ServerResponse> call = activity.createWebService(Requests.class).answerQuestion(
-                BaseActivity.getSessionId(),
+                BaseActivity.getToken(),
                 RequestBody.create(MultipartBody.FORM, txtAnswer.getText().toString()),
                 RequestBody.create(MediaType.parse("text/plain"), String.valueOf(question.id)),
                 MultipartBody.Part.createFormData("image", answerImageFile.getName(),

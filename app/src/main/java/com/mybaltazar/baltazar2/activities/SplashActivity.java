@@ -9,10 +9,19 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
+import com.mybaltazar.baltazar2.webservices.CommonData;
+import com.mybaltazar.baltazar2.webservices.DataResponse;
+import com.mybaltazar.baltazar2.webservices.Services;
 
-public class SplashActivity extends BaseActivity implements Runnable {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class SplashActivity extends BaseActivity implements Runnable
+{
     static final int DELAY_MILLIS = 1000;
 
     public SplashActivity() {
@@ -31,7 +40,29 @@ public class SplashActivity extends BaseActivity implements Runnable {
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        if(!isConnected)
+        if(isConnected)
+        {
+            Call<DataResponse<CommonData>> call = createWebService(Services.class).getCommonData();
+            call.enqueue(new Callback<DataResponse<CommonData>>()
+            {
+                @Override
+                public void onResponse(Call<DataResponse<CommonData>> call, Response<DataResponse<CommonData>> response) {
+                    if(response.body() != null && response.body().data != null) {
+                        cacheItem(response.body().data, "common");
+                        run();
+                    }
+                    else
+                        onFailure(call, null);
+                }
+
+                @Override
+                public void onFailure(Call<DataResponse<CommonData>> call, Throwable t) {
+                    Toast.makeText(SplashActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
+                    run();
+                }
+            });
+        }
+        else
         {
             new AlertDialog.Builder(this)
                     .setTitle(R.string.error)
@@ -59,10 +90,6 @@ public class SplashActivity extends BaseActivity implements Runnable {
                     .setCancelable(false)
                     .show();
         }
-        else
-        {
-            runDelayed(DELAY_MILLIS);
-        }
     }
 
     private void runDelayed(int millis) {
@@ -72,7 +99,7 @@ public class SplashActivity extends BaseActivity implements Runnable {
 
     @Override
     public void run() {
-        if(getSessionId() == null)
+        if(getToken() == null)
             startActivity(new Intent(this, LoginActivity.class));
         else
             startActivity(new Intent(this, MainActivity.class));

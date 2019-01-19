@@ -18,7 +18,7 @@ import com.mybaltazar.baltazar2.adapters.QuestionsAdapter;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.web.QuestionListResponse;
 import com.mybaltazar.baltazar2.web.Requests;
-import com.mybaltazar.baltazar2.web.RetryableCallback;
+import com.mybaltazar.baltazar2.webservices.RetryableCallback;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,7 +74,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         {
             swipe.setRefreshing(true);
             final BaseActivity activity = (BaseActivity) getActivity();
-            Call<QuestionListResponse> call = activity.createWebService(Requests.class).questionList(BaseActivity.getSessionId());
+            Call<QuestionListResponse> call = activity.createWebService(Requests.class).questionList(BaseActivity.getToken());
             call.enqueue(new RetryableCallback<QuestionListResponse>(call) {
                 @Override
                 public void onResponse(Call<QuestionListResponse> call, Response<QuestionListResponse> response) {

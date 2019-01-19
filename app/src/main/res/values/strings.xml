@@ -63,4 +63,18 @@
     <string name="correct_answer">جواب گرفتم!</string>
     <string name="answer_not_clear">پاسخ گویا نبود</string>
     <string name="irrelevant_answer">پاسخ نامرتبظ</string>
+    <string-array name="grades">
+        <item>اول</item>
+        <item>دوم</item>
+        <item>سوم</item>
+        <item>چهارم</item>
+        <item>پنجم</item>
+        <item>ششم</item>
+        <item>هفتم</item>
+        <item>هشتم</item>
+        <item>نهم</item>
+        <item>دهم</item>
+        <item>یازدهم</item>
+        <item>دوازدهم</item>
+    </string-array>
 </resources>

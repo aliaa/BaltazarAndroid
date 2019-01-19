@@ -40,7 +40,7 @@ public abstract class BaseActivity extends AppCompatActivity
     protected final int layoutId;
     protected final boolean liveValidation;
 
-    public final static String PREF_SESSION_ID = "sessionId";
+    public final static String PREF_TOKEN = "token";
 
     public BaseActivity(int layoutId, boolean liveValidation)
     {
@@ -203,9 +203,9 @@ public abstract class BaseActivity extends AppCompatActivity
         }
     }
 
-    public static String getSessionId()
+    public static String getToken()
     {
-        return PrefHelper.getStringVal(PREF_SESSION_ID, null);
+        return PrefHelper.getStringVal(PREF_TOKEN, null);
     }
 
     public ProgressDialog showProgress()

@@ -7,10 +7,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
-import com.mybaltazar.baltazar2.web.RetryableCallback;
-import com.mybaltazar.baltazar2.web.Requests;
-import com.mybaltazar.baltazar2.web.ServerRequest;
-import com.mybaltazar.baltazar2.web.ServerResponse;
+import com.mybaltazar.baltazar2.models.Student;
+import com.mybaltazar.baltazar2.webservices.DataResponse;
+import com.mybaltazar.baltazar2.webservices.RetryableCallback;
+import com.mybaltazar.baltazar2.webservices.Services;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,41 +41,48 @@ public class LoginActivity extends BaseActivity
             return;
 
         final ProgressDialog progress = showProgress();
-        ServerRequest req = new ServerRequest();
-        req.phone = txtMobileNum.getText().toString();
-        req.password = txtMelliCode.getText().toString();
-        Call<ServerResponse> response = createWebService(Requests.class).login(req);
-        response.enqueue(new RetryableCallback<ServerResponse>(response) {
+        String phone = txtMobileNum.getText().toString();
+        String password = txtMelliCode.getText().toString();
+        Call<DataResponse<Student>> response = createWebService(Services.class).login(phone, password);
+        response.enqueue(new RetryableCallback<DataResponse<Student>>(response) {
             @Override
-            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+            public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
                 progress.dismiss();
-                ServerResponse resp = response.body();
+                DataResponse<Student> resp = response.body();
                 switch (response.code()) {
                     case 200:
-                        if (resp != null) {
-                            PrefHelper.setVal(PREF_SESSION_ID, "bearer " + resp.access_token);
-                            cacheItem(resp.user, "user");
+                    case 201:
+                        if (resp != null && resp.data != null) {
+                            PrefHelper.setVal(PREF_TOKEN, resp.data.token);
+                            cacheItem(resp.data, "user");
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();
                         }
+                        else
+                        {
+                            if (resp == null)
+                                Toast.makeText(LoginActivity.this, R.string.server_problem, Toast.LENGTH_LONG).show();
+                            else
+                                Toast.makeText(LoginActivity.this, resp.message, Toast.LENGTH_LONG).show();
+                        }
                         break;
                     case 400:
-                        Toast.makeText(LoginActivity.this, R.string.wrong_credentials, Toast.LENGTH_SHORT).show();
+                    case 401:
+                        Toast.makeText(LoginActivity.this, R.string.wrong_credentials, Toast.LENGTH_LONG).show();
                         break;
                     default:
-                        if (resp == null) {
-                            Toast.makeText(LoginActivity.this, R.string.server_problem, Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(LoginActivity.this, resp.message, Toast.LENGTH_SHORT).show();
-                        }
+                        if (resp == null)
+                            Toast.makeText(LoginActivity.this, R.string.server_problem, Toast.LENGTH_LONG).show();
+                        else
+                            Toast.makeText(LoginActivity.this, resp.message, Toast.LENGTH_LONG).show();
                         break;
                 }
             }
 
             @Override
-            public void onFinalFailure(Call<ServerResponse> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFinalFailure(Call<DataResponse<Student>> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
                 progress.dismiss();
                 Log.d("error:", t.getMessage());
             }

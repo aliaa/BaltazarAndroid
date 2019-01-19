@@ -4,11 +4,13 @@ import java.io.Serializable;
 
 public class Course implements Serializable
 {
-    public int id;
-    public String title, description;
+    public String id;
+    public int grade;
+    public String name;
+    public String studyFieldId;
 
     @Override
     public String toString() {
-        return title;
+        return name;
     }
 }

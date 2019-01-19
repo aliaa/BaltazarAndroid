@@ -21,14 +21,15 @@ import android.widget.Toast;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.models.Course;
-import com.mybaltazar.baltazar2.web.Requests;
-import com.mybaltazar.baltazar2.web.RetryableCallback;
-import com.mybaltazar.baltazar2.web.ServerResponse;
+import com.mybaltazar.baltazar2.models.CourseSection;
+import com.mybaltazar.baltazar2.models.StudyField;
+import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -45,11 +46,11 @@ import static android.app.Activity.RESULT_OK;
 
 public class NewQuestionFragment extends BaseFragment
 {
-    @BindView(R.id.spLevel)     Spinner spLevel;
-    @BindView(R.id.spField)     Spinner spField;
-    @BindView(R.id.spLesson)    Spinner spLesson;
-    @BindView(R.id.img)         ImageView img;
-    @BindView(R.id.spChapter)   Spinner spChapter;
+    @BindView(R.id.spinnerGrade)        Spinner spinnerGrade;
+    @BindView(R.id.spinnerStudyField)   Spinner spinnerStudyField;
+    @BindView(R.id.spinnerCourse)       Spinner spinnerCourse;
+    @BindView(R.id.spinnerSection)      Spinner spinnerSection;
+    @BindView(R.id.img)                 ImageView img;
 
     @NotEmpty(messageId = R.string.is_empty)
     @BindView(R.id.txtDescription)
@@ -73,30 +74,53 @@ public class NewQuestionFragment extends BaseFragment
 
     private void loadSpinners()
     {
-        ServerResponse cachedResponse = BaseActivity.loadCache(getContext(), "tools", ServerResponse.class);
-        if(cachedResponse != null)
-            loadSpinners(cachedResponse);
-        loadFromNetwork(cachedResponse == null);
+        CommonData commonData = BaseActivity.loadCache(getContext(), "common", CommonData.class);
+        if(commonData != null)
+            loadSpinners(commonData);
+        loadFromNetwork(commonData == null);
     }
 
-    private void loadSpinners(ServerResponse data)
+    private void loadSpinners(final CommonData data)
     {
-        setSpinnerAdapter(spField, data.fields);
-        spField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                spLevel.setVisibility(i > 11 ? View.VISIBLE : View.GONE);
-            }
+        spinnerGrade.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.grades)));
 
+        spinnerGrade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) { }
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                spinnerStudyField.setVisibility(position >= 10 ? View.VISIBLE : View.GONE);
+                setCoursesSpinnerAdapter(data.courses, data.sections);
+            }
         });
 
-        setSpinnerAdapter(spLevel, data.levels);
-        setSpinnerAdapter(spLesson, data.courses);
+        setSpinnerAdapter(spinnerStudyField, data.studyFields);
+        spinnerStudyField.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                setCoursesSpinnerAdapter(data.courses, data.sections);
+            }
+        });
     }
 
-    private <T> void setSpinnerAdapter(Spinner spinner, ArrayList<T> list)
+    private void setCoursesSpinnerAdapter(List<Course> allCourses, final List<CourseSection> allSections)
+    {
+        int grade = spinnerGrade.getSelectedItemPosition()+1;
+        StudyField studyField = (StudyField) spinnerStudyField.getSelectedItem();
+        List<Course> courses = new ArrayList<>();
+        for(Course c : allCourses) {
+            if(grade == c.grade && (grade < 10 || studyField.id.equals(c.studyFieldId)))
+                courses.add(c);
+        }
+        setSpinnerAdapter(spinnerCourse, courses);
+        setSectionsSpinnerAdapter(allSections);
+    }
+
+    private void setSectionsSpinnerAdapter(List<CourseSection> allSections)
+    {
+
+    }
+
+    private <T> void setSpinnerAdapter(Spinner spinner, List<T> list)
     {
         spinner.setAdapter(new ArrayAdapter<T>(getContext(), android.R.layout.simple_spinner_dropdown_item, list));
     }
@@ -182,7 +206,7 @@ public class NewQuestionFragment extends BaseFragment
         final BaseActivity activity = (BaseActivity)getActivity();
         final ProgressDialog dialog = activity.showProgress();
         Call<ServerResponse> call = activity.createWebService(Requests.class).askQuestion(
-                BaseActivity.getSessionId(),
+                BaseActivity.getToken(),
                 RequestBody.create(MultipartBody.FORM, spChapter.getSelectedItem().toString()), //TODO
                 RequestBody.create(MultipartBody.FORM, txtDescription.getText().toString()),
                 RequestBody.create(MediaType.parse("text/plain"), String.valueOf(((Course)spLesson.getSelectedItem()).id)),

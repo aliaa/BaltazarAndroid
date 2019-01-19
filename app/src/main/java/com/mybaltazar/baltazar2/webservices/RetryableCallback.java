@@ -1,10 +1,9 @@
-package com.mybaltazar.baltazar2.web;
+package com.mybaltazar.baltazar2.webservices;
 
 import android.util.Log;
 
 import retrofit2.Call;
 import retrofit2.Callback;
-import retrofit2.Response;
 
 public abstract class RetryableCallback<T> implements Callback<T>
 {

@@ -16,11 +16,15 @@ import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
 import com.mybaltazar.baltazar2.adapters.MyQuestionsAdapter;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
-import com.mybaltazar.baltazar2.adapters.QuestionsAdapter;
+import com.mybaltazar.baltazar2.models.Course;
 import com.mybaltazar.baltazar2.models.Question;
-import com.mybaltazar.baltazar2.web.QuestionListResponse;
-import com.mybaltazar.baltazar2.web.Requests;
-import com.mybaltazar.baltazar2.web.RetryableCallback;
+import com.mybaltazar.baltazar2.webservices.CommonData;
+import com.mybaltazar.baltazar2.webservices.DataResponse;
+import com.mybaltazar.baltazar2.webservices.RetryableCallback;
+import com.mybaltazar.baltazar2.webservices.Services;
+
+import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -80,15 +84,24 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
         {
             swipe.setRefreshing(true);
             final BaseActivity activity = (BaseActivity) getActivity();
-            Call<QuestionListResponse> call = activity.createWebService(Requests.class).myQuestions(BaseActivity.getSessionId());
-            call.enqueue(new RetryableCallback<QuestionListResponse>(call) {
+            Call<DataResponse<List<Question>>> call = activity.createWebService(Services.class).myQuestions(BaseActivity.getToken());
+            call.enqueue(new RetryableCallback<DataResponse<List<Question>>>(call) {
                 @Override
-                public void onResponse(Call<QuestionListResponse> call, Response<QuestionListResponse> response) {
+                public void onResponse(Call<DataResponse<List<Question>>> call, Response<DataResponse<List<Question>>> response) {
                     swipe.setRefreshing(false);
-                    QuestionListResponse resp = response.body();
-                    if (response.code() == 200 && resp != null)
+                    DataResponse<List<Question>> resp = response.body();
+                    if (resp != null && resp.data != null)
                     {
-                        adapter = new MyQuestionsAdapter(activity, resp.questions);
+                        CommonData commonData = BaseActivity.loadCache(activity, "common", CommonData.class);
+                        if(commonData == null)
+                        {
+                            onFinalFailure(call, new Exception("اطلاعات عمومی موجود نیست! لطفا دوباره وارد برنامه شوید."));
+                            return;
+                        }
+                        HashMap<String, String> courses = new HashMap<>(commonData.courses.size());
+                        for(Course c : commonData.courses)
+                            courses.put(c.id, c.name);
+                        adapter = new MyQuestionsAdapter(activity, resp.data, courses);
 //                        adapter.setOnItemClickListener(MyQuestionsFragment.this);
                         recycler.setAdapter(adapter);
                         lastUpdated = System.currentTimeMillis();
@@ -100,9 +113,9 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
                 }
 
                 @Override
-                public void onFinalFailure(Call<QuestionListResponse> call, Throwable t) {
+                public void onFinalFailure(Call<DataResponse<List<Question>>> call, Throwable t) {
                     swipe.setRefreshing(false);
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
                     Log.e(QAFragment.class.getName(), t.getMessage());
                 }
             });

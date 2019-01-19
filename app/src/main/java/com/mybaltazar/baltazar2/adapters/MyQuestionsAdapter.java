@@ -9,10 +9,15 @@ import android.widget.TextView;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
+import com.mybaltazar.baltazar2.models.Course;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.utils.StringUtils;
+import com.mybaltazar.baltazar2.webservices.CommonData;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -20,8 +25,8 @@ import ozaydin.serkan.com.image_zoom_view.ImageViewZoom;
 
 class MyQuestionItemViewHolder extends RecyclerView.ViewHolder
 {
-    @BindView(R.id.lblLevel)        TextView lblLevel;
-    @BindView(R.id.lblLessonName)   TextView lblLessonName;
+    @BindView(R.id.lblGrade)        TextView lblGrade;
+    @BindView(R.id.lblCourseName)   TextView lblCourseName;
     @BindView(R.id.lblDate)         TextView lblDate;
     @BindView(R.id.lblCount)        TextView lblCount;
     @BindView(R.id.imgIcon)         ImageView imgIcon;
@@ -39,9 +44,14 @@ class MyQuestionItemViewHolder extends RecyclerView.ViewHolder
 
 public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemViewHolder, Question>
 {
-    public MyQuestionsAdapter(BaseActivity activity, Collection<Question> list)
+    private final String[] grades;
+    private final Map<String, String> courses;
+
+    public MyQuestionsAdapter(BaseActivity activity, List<Question> list, Map<String, String> courses)
     {
         super(activity, list, R.layout.item_my_question);
+        this.grades = activity.getResources().getStringArray(R.array.grades);
+        this.courses = courses;
     }
 
     @Override
@@ -65,35 +75,41 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
         BaseActivity activity = activityRef.get();
         if(activity == null)
             return;
-        vh.lblLevel.setText(item.getLevelTitle());
-        vh.lblLessonName.setText(item.getCourseTitle());
-        vh.lblText.setText(item.context);
-        vh.lblDate.setText(StringUtils.getPersianDate(item.created_at));
+        vh.lblGrade.setText(grades[item.grade]);
+        if(courses.containsKey(item.courseId))
+            vh.lblCourseName.setText(courses.get(item.courseId));
+        vh.lblText.setText(item.text);
+        vh.lblDate.setText(StringUtils.getPersianDate(item.createDate));
         // TODO: set icon
 
         int statusStrId = 0;
         int statusColorId = 0;
-        switch (item.status) {
-            case unpublished:
-                statusColorId = R.color.red;
-                statusStrId = R.string.unpublished;
-                break;
-            case published:
-                statusColorId = R.color.colorAccent;
-                statusStrId = R.string.published;
-                break;
-            case answered:
-                statusColorId = R.color.green;
-                statusStrId = R.string.has_answer;  break;
+        if(item.answers.size() == 0) {
+            switch (item.publishStatus) {
+                case waitForApprove:
+                    statusColorId = R.color.red;
+                    statusStrId = R.string.unpublished;
+                    break;
+                case published:
+                    statusColorId = R.color.colorAccent;
+                    statusStrId = R.string.published;
+                    break;
+            }
+        }
+        else {
+            statusColorId = R.color.green;
+            statusStrId = R.string.has_answer;
         }
         vh.lblStatus.setText(statusStrId);
         vh.lblStatus.setTextColor(activity.getResources().getColor(statusColorId));
 
-        vh.layoutHaveAnswer.setVisibility(item.status == Question.Status.answered ? View.VISIBLE : View.GONE);
-        vh.lblCount.setText(String.valueOf(item.new_answers));
-        vh.btnShowAnswer.setVisibility(item.new_answers > 0 ? View.VISIBLE : View.GONE);
+        vh.layoutHaveAnswer.setVisibility(item.answers.size() > 0 ? View.VISIBLE : View.GONE);
+        vh.lblCount.setText(String.valueOf(item.answers.size()));
+        vh.btnShowAnswer.setVisibility(item.answers.size() > 0 ? View.VISIBLE : View.GONE);
         vh.btnShowAnswer.setTag(item);
-        String url = activity.getString(R.string.media_base_url) + activity.getString(R.string.image_dir) + item.image;
-        BaseActivity.loadImage(url, vh.imgQuestionImage);
+        if(item.hasImage) {
+            String url = activity.getString(R.string.media_base_url) + activity.getString(R.string.image_dir) + item.id + ".jpg";
+            BaseActivity.loadImage(url, vh.imgQuestionImage);
+        }
     }
 }

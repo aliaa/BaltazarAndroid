@@ -29,7 +29,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/lblLevel"
+                android:id="@+id/lblGrade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
@@ -44,7 +44,7 @@
                 android:layout_marginRight="12dp"/>
 
             <TextView
-                android:id="@+id/lblLessonName"
+                android:id="@+id/lblCourseName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"

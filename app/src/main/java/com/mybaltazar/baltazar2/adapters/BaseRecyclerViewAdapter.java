@@ -8,16 +8,15 @@ import android.view.ViewGroup;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 public abstract class BaseRecyclerViewAdapter<VH extends RecyclerView.ViewHolder, I> extends RecyclerView.Adapter<VH> implements View.OnClickListener {
-    public final ArrayList<I> list;
+    public final List<I> list;
     final WeakReference<BaseActivity> activityRef;
     private final int layoutId;
 
-    public BaseRecyclerViewAdapter(BaseActivity activity, Collection<I> list, int layoutId) {
-        this.list = new ArrayList<>(list);
+    public BaseRecyclerViewAdapter(BaseActivity activity, List<I> list, int layoutId) {
+        this.list = list;
         this.activityRef = new WeakReference<>(activity);
         this.layoutId = layoutId;
     }

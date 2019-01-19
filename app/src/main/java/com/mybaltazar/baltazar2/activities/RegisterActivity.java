@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -11,21 +13,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
-import com.mybaltazar.baltazar2.models.Field;
-import com.mybaltazar.baltazar2.models.Level;
-import com.mybaltazar.baltazar2.web.Requests;
-import com.mybaltazar.baltazar2.web.RetryableCallback;
-import com.mybaltazar.baltazar2.web.ServerRequest;
-import com.mybaltazar.baltazar2.web.ServerResponse;
+import com.mybaltazar.baltazar2.models.Student;
+import com.mybaltazar.baltazar2.models.StudyField;
+import com.mybaltazar.baltazar2.webservices.CommonData;
+import com.mybaltazar.baltazar2.webservices.DataResponse;
+import com.mybaltazar.baltazar2.webservices.RetryableCallback;
+import com.mybaltazar.baltazar2.webservices.Services;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.annotations.RegExp;
-import khangtran.preferenceshelper.PrefHelper;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends BaseActivity
@@ -48,14 +50,14 @@ public class RegisterActivity extends BaseActivity
     @BindView(R.id.txtMelliCode)
     EditText txtMelliCode;
 
-    @BindView(R.id.spinnerLevel)
-    Spinner spinnerLevel;
+    @BindView(R.id.spinnerGrade)
+    Spinner spinnerGrade;
 
-    @BindView(R.id.lblField)
-    TextView lblField;
+    @BindView(R.id.lblStudyField)
+    TextView lblStudyField;
 
-    @BindView(R.id.spinnerField)
-    Spinner spinnerField;
+    @BindView(R.id.spinnerStudyField)
+    Spinner spinnerStudyField;
 
     @BindView(R.id.txtInvitationCode)
     EditText txtInvitationCode;
@@ -69,41 +71,51 @@ public class RegisterActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
 
-        final ProgressDialog progress = showProgress();
-        Call<ServerResponse> call = createWebService(Requests.class).registerTools();
-        call.enqueue(new RetryableCallback<ServerResponse>(call) {
+        ArrayAdapter<String> gradesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
+                getResources().getStringArray(R.array.grades));
+        spinnerGrade.setAdapter(gradesAdapter);
+        spinnerGrade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                progress.dismiss();
-                ServerResponse resp = response.body();
-                if(resp != null && response.code() == 200) {
-                    setLevels(resp.levels);
-                    setFields(resp.fields);
-                    cacheItem(resp, "tools");
-                }
-                else {
-                    Toast.makeText(RegisterActivity.this, R.string.server_problem, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFinalFailure(Call<ServerResponse> call, Throwable t) {
-                progress.dismiss();
-                Toast.makeText(RegisterActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                int visibility = position >= 10 ? View.VISIBLE : View.GONE;
+                lblStudyField.setVisibility(visibility);
+                spinnerStudyField.setVisibility(visibility);
             }
         });
+
+        final ProgressDialog progress = showProgress();
+        CommonData commonData = loadCache("common", CommonData.class);
+        if(commonData != null)
+            setUiData(commonData.studyFields);
+        else
+        {
+            Call<DataResponse<CommonData>> call = createWebService(Services.class).getCommonData();
+            call.enqueue(new Callback<DataResponse<CommonData>>()
+            {
+                @Override
+                public void onResponse(Call<DataResponse<CommonData>> call, Response<DataResponse<CommonData>> response)
+                {
+                    if(response.body() != null && response.body().data != null) {
+                        cacheItem(response.body(), "common");
+                        setUiData(response.body().data.studyFields);
+                        progress.dismiss();
+                    }
+                    else
+                        onFailure(call, null);
+                }
+
+                @Override
+                public void onFailure(Call<DataResponse<CommonData>> call, Throwable t) {
+                    Toast.makeText(RegisterActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
+                    progress.dismiss();
+                }
+            });
+        }
     }
 
-    private void setLevels(ArrayList<Level> levels)
-    {
-        ArrayAdapter<Level> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, levels);
-        spinnerLevel.setAdapter(adapter);
-    }
-
-    private void setFields(ArrayList<Field> fields)
-    {
-        ArrayAdapter<Field> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, fields);
-        spinnerField.setAdapter(adapter);
+    private void setUiData(List<StudyField> studyFieldList) {
+        ArrayAdapter<StudyField> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, studyFieldList);
+        spinnerStudyField.setAdapter(adapter);
     }
 
     @OnClick(R.id.btnRegister)
@@ -114,41 +126,36 @@ public class RegisterActivity extends BaseActivity
 
         final ProgressDialog progress = showProgress();
 
-        ServerRequest req = new ServerRequest();
-        req.first_name = txtFirstName.getText().toString();
-        req.last_name = txtLastName.getText().toString();
-        req.phone = txtMobileNum.getText().toString();
-        req.password = txtMelliCode.getText().toString();
-        req.level_id = ((Level)spinnerLevel.getSelectedItem()).id;
-        req.field_id = ((Field)spinnerField.getSelectedItem()).id;
-        req.invite_code = txtInvitationCode.getText().toString();
-
-        Call<ServerResponse> call = createWebService(Requests.class).register(req);
-        call.enqueue(new RetryableCallback<ServerResponse>(call) {
+        Student student = new Student();
+        student.firstName = txtFirstName.getText().toString();
+        student.lastName = txtLastName.getText().toString();
+        student.phone = txtMobileNum.getText().toString();
+        student.password = txtMelliCode.getText().toString();
+        student.grade = spinnerGrade.getSelectedItemPosition()+1;
+        if(student.grade >= 10)
+            student.studyFieldId = ((StudyField)spinnerStudyField.getSelectedItem()).id;
+        Call<DataResponse<Student>> call = createWebService(Services.class).registerStudent(student);
+        call.enqueue(new RetryableCallback<DataResponse<Student>>(call)
+        {
             @Override
-            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
+            public void onFinalFailure(Call<DataResponse<Student>> call, Throwable t) {
                 progress.dismiss();
-                ServerResponse resp = response.body();
-                if(resp != null && response.code() == 200 && resp.code == 200)
-                {
-                    PrefHelper.setVal(PREF_SESSION_ID, "bearer " + resp.access_token);
-                    cacheItem(resp.user, "user");
+                Toast.makeText(RegisterActivity.this, R.string.server_problem, Toast.LENGTH_LONG).show();
+            }
+
+            @Override
+            public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
+                progress.dismiss();
+                if(response.body() != null && response.body().data != null) {
+                    cacheItem(response.body().data, "user");
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();
                 }
-                else {
-                    if(resp == null || resp.message == null)
-                        Toast.makeText(RegisterActivity.this, R.string.server_problem, Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(RegisterActivity.this, resp.message, Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFinalFailure(Call<ServerResponse> call, Throwable t) {
-                progress.dismiss();
-                Toast.makeText(RegisterActivity.this, R.string.server_problem, Toast.LENGTH_SHORT).show();
+                else if(response.body() != null && response.body().message != null)
+                    Toast.makeText(RegisterActivity.this, response.body().message, Toast.LENGTH_LONG).show();
+                else
+                    Toast.makeText(RegisterActivity.this, R.string.server_problem, Toast.LENGTH_LONG).show();
             }
         });
     }

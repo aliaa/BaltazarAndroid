@@ -14,6 +14,8 @@ import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.utils.StringUtils;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -22,8 +24,8 @@ import ozaydin.serkan.com.image_zoom_view.ImageViewZoom;
 class QuestionItemViewHolder extends RecyclerView.ViewHolder
 {
     @BindView(R.id.cardView)        CardView cardView;
-    @BindView(R.id.lblLevel)        TextView lblLevel;
-    @BindView(R.id.lblLessonName)   TextView lblLessonName;
+    @BindView(R.id.lblGrade)        TextView lblGrade;
+    @BindView(R.id.lblCourseName)   TextView lblCourseName;
     @BindView(R.id.lblDate)         TextView lblDate;
     @BindView(R.id.lblCount)        TextView lblCount;
     @BindView(R.id.imgIcon)         ImageView imgIcon;
@@ -39,8 +41,13 @@ class QuestionItemViewHolder extends RecyclerView.ViewHolder
 
 public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHolder, Question>
 {
-    public QuestionsAdapter(BaseActivity activity, Collection<Question> list) {
+    private final String[] grades;
+    private final Map<String, String> courses;
+
+    public QuestionsAdapter(BaseActivity activity, List<Question> list, Map<String, String> courses) {
         super(activity, list, R.layout.item_question);
+        this.grades = activity.getResources().getStringArray(R.array.grades);
+        this.courses = courses;
     }
 
     @Override
@@ -53,14 +60,15 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
         BaseActivity activity = activityRef.get();
         if (activity == null)
             return;
-        vh.lblLevel.setText(item.getLevelTitle());
-        vh.lblLessonName.setText(item.getCourseTitle());
-        vh.lblText.setText(item.context);
-        vh.lblDate.setText(StringUtils.getPersianDate(item.created_at));
+        vh.lblGrade.setText(grades[item.grade]);
+        if(courses.containsKey(item.courseId))
+            vh.lblCourseName.setText(courses.get(item.courseId));
+        vh.lblText.setText(item.text);
+        vh.lblDate.setText(StringUtils.getPersianDate(item.createDate));
         // TODO: set icon
 
         vh.lblCount.setText(String.valueOf(item.prize));
-        if (item.total_answers == 0)
+        if (item.hot)
             vh.cardView.setCardBackgroundColor(activity.getResources().getColor(R.color.yellow));
     }
 }
