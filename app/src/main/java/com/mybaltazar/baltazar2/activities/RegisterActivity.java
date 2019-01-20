@@ -23,8 +23,10 @@ import com.mybaltazar.baltazar2.webservices.Services;
 
 import java.util.List;
 
+import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.OnClick;
+import butterknife.OnItemSelected;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.annotations.RegExp;
 import retrofit2.Call;
@@ -51,17 +53,12 @@ public class RegisterActivity extends BaseActivity
     @BindView(R.id.txtMelliCode)
     EditText txtMelliCode;
 
-    @BindView(R.id.spinnerGrade)
-    Spinner spinnerGrade;
+    @BindView(R.id.spinnerGrade)        Spinner spinnerGrade;
+    @BindView(R.id.lblStudyField)       TextView lblStudyField;
+    @BindView(R.id.spinnerStudyField)   Spinner spinnerStudyField;
+    @BindView(R.id.txtInvitationCode)   EditText txtInvitationCode;
 
-    @BindView(R.id.lblStudyField)
-    TextView lblStudyField;
-
-    @BindView(R.id.spinnerStudyField)
-    Spinner spinnerStudyField;
-
-    @BindView(R.id.txtInvitationCode)
-    EditText txtInvitationCode;
+    @BindArray(R.array.grades)  String[] grades;
 
     public RegisterActivity() {
         super(R.layout.activity_register, true);
@@ -72,18 +69,7 @@ public class RegisterActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
 
-        ArrayAdapter<String> gradesAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item,
-                getResources().getStringArray(R.array.grades));
-        spinnerGrade.setAdapter(gradesAdapter);
-        spinnerGrade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int grade = position + 1;
-                int visibility = grade >= 10 ? View.VISIBLE : View.GONE;
-                lblStudyField.setVisibility(visibility);
-                spinnerStudyField.setVisibility(visibility);
-            }
-        });
+        spinnerGrade.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, grades));
 
         final ProgressDialog progress = showProgress();
         loadCommonData(false, new DataListener<CommonData>() {
@@ -97,6 +83,15 @@ public class RegisterActivity extends BaseActivity
                 onBackPressed();
             }
         });
+    }
+
+    @OnItemSelected(R.id.spinnerGrade)
+    protected void spinnerGrade_ItemSelected(int position)
+    {
+        int grade = position + 1;
+        int visibility = grade >= 10 ? View.VISIBLE : View.GONE;
+        lblStudyField.setVisibility(visibility);
+        spinnerStudyField.setVisibility(visibility);
     }
 
     private void setUiData(List<StudyField> studyFieldList) {
