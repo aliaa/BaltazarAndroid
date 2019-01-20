@@ -9,10 +9,15 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mybaltazar.baltazar2.R;
+import com.mybaltazar.baltazar2.utils.DataListener;
+import com.mybaltazar.baltazar2.webservices.CommonData;
+import com.mybaltazar.baltazar2.webservices.DataResponse;
+import com.mybaltazar.baltazar2.webservices.Services;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
@@ -31,6 +36,8 @@ import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import khangtran.preferenceshelper.PrefHelper;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -222,5 +229,44 @@ public abstract class BaseActivity extends AppCompatActivity
         progress.setProgress(0);
         progress.show();
         return progress;
+    }
+
+    public void loadCommonData(boolean forceNetwork, final DataListener<CommonData> callback)
+    {
+        if(forceNetwork)
+            loadCommonDataFromNetwork(callback);
+        else
+        {
+            CommonData data = loadCache("common", CommonData.class);
+            if(data == null)
+                loadCommonDataFromNetwork(callback);
+            else if(callback != null)
+                callback.onCallBack(data);
+        }
+    }
+
+    private void loadCommonDataFromNetwork(final DataListener<CommonData> callback)
+    {
+        Call<DataResponse<CommonData>> call = createWebService(Services.class).getCommonData();
+        call.enqueue(new retrofit2.Callback<DataResponse<CommonData>>()
+        {
+            @Override
+            public void onResponse(Call<DataResponse<CommonData>> call, Response<DataResponse<CommonData>> response) {
+                if(response.body() != null && response.body().data != null) {
+                    cacheItem(response.body().data, "common");
+                    if(callback != null)
+                        callback.onCallBack(response.body().data);
+                }
+                else
+                    onFailure(call, null);
+            }
+
+            @Override
+            public void onFailure(Call<DataResponse<CommonData>> call, Throwable t) {
+                Toast.makeText(BaseActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
+                if(callback != null)
+                    callback.onFailure();
+            }
+        });
     }
 }

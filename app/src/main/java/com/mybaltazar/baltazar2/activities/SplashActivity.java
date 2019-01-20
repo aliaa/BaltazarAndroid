@@ -12,6 +12,7 @@ import android.provider.Settings;
 import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
+import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.Services;
@@ -42,22 +43,14 @@ public class SplashActivity extends BaseActivity implements Runnable
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         if(isConnected)
         {
-            Call<DataResponse<CommonData>> call = createWebService(Services.class).getCommonData();
-            call.enqueue(new Callback<DataResponse<CommonData>>()
-            {
+            loadCommonData(true, new DataListener<CommonData>() {
                 @Override
-                public void onResponse(Call<DataResponse<CommonData>> call, Response<DataResponse<CommonData>> response) {
-                    if(response.body() != null && response.body().data != null) {
-                        cacheItem(response.body().data, "common");
-                        run();
-                    }
-                    else
-                        onFailure(call, null);
+                public void onCallBack(CommonData data) {
+                    run();
                 }
 
                 @Override
-                public void onFailure(Call<DataResponse<CommonData>> call, Throwable t) {
-                    Toast.makeText(SplashActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
+                public void onFailure() {
                     run();
                 }
             });

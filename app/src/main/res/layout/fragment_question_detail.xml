@@ -31,30 +31,29 @@
                     android:layoutDirection="rtl">
 
                     <TextView
+                        android:id="@+id/lblCourseText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/lesson_name_colon"
-                        android:id="@+id/lblLessonText"/>
+                        android:text="@string/lesson_name_colon"/>
 
                     <TextView
+                        android:id="@+id/lblCourseName"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:id="@+id/lblLessonName"
                         android:layout_marginRight="6dp"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/level_colon"
-                        android:id="@+id/lblLevelText"
                         android:layout_marginRight="6dp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:id="@+id/lblLevel"/>
+                        android:id="@+id/lblGrade"/>
 
                     <TextView
                         android:layout_width="wrap_content"

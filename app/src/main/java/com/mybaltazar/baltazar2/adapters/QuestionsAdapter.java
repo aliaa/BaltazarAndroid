@@ -60,7 +60,7 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
         BaseActivity activity = activityRef.get();
         if (activity == null)
             return;
-        vh.lblGrade.setText(grades[item.grade]);
+        vh.lblGrade.setText(grades[item.grade-1]);
         if(courses.containsKey(item.courseId))
             vh.lblCourseName.setText(courses.get(item.courseId));
         vh.lblText.setText(item.text);

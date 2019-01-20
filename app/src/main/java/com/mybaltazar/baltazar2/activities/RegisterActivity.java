@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.models.Student;
 import com.mybaltazar.baltazar2.models.StudyField;
+import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.RetryableCallback;
@@ -77,40 +78,25 @@ public class RegisterActivity extends BaseActivity
         spinnerGrade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                int visibility = position >= 10 ? View.VISIBLE : View.GONE;
+                int grade = position + 1;
+                int visibility = grade >= 10 ? View.VISIBLE : View.GONE;
                 lblStudyField.setVisibility(visibility);
                 spinnerStudyField.setVisibility(visibility);
             }
         });
 
         final ProgressDialog progress = showProgress();
-        CommonData commonData = loadCache("common", CommonData.class);
-        if(commonData != null)
-            setUiData(commonData.studyFields);
-        else
-        {
-            Call<DataResponse<CommonData>> call = createWebService(Services.class).getCommonData();
-            call.enqueue(new Callback<DataResponse<CommonData>>()
-            {
-                @Override
-                public void onResponse(Call<DataResponse<CommonData>> call, Response<DataResponse<CommonData>> response)
-                {
-                    if(response.body() != null && response.body().data != null) {
-                        cacheItem(response.body(), "common");
-                        setUiData(response.body().data.studyFields);
-                        progress.dismiss();
-                    }
-                    else
-                        onFailure(call, null);
-                }
-
-                @Override
-                public void onFailure(Call<DataResponse<CommonData>> call, Throwable t) {
-                    Toast.makeText(RegisterActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
-                    progress.dismiss();
-                }
-            });
-        }
+        loadCommonData(false, new DataListener<CommonData>() {
+            @Override
+            public void onCallBack(CommonData data) {
+                setUiData(data.studyFields);
+                progress.dismiss();
+            }
+            @Override
+            public void onFailure() {
+                onBackPressed();
+            }
+        });
     }
 
     private void setUiData(List<StudyField> studyFieldList) {

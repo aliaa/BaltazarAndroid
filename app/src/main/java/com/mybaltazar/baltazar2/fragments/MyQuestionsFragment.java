@@ -16,14 +16,12 @@ import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
 import com.mybaltazar.baltazar2.adapters.MyQuestionsAdapter;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
-import com.mybaltazar.baltazar2.models.Course;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.RetryableCallback;
 import com.mybaltazar.baltazar2.webservices.Services;
 
-import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -98,10 +96,8 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
                             onFinalFailure(call, new Exception("اطلاعات عمومی موجود نیست! لطفا دوباره وارد برنامه شوید."));
                             return;
                         }
-                        HashMap<String, String> courses = new HashMap<>(commonData.courses.size());
-                        for(Course c : commonData.courses)
-                            courses.put(c.id, c.name);
-                        adapter = new MyQuestionsAdapter(activity, resp.data, courses);
+
+                        adapter = new MyQuestionsAdapter(activity, resp.data, commonData.getCoursesMap());
 //                        adapter.setOnItemClickListener(MyQuestionsFragment.this);
                         recycler.setAdapter(adapter);
                         lastUpdated = System.currentTimeMillis();

@@ -25,7 +25,7 @@ public interface Services
     Call<DataResponse<Student>> login(@Query("phone") String phone, @Query("password") String password);
 
     @POST("Question/Publish")
-    Call<CommonResponse> publishQuestion(@Header("token") String token, @Body Question question);
+    Call<DataResponse<Question>> publishQuestion(@Header("token") String token, @Body Question question);
 
     @POST("Question/UploadImage/{id}")
     Call<CommonResponse> uploadQuestionImage(@Header("token") String token, @Path("id") String id, @Part MultipartBody.Part image);
@@ -42,7 +42,7 @@ public interface Services
     Call<DataResponse<List<Question>>> myQuestions(@Header("token") String token);
 
     @POST("Answer/Publish")
-    Call<CommonResponse> publishAnswer(@Header("token") String token, @Body Answer answer);
+    Call<DataResponse<Answer>> publishAnswer(@Header("token") String token, @Body Answer answer);
 
     @POST("Answer/UploadImage/{id}")
     Call<CommonResponse> uploadAnswerImage(@Header("token") String token, @Path("id") String id, @Part MultipartBody.Part image);

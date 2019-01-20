@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +23,14 @@ import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.models.Course;
 import com.mybaltazar.baltazar2.models.CourseSection;
+import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.models.StudyField;
+import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
+import com.mybaltazar.baltazar2.webservices.CommonResponse;
+import com.mybaltazar.baltazar2.webservices.DataResponse;
+import com.mybaltazar.baltazar2.webservices.RetryableCallback;
+import com.mybaltazar.baltazar2.webservices.Services;
 import com.theartofdev.edmodo.cropper.CropImage;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
@@ -74,10 +81,21 @@ public class NewQuestionFragment extends BaseFragment
 
     private void loadSpinners()
     {
-        CommonData commonData = BaseActivity.loadCache(getContext(), "common", CommonData.class);
-        if(commonData != null)
-            loadSpinners(commonData);
-        loadFromNetwork(commonData == null);
+        final BaseActivity activity = (BaseActivity)getActivity();
+        final ProgressDialog progress = activity.showProgress();
+        activity.loadCommonData(false, new DataListener<CommonData>() {
+            @Override
+            public void onCallBack(CommonData data) {
+                progress.dismiss();
+                loadSpinners(data);
+            }
+
+            @Override
+            public void onFailure() {
+                progress.dismiss();
+                activity.onBackPressed();
+            }
+        });
     }
 
     private void loadSpinners(final CommonData data)
@@ -88,7 +106,8 @@ public class NewQuestionFragment extends BaseFragment
         spinnerGrade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                spinnerStudyField.setVisibility(position >= 10 ? View.VISIBLE : View.GONE);
+                int grade = position + 1;
+                spinnerStudyField.setVisibility(grade >= 10 ? View.VISIBLE : View.GONE);
                 setCoursesSpinnerAdapter(data.courses, data.sections);
             }
         });
@@ -117,43 +136,18 @@ public class NewQuestionFragment extends BaseFragment
 
     private void setSectionsSpinnerAdapter(List<CourseSection> allSections)
     {
-
+        Course course = (Course) spinnerCourse.getSelectedItem();
+        List<CourseSection> sections = new ArrayList<>();
+        for(CourseSection s : allSections) {
+            if(s.courseId.equals(course.id))
+                sections.add(s);
+        }
+        setSpinnerAdapter(spinnerSection, sections);
     }
 
     private <T> void setSpinnerAdapter(Spinner spinner, List<T> list)
     {
         spinner.setAdapter(new ArrayAdapter<T>(getContext(), android.R.layout.simple_spinner_dropdown_item, list));
-    }
-
-    private void loadFromNetwork(final boolean showDialog)
-    {
-        final BaseActivity activity = (BaseActivity)getActivity();
-        final ProgressDialog dialog = showDialog ? activity.showProgress() : null;
-        Call<ServerResponse> call = activity.createWebService(Requests.class).registerTools();
-        call.enqueue(new RetryableCallback<ServerResponse>(call) {
-            @Override
-            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                if (dialog != null)
-                    dialog.dismiss();
-                ServerResponse data = response.body();
-                if (data != null) {
-                    if (showDialog)
-                        loadSpinners(data);
-                    BaseActivity.cacheItem(getContext(), data, "tools");
-                }
-                else if(data != null)
-                    Toast.makeText(getContext(), data.message, Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(getContext(), R.string.connecting_to_server, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFinalFailure(Call<ServerResponse> call, Throwable t) {
-                if (dialog != null)
-                    dialog.dismiss();
-                Toast.makeText(getContext(), R.string.connecting_to_server, Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @OnClick(R.id.img)
@@ -204,39 +198,73 @@ public class NewQuestionFragment extends BaseFragment
     protected void btnSend_Click()
     {
         final BaseActivity activity = (BaseActivity)getActivity();
-        final ProgressDialog dialog = activity.showProgress();
-        Call<ServerResponse> call = activity.createWebService(Requests.class).askQuestion(
-                BaseActivity.getToken(),
-                RequestBody.create(MultipartBody.FORM, spChapter.getSelectedItem().toString()), //TODO
-                RequestBody.create(MultipartBody.FORM, txtDescription.getText().toString()),
-                RequestBody.create(MediaType.parse("text/plain"), String.valueOf(((Course)spLesson.getSelectedItem()).id)),
-                MultipartBody.Part.createFormData("image", imageFile.getName(),
-                    RequestBody.create(MediaType.parse("image/*"), imageFile)),
-                RequestBody.create(MultipartBody.FORM, "0"),
-                RequestBody.create(MediaType.parse("text/plain"), "2"));
+        final ProgressDialog progress = activity.showProgress();
 
-        call.enqueue(new Callback<ServerResponse>() {
+        final Question question = new Question();
+        question.grade = spinnerGrade.getSelectedItemPosition()+1;
+        question.courseId = ((Course)spinnerCourse.getSelectedItem()).id;
+        question.sectionId = ((CourseSection)spinnerSection.getSelectedItem()).id;
+        question.text = txtDescription.getText().toString();
+
+        Call<DataResponse<Question>> call = activity.createWebService(Services.class).publishQuestion(BaseActivity.getToken(), question);
+        call.enqueue(new RetryableCallback<DataResponse<Question>>(call) {
             @Override
-            public void onResponse(Call<ServerResponse> call, Response<ServerResponse> response) {
-                dialog.dismiss();
-                ServerResponse resp = response.body();
-                if (resp != null && resp.success ) {
-                    Toast.makeText(activity, R.string.sendSuccess, Toast.LENGTH_SHORT).show();
-                    Toast.makeText(activity, R.string.questionWillShowAfterConfirm, Toast.LENGTH_LONG).show();
-                    activity.onBackPressed();
-                    txtDescription.setText("");
-                }
-                else if(resp != null)
-                    Toast.makeText(activity, resp.getErrorMessage(), Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(activity, R.string.server_problem, Toast.LENGTH_LONG).show();
+            public void onFinalFailure(Call<DataResponse<Question>> call, Throwable t) {
+                progress.dismiss();
+                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
+                activity.onBackPressed();
             }
 
             @Override
-            public void onFailure(Call<ServerResponse> call, Throwable t) {
-                dialog.dismiss();
-                Toast.makeText(activity, R.string.server_problem, Toast.LENGTH_LONG).show();
+            public void onResponse(Call<DataResponse<Question>> call, Response<DataResponse<Question>> response) {
+                DataResponse<Question> resp = response.body();
+                if(resp == null)
+                    onFinalFailure(call, new Exception("null body!"));
+                else if(!resp.success && resp.message != null)
+                    Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
+                else if(imageFile == null)
+                    done();
+                else
+                    uploadImage(progress, resp.data);
             }
         });
+    }
+
+    private void uploadImage(final ProgressDialog progress, final Question data)
+    {
+        final BaseActivity activity = (BaseActivity)getActivity();
+        Call<CommonResponse> call = activity.createWebService(Services.class).uploadQuestionImage(BaseActivity.getToken(), data.id,
+                MultipartBody.Part.createFormData("image", imageFile.getName(),
+                        RequestBody.create(MediaType.parse("image/*"), imageFile)));
+        call.enqueue(new RetryableCallback<CommonResponse>(call) {
+            @Override
+            public void onFinalFailure(Call<CommonResponse> call, Throwable t)
+            {
+                progress.dismiss();
+                Log.i("Upload error:", t.getMessage());
+                Toast.makeText(getContext(), R.string.server_problem, Toast.LENGTH_LONG).show();
+                activity.onBackPressed();
+            }
+
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response)
+            {
+                progress.dismiss();
+                CommonResponse resp = response.body();
+                if(resp == null)
+                    onFinalFailure(call, new Exception("null body!"));
+                else if(!resp.success && resp.message != null)
+                    Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
+                else
+                    done();
+            }
+        });
+    }
+
+    private void done() {
+        Toast.makeText(getContext(), R.string.sendSuccess, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), R.string.questionWillShowAfterConfirm, Toast.LENGTH_LONG).show();
+        getActivity().onBackPressed();
+        txtDescription.setText("");
     }
 }

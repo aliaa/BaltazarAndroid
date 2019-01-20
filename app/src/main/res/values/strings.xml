@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">بالتازار</string>
-    <string name="base_url">http://mybaltazar.com/api/v1/</string>
-    <string name="media_base_url">http://mybaltazar.com/public/storage/</string>
-    <string name="image_dir">images/</string>
-    <string name="video_dir">videos/</string>
-    <string name="voice_dir">voices/</string>
+    <string name="base_url">http://10.104.24.114:8080/Baltazar/</string>
+    <!--<string name="media_base_url">http://mybaltazar.com/public/storage/</string>-->
+    <string name="media_base_url">http://10.104.24.114:8080/Baltazar/Uploads/</string>
+    <string name="image_dir">Image/</string>
+    <string name="video_dir">Video/</string>
+    <string name="voice_dir">Voice/</string>
     <string name="ok">تائید</string>
     <string name="error">خطا</string>
     <string name="no_network">در دسترسی به اینترنت مشکلی به وجود آمده است، لطفا تنظیمات شبگه گوشی خود را بررسی نمایید.</string>

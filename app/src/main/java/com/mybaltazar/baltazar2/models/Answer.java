@@ -12,6 +12,6 @@ public class Answer extends BaseUserContent
         Reported,
     }
 
-    public String questionerId;
+    public String questionId;
     public QuestionerResponseEnum response;
 }

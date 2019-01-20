@@ -8,11 +8,9 @@ import android.view.ViewGroup;
 
 import com.mybaltazar.baltazar2.R;
 
-public class ShopFragment extends BaseFragment {
-
-
+public class ShopFragment extends BaseFragment
+{
     public ShopFragment() { }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

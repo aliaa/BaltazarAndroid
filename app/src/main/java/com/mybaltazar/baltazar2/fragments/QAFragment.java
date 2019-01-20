@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +15,12 @@ import com.mybaltazar.baltazar2.activities.MainActivity;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.adapters.QuestionsAdapter;
 import com.mybaltazar.baltazar2.models.Question;
-import com.mybaltazar.baltazar2.web.QuestionListResponse;
-import com.mybaltazar.baltazar2.web.Requests;
+import com.mybaltazar.baltazar2.webservices.CommonData;
+import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.RetryableCallback;
+import com.mybaltazar.baltazar2.webservices.Services;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,30 +76,30 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         {
             swipe.setRefreshing(true);
             final BaseActivity activity = (BaseActivity) getActivity();
-            Call<QuestionListResponse> call = activity.createWebService(Requests.class).questionList(BaseActivity.getToken());
-            call.enqueue(new RetryableCallback<QuestionListResponse>(call) {
+
+            Call<DataResponse<List<Question>>> call = activity.createWebService(Services.class).questionList(
+                    BaseActivity.getToken(), null, null, null, null, 0);
+            call.enqueue(new RetryableCallback<DataResponse<List<Question>>>(call) {
                 @Override
-                public void onResponse(Call<QuestionListResponse> call, Response<QuestionListResponse> response) {
-                    swipe.setRefreshing(false);
-                    QuestionListResponse resp = response.body();
-                    if (response.code() == 200 && resp != null)
+                public void onFinalFailure(Call<DataResponse<List<Question>>> call, Throwable t) {
+                    Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
+                }
+
+                @Override
+                public void onResponse(Call<DataResponse<List<Question>>> call, Response<DataResponse<List<Question>>> response) {
+                    DataResponse<List<Question>> resp = response.body();
+                    if(resp == null)
+                        onFinalFailure(call, new Exception("null body!"));
+                    else if(resp.data == null && resp.message != null)
+                        Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
+                    else
                     {
-                        adapter = new QuestionsAdapter(activity, resp.list);
+                        CommonData commonData = BaseActivity.loadCache(activity, "common", CommonData.class);
+                        adapter = new QuestionsAdapter(activity, resp.data, commonData.getCoursesMap());
                         adapter.setOnItemClickListener(QAFragment.this);
                         recycler.setAdapter(adapter);
                         lastUpdated = System.currentTimeMillis();
                     }
-                    else if (resp != null && resp.message != null)
-                        Toast.makeText(activity, resp.message, Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(activity, R.string.server_problem, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFinalFailure(Call<QuestionListResponse> call, Throwable t) {
-                    swipe.setRefreshing(false);
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                    Log.e(QAFragment.class.getName(), t.getMessage());
                 }
             });
         }

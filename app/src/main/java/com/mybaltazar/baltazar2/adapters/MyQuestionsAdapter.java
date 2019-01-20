@@ -12,7 +12,6 @@ import com.mybaltazar.baltazar2.activities.MainActivity;
 import com.mybaltazar.baltazar2.models.Course;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.utils.StringUtils;
-import com.mybaltazar.baltazar2.webservices.CommonData;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -75,7 +74,7 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
         BaseActivity activity = activityRef.get();
         if(activity == null)
             return;
-        vh.lblGrade.setText(grades[item.grade]);
+        vh.lblGrade.setText(grades[item.grade-1]);
         if(courses.containsKey(item.courseId))
             vh.lblCourseName.setText(courses.get(item.courseId));
         vh.lblText.setText(item.text);

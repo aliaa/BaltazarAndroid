@@ -17,4 +17,6 @@ public abstract class BaseUserContent implements Serializable
     public String text;
     public PublishStatusEnum publishStatus;
     public boolean hasImage;
+    public boolean hasVideo;
+    public boolean hasVoice;
 }
