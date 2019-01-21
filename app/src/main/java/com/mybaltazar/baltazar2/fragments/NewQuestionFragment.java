@@ -103,21 +103,26 @@ public class NewQuestionFragment extends BaseFragment
         spinnerGrade.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.grades)));
 
-        spinnerGrade.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinnerGrade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 int grade = position + 1;
                 spinnerStudyField.setVisibility(grade >= 10 ? View.VISIBLE : View.GONE);
                 setCoursesSpinnerAdapter(data.courses, data.sections);
             }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
 
         setSpinnerAdapter(spinnerStudyField, data.studyFields);
-        spinnerStudyField.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        spinnerStudyField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 setCoursesSpinnerAdapter(data.courses, data.sections);
             }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
@@ -142,6 +147,7 @@ public class NewQuestionFragment extends BaseFragment
             if(s.courseId.equals(course.id))
                 sections.add(s);
         }
+        spinnerSection.setVisibility(sections.size() > 0 ? View.VISIBLE : View.GONE);
         setSpinnerAdapter(spinnerSection, sections);
     }
 
@@ -203,7 +209,9 @@ public class NewQuestionFragment extends BaseFragment
         final Question question = new Question();
         question.grade = spinnerGrade.getSelectedItemPosition()+1;
         question.courseId = ((Course)spinnerCourse.getSelectedItem()).id;
-        question.sectionId = ((CourseSection)spinnerSection.getSelectedItem()).id;
+        CourseSection section = (CourseSection)spinnerSection.getSelectedItem();
+        if(section != null)
+            question.sectionId = section.id;
         question.text = txtDescription.getText().toString();
 
         Call<DataResponse<Question>> call = activity.createWebService(Services.class).publishQuestion(BaseActivity.getToken(), question);

@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
@@ -36,6 +37,7 @@ public interface Services
     Call<DataResponse<Question>> publishQuestion(@Header("token") String token,
                                                  @Body Question question);
 
+    @Multipart
     @POST("Question/UploadImage/{id}")
     Call<CommonResponse> uploadQuestionImage(@Header("token") String token,
                                              @Path("id") String id,
@@ -44,7 +46,6 @@ public interface Services
     @GET("Question/List")
     Call<DataResponse<List<Question>>> questionList(@Header("token") String token,
                                                     @Query("grade") Integer grade,
-                                                    @Query("studyField") String studyField,
                                                     @Query("courseId") String courseId,
                                                     @Query("sectionId") String sectionId,
                                                     @Query("page") Integer page);

@@ -29,6 +29,7 @@ import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.annotations.RegExp;
+import khangtran.preferenceshelper.PrefHelper;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -128,6 +129,7 @@ public class RegisterActivity extends BaseActivity
             public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
                 progress.dismiss();
                 if(response.body() != null && response.body().data != null) {
+                    PrefHelper.setVal(PREF_TOKEN, response.body().data.token);
                     cacheItem(response.body().data, "user");
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);

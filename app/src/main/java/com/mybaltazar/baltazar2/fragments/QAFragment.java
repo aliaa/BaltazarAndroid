@@ -78,15 +78,17 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
             final BaseActivity activity = (BaseActivity) getActivity();
 
             Call<DataResponse<List<Question>>> call = activity.createWebService(Services.class).questionList(
-                    BaseActivity.getToken(), null, null, null, null, 0);
+                    BaseActivity.getToken(), null, null, null, 0);
             call.enqueue(new RetryableCallback<DataResponse<List<Question>>>(call) {
                 @Override
                 public void onFinalFailure(Call<DataResponse<List<Question>>> call, Throwable t) {
                     Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
+                    swipe.setRefreshing(false);
                 }
 
                 @Override
                 public void onResponse(Call<DataResponse<List<Question>>> call, Response<DataResponse<List<Question>>> response) {
+                    swipe.setRefreshing(false);
                     DataResponse<List<Question>> resp = response.body();
                     if(resp == null)
                         onFinalFailure(call, new Exception("null body!"));

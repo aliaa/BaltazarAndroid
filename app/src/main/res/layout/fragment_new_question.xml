@@ -44,7 +44,8 @@
             android:background="@drawable/rounded_border"
             android:paddingLeft="12dp"
             android:paddingRight="12dp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:visibility="gone"/>
 
         <EditText
             android:id="@+id/txtDescription"
