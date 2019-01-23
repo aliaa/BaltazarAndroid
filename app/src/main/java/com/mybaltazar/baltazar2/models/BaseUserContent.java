@@ -13,6 +13,7 @@ public abstract class BaseUserContent implements Serializable
 
     public String id;
     public String userId;
+    public String userName;
     public String createDate;
     public String text;
     public PublishStatusEnum publishStatus;

@@ -1,5 +1,6 @@
 package com.mybaltazar.baltazar2.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +25,7 @@ import com.mybaltazar.baltazar2.fragments.ShopFragment;
 import com.mybaltazar.baltazar2.models.Question;
 
 import butterknife.BindView;
+import khangtran.preferenceshelper.PrefHelper;
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener
 {
@@ -89,6 +91,14 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         switch (item.getItemId()) {
             case R.id.menu_item_my_questions:
                 changeFragment(myQuestionsFragment);
+                return true;
+            case R.id.menu_item_logout:
+                PrefHelper.removeKey(PREF_TOKEN);
+                startActivity(new Intent(this, LoginActivity.class));
+                finish();
+                return true;
+            case R.id.menu_item_contact_us:
+                showOkDialog(R.string.contact_us, R.string.contact_us_text);
                 return true;
         }
         return false;

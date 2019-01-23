@@ -59,7 +59,7 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
                 getResources().getColor(R.color.blue),
                 getResources().getColor(R.color.green),
                 getResources().getColor(R.color.red));
-        loadList(false);
+        loadList(true);
         return root;
     }
 
@@ -76,7 +76,7 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
         loadList(true);
     }
 
-    public void loadList(boolean force)
+    private void loadList(boolean force)
     {
         if(adapter == null || force || System.currentTimeMillis() - lastUpdated > TIME_TO_SAVE_CACHE_MILLIS)
         {

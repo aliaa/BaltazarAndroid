@@ -2,6 +2,8 @@ package com.mybaltazar.baltazar2.webservices;
 
 import com.mybaltazar.baltazar2.models.Answer;
 import com.mybaltazar.baltazar2.models.Question;
+import com.mybaltazar.baltazar2.models.ShopItem;
+import com.mybaltazar.baltazar2.models.ShopOrder;
 import com.mybaltazar.baltazar2.models.Student;
 
 import java.util.List;
@@ -57,6 +59,7 @@ public interface Services
     Call<DataResponse<Answer>> publishAnswer(@Header("token") String token,
                                              @Body Answer answer);
 
+    @Multipart
     @POST("Answer/UploadImage/{id}")
     Call<CommonResponse> uploadAnswerImage(@Header("token") String token,
                                            @Path("id") String id,
@@ -67,4 +70,14 @@ public interface Services
                                            @Query("questionId") String questionId,
                                            @Query("answerId") String answerId,
                                            @Query("response") Answer.QuestionerResponseEnum response);
+
+    @GET("Shop/ListShopItems")
+    Call<DataResponse<List<ShopItem>>> listShopItems(@Header("token") String token);
+
+    @GET("Shop/AddOrder")
+    Call<CommonResponse> addOrder(@Header("token") String token,
+                                  @Query("shopItemId") String shopItemId);
+
+    @GET("Shop/MyOrders")
+    Call<DataResponse<List<ShopOrder>>> myOrders(@Header("token") String token);
 }

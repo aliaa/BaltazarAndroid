@@ -28,6 +28,34 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:layoutDirection="rtl"
+                    android:gravity="center_vertical">
+
+                    <ImageView
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:src="@drawable/balatazar_logo"/>
+
+                    <TextView
+                        android:id="@+id/lblUserName"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="6dp"
+                        android:gravity="right"/>
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/lblDate"
+                        android:layout_marginRight="6dp"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
                     android:layoutDirection="rtl">
 
                     <TextView
@@ -54,12 +82,6 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:id="@+id/lblGrade"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/lblDate"
-                        android:layout_marginRight="6dp"/>
                 </LinearLayout>
 
                 <ozaydin.serkan.com.image_zoom_view.ImageViewZoom

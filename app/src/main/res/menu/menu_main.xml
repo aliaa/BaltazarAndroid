@@ -5,4 +5,12 @@
         app:showAsAction="always"
         android:icon="@drawable/ic_inbox"
         android:title="@string/my_questions"/>
+
+    <item android:id="@+id/menu_item_logout"
+        app:showAsAction="never"
+        android:title="@string/logout"/>
+
+    <item android:id="@+id/menu_item_contact_us"
+        app:showAsAction="never"
+        android:title="@string/contact_us"/>
 </menu>

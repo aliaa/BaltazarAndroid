@@ -38,7 +38,7 @@
     <string name="my_questions">سوالات من</string>
     <string name="lesson_name_colon">نام درس:</string>
     <string name="level_colon">پایه:</string>
-    <string name="correct_answer_colon">جواب صحیح:</string>
+    <string name="correct_answer_colon">جایزه جواب صحیح:</string>
     <string name="count_colon">تعداد:</string>
     <string name="coin">سکه</string>
     <string name="minute">دقیقه</string>
@@ -65,7 +65,12 @@
     <string name="has_answer">دارای پاسخ</string>
     <string name="correct_answer">جواب گرفتم!</string>
     <string name="answer_not_clear">پاسخ گویا نبود</string>
-    <string name="irrelevant_answer">پاسخ نامرتبظ</string>
+    <string name="irrelevant_answer">پاسخ نامرتبط</string>
+    <string name="logout">خروج از حساب کاربری</string>
+    <string name="contact_us">تماس با ما</string>
+    <string name="contact_us_text">
+        شرکت ... با چندین سال سابقه...
+    </string>
     <string-array name="grades">
         <item>اول</item>
         <item>دوم</item>

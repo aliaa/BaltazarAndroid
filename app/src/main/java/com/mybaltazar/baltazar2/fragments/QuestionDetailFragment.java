@@ -45,13 +45,13 @@ import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import ozaydin.serkan.com.image_zoom_view.ImageViewZoom;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
 public class QuestionDetailFragment extends BaseFragment
 {
+    @BindView(R.id.lblUserName)         TextView lblUserName;
     @BindView(R.id.lblCourseText)       TextView lblCourseText;
     @BindView(R.id.lblCourseName)       TextView lblCourseName;
     @BindView(R.id.lblGrade)            TextView lblGrade;
@@ -72,13 +72,14 @@ public class QuestionDetailFragment extends BaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_question_detail, container, false);
         ButterKnife.bind(this, view);
-        loadFromObject((Question)getArguments().getSerializable("item"));
+        loadUI((Question)getArguments().getSerializable("item"));
         return view;
     }
 
-    private void loadFromObject(Question item)
+    private void loadUI(Question item)
     {
         CommonData commonData = BaseActivity.loadCache(getContext(), "common", CommonData.class);
+        lblUserName.setText(item.userName);
         if (item.courseId == null)
         {
             lblCourseName.setVisibility(View.GONE);
