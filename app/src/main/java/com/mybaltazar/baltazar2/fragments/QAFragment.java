@@ -1,5 +1,6 @@
 package com.mybaltazar.baltazar2.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
+import com.mybaltazar.baltazar2.activities.LoginActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.adapters.QuestionsAdapter;
@@ -90,7 +92,12 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
                 public void onResponse(Call<DataResponse<List<Question>>> call, Response<DataResponse<List<Question>>> response) {
                     swipe.setRefreshing(false);
                     DataResponse<List<Question>> resp = response.body();
-                    if(resp == null)
+                    if(response.code() == 401) // unauthorized
+                    {
+                        startActivity(new Intent(getContext(), LoginActivity.class));
+                        getActivity().finish();
+                    }
+                    else if(resp == null)
                         onFinalFailure(call, new Exception("null body!"));
                     else if(resp.data == null && resp.message != null)
                         Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();

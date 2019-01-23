@@ -6,9 +6,9 @@ public abstract class BaseUserContent implements Serializable
 {
     public enum PublishStatusEnum
     {
-        waitForApprove,
-        published,
-        rejected
+        WaitForApprove,
+        Published,
+        Rejected
     }
 
     public String id;

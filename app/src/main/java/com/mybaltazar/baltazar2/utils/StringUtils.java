@@ -79,6 +79,7 @@ public class StringUtils {
 
     public static String getPersianDate(String dateString)
     {
+        dateString = dateString.replace("T", " ");
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         Date date;
         try {

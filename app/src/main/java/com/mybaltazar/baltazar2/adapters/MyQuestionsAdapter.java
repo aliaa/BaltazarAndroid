@@ -9,12 +9,9 @@ import android.widget.TextView;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
-import com.mybaltazar.baltazar2.models.Course;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.utils.StringUtils;
 
-import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -85,11 +82,11 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
         int statusColorId = 0;
         if(item.answers.size() == 0) {
             switch (item.publishStatus) {
-                case waitForApprove:
+                case WaitForApprove:
                     statusColorId = R.color.red;
                     statusStrId = R.string.unpublished;
                     break;
-                case published:
+                case Published:
                     statusColorId = R.color.colorAccent;
                     statusStrId = R.string.published;
                     break;
