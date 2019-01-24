@@ -51,10 +51,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         swipe.setOnRefreshListener(this);
-        swipe.setColorSchemeColors(
-                getResources().getColor(R.color.blue),
-                getResources().getColor(R.color.green),
-                getResources().getColor(R.color.red));
+        setupSwipe(swipe);
         loadList(false);
         return root;
     }

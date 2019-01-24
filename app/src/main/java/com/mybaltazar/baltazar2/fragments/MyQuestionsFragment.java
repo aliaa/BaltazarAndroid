@@ -42,6 +42,7 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
     private MyQuestionsAdapter adapter;
     private long lastUpdated = 0;
 
+    @Override
     public int getTitleId() {
         return R.string.my_questions;
     }
@@ -55,10 +56,7 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         swipe.setOnRefreshListener(this);
-        swipe.setColorSchemeColors(
-                getResources().getColor(R.color.blue),
-                getResources().getColor(R.color.green),
-                getResources().getColor(R.color.red));
+        setupSwipe(swipe);
         loadList(true);
         return root;
     }

@@ -71,6 +71,8 @@
     <string name="contact_us_text">
         شرکت ... با چندین سال سابقه...
     </string>
+    <string name="price">قیمت:</string>
+    <string name="buy">خرید</string>
     <string-array name="grades">
         <item>اول</item>
         <item>دوم</item>

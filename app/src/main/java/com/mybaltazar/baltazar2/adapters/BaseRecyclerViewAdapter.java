@@ -56,7 +56,7 @@ public abstract class BaseRecyclerViewAdapter<VH extends RecyclerView.ViewHolder
 
     protected abstract void onBindViewHolder(VH vh, I item);
 
-    private OnItemClickListener<I> clickListener = null;
+    protected OnItemClickListener<I> clickListener = null;
     public void setOnItemClickListener(OnItemClickListener<I> clickListener) {
         this.clickListener = clickListener;
     }
