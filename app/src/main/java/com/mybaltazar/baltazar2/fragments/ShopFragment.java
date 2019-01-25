@@ -106,7 +106,7 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 public void onFinalFailure(Call<DataResponse<List<ShopItem>>> call, Throwable t) {
                     swipe.setRefreshing(false);
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.e(QAFragment.class.getName(), t.getMessage());
+                    Log.e(ShopFragment.class.getName(), t.getMessage());
                 }
             });
         }

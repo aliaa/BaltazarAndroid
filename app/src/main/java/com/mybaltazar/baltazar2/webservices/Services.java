@@ -1,6 +1,7 @@
 package com.mybaltazar.baltazar2.webservices;
 
 import com.mybaltazar.baltazar2.models.Answer;
+import com.mybaltazar.baltazar2.models.Blog;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.models.ShopItem;
 import com.mybaltazar.baltazar2.models.ShopOrder;
@@ -83,4 +84,7 @@ public interface Services
 
     @GET("Shop/MyOrders")
     Call<DataResponse<List<ShopOrder>>> myOrders(@Header("token") String token);
+
+    @GET("Blog/App")
+    Call<DataResponse<List<Blog>>> blogList();
 }

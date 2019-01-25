@@ -110,7 +110,7 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
                 public void onFinalFailure(Call<DataResponse<List<Question>>> call, Throwable t) {
                     swipe.setRefreshing(false);
                     Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.e(QAFragment.class.getName(), t.getMessage());
+                    Log.e(MyQuestionsFragment.class.getName(), t.getMessage());
                 }
             });
         }
