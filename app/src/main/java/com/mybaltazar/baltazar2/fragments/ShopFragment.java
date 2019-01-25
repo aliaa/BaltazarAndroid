@@ -1,6 +1,7 @@
 package com.mybaltazar.baltazar2.fragments;
 
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,16 +10,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
-import com.mybaltazar.baltazar2.adapters.MyQuestionsAdapter;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.adapters.ShopItemsAdapter;
-import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.models.ShopItem;
+import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
+import com.mybaltazar.baltazar2.webservices.CommonResponse;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.RetryableCallback;
 import com.mybaltazar.baltazar2.webservices.Services;
@@ -33,8 +35,9 @@ import retrofit2.Response;
 public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<ShopItem> {
     public ShopFragment() { }
 
-    @BindView(R.id.recycler)    RecyclerView recycler;
-    @BindView(R.id.swipe)       SwipeRefreshLayout swipe;
+    @BindView(R.id.recycler)        RecyclerView recycler;
+    @BindView(R.id.swipe)           SwipeRefreshLayout swipe;
+    @BindView(R.id.lblCoinCount)    TextView lblCoinCount;
 
     private static final int TIME_TO_SAVE_CACHE_MILLIS = 60000;
 
@@ -52,7 +55,7 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         ButterKnife.bind(this, root);
 
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
-
+        lblCoinCount.setText(String.valueOf(BaseActivity.getCoinCount()));
         swipe.setOnRefreshListener(this);
         setupSwipe(swipe);
         loadList(false);
@@ -71,6 +74,8 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         {
             swipe.setRefreshing(true);
             final BaseActivity activity = (BaseActivity) getActivity();
+            if(activity == null)
+                return;;
             Call<DataResponse<List<ShopItem>>> call = activity.createWebService(Services.class).listShopItems(BaseActivity.getToken());
             call.enqueue(new RetryableCallback<DataResponse<List<ShopItem>>>(call) {
                 @Override
@@ -79,7 +84,7 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     DataResponse<List<ShopItem>> resp = response.body();
                     if (resp != null && resp.data != null)
                     {
-                        CommonData commonData = BaseActivity.loadCache(activity, "common", CommonData.class);
+                        CommonData commonData = BaseActivity.loadCache(activity, BaseActivity.PREF_COMMON, CommonData.class);
                         if(commonData == null)
                         {
                             onFinalFailure(call, new Exception("اطلاعات عمومی موجود نیست! لطفا دوباره وارد برنامه شوید."));
@@ -112,7 +117,50 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onItemClick(ShopItem item) {
-        Toast.makeText(getContext(), "تعداد سکه شما برای خرید کافی نیست!", Toast.LENGTH_SHORT).show();
+    public void onItemClick(final ShopItem item) {
+        if (BaseActivity.getCoinCount() < item.coinCost) {
+            Toast.makeText(getContext(), "تعداد سکه شما برای خرید کافی نیست!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        final BaseActivity activity = (BaseActivity)getActivity();
+        if(activity == null)
+            return;
+        final ProgressDialog progress = activity.showProgress();
+        Call<CommonResponse> call = activity.createWebService(Services.class).addOrder(BaseActivity.getToken(), item.id);
+        call.enqueue(new RetryableCallback<CommonResponse>(call) {
+            @Override
+            public void onFinalFailure(Call<CommonResponse> call, Throwable t) {
+                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
+                progress.dismiss();
+            }
+
+            @Override
+            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
+                progress.dismiss();
+                CommonResponse resp = response.body();
+                if(resp != null)
+                {
+                    if(resp.message != null)
+                        Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
+                    if(resp.success)
+                    {
+                        lblCoinCount.setText(String.valueOf(BaseActivity.getCoinCount() - item.coinCost));
+                        Toast.makeText(getContext(), R.string.order_done, Toast.LENGTH_LONG).show();
+                        activity.loadCommonData(true, new DataListener<CommonData>() {
+                            @Override
+                            public void onCallBack(CommonData data) {
+                                if(data.me != null)
+                                    lblCoinCount.setText(String.valueOf(data.me.coins));
+                            }
+
+                            @Override
+                            public void onFailure() { }
+                        });
+                    }
+                }
+                else
+                    onFinalFailure(call, null);
+            }
+        });
     }
 }

@@ -129,8 +129,9 @@ public class RegisterActivity extends BaseActivity
             public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
                 progress.dismiss();
                 if(response.body() != null && response.body().data != null) {
-                    PrefHelper.setVal(PREF_TOKEN, response.body().data.token);
-                    cacheItem(response.body().data, "user");
+                    setToken(response.body().data.token);
+                    setCoinCount(response.body().data.coins);
+                    cacheItem(response.body().data, PREF_PROFILE);
                     Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
                     startActivity(intent);
                     finish();

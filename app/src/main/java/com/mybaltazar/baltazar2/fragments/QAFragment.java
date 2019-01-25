@@ -100,7 +100,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
                         Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
                     else
                     {
-                        CommonData commonData = BaseActivity.loadCache(activity, "common", CommonData.class);
+                        CommonData commonData = BaseActivity.loadCache(activity, BaseActivity.PREF_COMMON, CommonData.class);
                         adapter = new QuestionsAdapter(activity, resp.data, commonData.getCoursesMap());
                         adapter.setOnItemClickListener(QAFragment.this);
                         recycler.setAdapter(adapter);

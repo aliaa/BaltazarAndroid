@@ -78,7 +78,7 @@ public class QuestionDetailFragment extends BaseFragment
 
     private void loadUI(Question item)
     {
-        CommonData commonData = BaseActivity.loadCache(getContext(), "common", CommonData.class);
+        CommonData commonData = BaseActivity.loadCache(getContext(), BaseActivity.PREF_COMMON, CommonData.class);
         lblUserName.setText(item.userName);
         if (item.courseId == null)
         {

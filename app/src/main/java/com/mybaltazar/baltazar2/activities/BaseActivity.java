@@ -1,12 +1,18 @@
 package com.mybaltazar.baltazar2.activities;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -41,28 +47,28 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public abstract class BaseActivity extends AppCompatActivity
-{
+public abstract class BaseActivity extends AppCompatActivity {
     private static Retrofit retrofit = null;
     protected final int layoutId;
     protected final boolean liveValidation;
 
     public final static String PREF_TOKEN = "token";
+    public final static String PREF_COIN = "coin";
+    public final static String PREF_COMMON = "common";
+    public final static String PREF_PROFILE = "profile";
 
-    public BaseActivity(int layoutId, boolean liveValidation)
-    {
+    public BaseActivity(int layoutId, boolean liveValidation) {
         this.layoutId = layoutId;
         this.liveValidation = liveValidation;
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState)
-    {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(layoutId);
         ButterKnife.bind(this);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
-        if(liveValidation)
+        if (liveValidation)
             FormValidator.startLiveValidation(this, findViewById(android.R.id.content), new SimpleErrorPopupCallback(this));
 
         //TODO uncomment this
@@ -76,7 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-        if(liveValidation)
+        if (liveValidation)
             FormValidator.stopLiveValidation(this);
     }
 
@@ -140,14 +146,12 @@ public abstract class BaseActivity extends AppCompatActivity
         return getWebServiceClient().create(service);
     }
 
-    public static Retrofit getWebServiceClient(Context context)
-    {
-        if(retrofit == null)
-        {
+    public static Retrofit getWebServiceClient(Context context) {
+        if (retrofit == null) {
             //TODO remove tracing
             HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
             interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60,TimeUnit.SECONDS).build();
+            OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor).readTimeout(60, TimeUnit.SECONDS).connectTimeout(60, TimeUnit.SECONDS).build();
 
             Gson gson = new GsonBuilder().setLenient().create();
             retrofit = new Retrofit.Builder().baseUrl(context.getString(R.string.base_url))
@@ -171,19 +175,17 @@ public abstract class BaseActivity extends AppCompatActivity
                     .setMessage(content)
                     .setPositiveButton(R.string.ok, callback)
                     .show();
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
-        catch (Throwable e) { e.printStackTrace(); }
     }
 
-    public boolean validateForm()
-    {
+    public boolean validateForm() {
         return FormValidator.validate(this, new SimpleErrorPopupCallback(this));
     }
 
-    public static void loadImage(final String url, final ImageView target, boolean forceOffline)
-    {
-        if(forceOffline)
-        {
+    public static void loadImage(final String url, final ImageView target, boolean forceOffline) {
+        if (forceOffline) {
             Picasso.get().load(url).networkPolicy(NetworkPolicy.OFFLINE).into(target, new Callback() {
                 @Override
                 public void onSuccess() {
@@ -195,33 +197,39 @@ public abstract class BaseActivity extends AppCompatActivity
                     loadImage(url, target);
                 }
             });
-        }
-        else
+        } else
             loadImage(url, target);
     }
 
-    public static void loadImage(final String url, final ImageView target)
-    {
+    public static void loadImage(final String url, final ImageView target) {
         try {
             Picasso.get().load(url).error(R.drawable.ic_error).into(target);
-        }
-        catch (Throwable t){
+        } catch (Throwable t) {
             t.printStackTrace();
         }
     }
 
-    public static String getToken()
-    {
+    public static String getToken() {
         return PrefHelper.getStringVal(PREF_TOKEN, null);
     }
 
-    public ProgressDialog showProgress()
-    {
+    public static void setToken(String token) {
+        PrefHelper.setVal(PREF_TOKEN, token);
+    }
+
+    public static int getCoinCount() {
+        return PrefHelper.getIntVal(PREF_COIN, 0);
+    }
+
+    public static void setCoinCount(int val) {
+        PrefHelper.setVal(PREF_COIN, val);
+    }
+
+    public ProgressDialog showProgress() {
         return showProgress(R.string.connecting_to_server);
     }
 
-    public ProgressDialog showProgress(int messageId)
-    {
+    public ProgressDialog showProgress(int messageId) {
         ProgressDialog progress = new ProgressDialog(this);
         progress.setMessage(getString(messageId));
         progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -231,31 +239,72 @@ public abstract class BaseActivity extends AppCompatActivity
         return progress;
     }
 
-    public void loadCommonData(boolean forceNetwork, final DataListener<CommonData> callback)
-    {
-        if(forceNetwork)
+    public void loadCommonData(boolean forceNetwork, final DataListener<CommonData> callback) {
+        if (forceNetwork)
             loadCommonDataFromNetwork(callback);
-        else
-        {
-            CommonData data = loadCache("common", CommonData.class);
-            if(data == null)
+        else {
+            CommonData data = loadCache(PREF_COMMON, CommonData.class);
+            if (data == null)
                 loadCommonDataFromNetwork(callback);
-            else if(callback != null)
+            else if (callback != null)
                 callback.onCallBack(data);
         }
     }
 
-    private void loadCommonDataFromNetwork(final DataListener<CommonData> callback)
-    {
-        Call<DataResponse<CommonData>> call = createWebService(Services.class).getCommonData();
+    private void loadCommonDataFromNetwork(final DataListener<CommonData> callback) {
+        int appVersion = 0;
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(this.getPackageName(), PackageManager.GET_ACTIVITIES);
+            appVersion = info.versionCode;
+        } catch (Exception ignored) { }
+
+        String uuid = null;
+        try {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                if (Build.VERSION.SDK_INT >= 26)
+                    uuid = getSystemService(TelephonyManager.class).getImei();
+                else {
+                    TelephonyManager tManager = (TelephonyManager) getSystemService(Context.TELEPHONY_SERVICE);
+                    uuid = tManager.getDeviceId();
+                }
+            }
+        }
+        catch (Exception ignored) { }
+
+        Call<DataResponse<CommonData>> call = createWebService(Services.class).getCommonData(getToken(),
+                appVersion, Build.VERSION.SDK_INT, uuid);
         call.enqueue(new retrofit2.Callback<DataResponse<CommonData>>()
         {
             @Override
-            public void onResponse(Call<DataResponse<CommonData>> call, Response<DataResponse<CommonData>> response) {
-                if(response.body() != null && response.body().data != null) {
-                    cacheItem(response.body().data, "common");
+            public void onResponse(Call<DataResponse<CommonData>> call, Response<DataResponse<CommonData>> response)
+            {
+                if(response.code() == 401) // unauthorized
+                {
+                    PrefHelper.removeKey(PREF_TOKEN);
                     if(callback != null)
-                        callback.onCallBack(response.body().data);
+                        callback.onFailure();
+                    return;
+                }
+                DataResponse<CommonData> resp = response.body();
+                if(resp == null) {
+                    onFailure(call, new Exception("null body!"));
+                    return;
+                }
+                if(!resp.success)
+                {
+                    Toast.makeText(BaseActivity.this, resp.message, Toast.LENGTH_LONG).show();
+                    if(callback != null)
+                        callback.onFailure();
+                    return;
+                }
+                if(resp.data != null) {
+                    cacheItem(resp.data, PREF_COMMON);
+                    if(resp.data.me != null) {
+                        cacheItem(resp.data.me, PREF_PROFILE);
+                        setCoinCount(resp.data.me.coins);
+                    }
+                    if(callback != null)
+                        callback.onCallBack(resp.data);
                 }
                 else
                     onFailure(call, null);

@@ -15,7 +15,6 @@ import com.mybaltazar.baltazar2.webservices.Services;
 import butterknife.BindView;
 import butterknife.OnClick;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
-import khangtran.preferenceshelper.PrefHelper;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -53,8 +52,9 @@ public class LoginActivity extends BaseActivity
                     case 200:
                     case 201:
                         if (resp != null && resp.data != null) {
-                            PrefHelper.setVal(PREF_TOKEN, resp.data.token);
-                            cacheItem(resp.data, "user");
+                            setToken(resp.data.token);
+                            setCoinCount(resp.data.coins);
+                            cacheItem(resp.data, PREF_PROFILE);
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                             startActivity(intent);
                             finish();

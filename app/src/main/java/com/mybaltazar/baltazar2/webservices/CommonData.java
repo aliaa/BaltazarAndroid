@@ -9,6 +9,14 @@ import java.util.Map;
 
 public class CommonData implements Serializable
 {
+    public class UpgradeData
+    {
+        public String message;
+        public boolean forceUpgrade;
+    }
+
+    public UpgradeData upgrade;
+    public Student me;
     public List<Province> provinces;
     public List<City> cities;
     public List<Course> courses;

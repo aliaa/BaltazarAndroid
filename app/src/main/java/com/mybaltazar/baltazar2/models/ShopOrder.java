@@ -5,6 +5,7 @@ public class ShopOrder
     public enum OrderStatus
     {
         WaitForApprove,
+        Rejected,
         Approved,
         Delivered
     }

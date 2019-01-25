@@ -73,6 +73,10 @@
     </string>
     <string name="price">قیمت:</string>
     <string name="buy">خرید</string>
+    <string name="your_coin_count">تعداد سکه های شما:</string>
+    <string name="order_done">سفارش شما ثبت شد!</string>
+    <string name="upgrade">بروز رسانی</string>
+    <string name="continue_app">ادامه</string>
     <string-array name="grades">
         <item>اول</item>
         <item>دوم</item>

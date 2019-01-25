@@ -88,7 +88,7 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
                     DataResponse<List<Question>> resp = response.body();
                     if (resp != null && resp.data != null)
                     {
-                        CommonData commonData = BaseActivity.loadCache(activity, "common", CommonData.class);
+                        CommonData commonData = BaseActivity.loadCache(activity, BaseActivity.PREF_COMMON, CommonData.class);
                         if(commonData == null)
                         {
                             onFinalFailure(call, new Exception("اطلاعات عمومی موجود نیست! لطفا دوباره وارد برنامه شوید."));

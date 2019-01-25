@@ -22,7 +22,10 @@ import retrofit2.http.Query;
 public interface Services
 {
     @GET("Common")
-    Call<DataResponse<CommonData>> getCommonData();
+    Call<DataResponse<CommonData>> getCommonData(@Header("token") String token,
+                                                 @Query("appVersion") int appVersion,
+                                                 @Query("androidVersion") int androidVersion,
+                                                 @Query("uuid") String uuid);
 
     @POST("Student/Register")
     Call<DataResponse<Student>> registerStudent(@Body Student student);

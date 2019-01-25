@@ -43,17 +43,46 @@ public class SplashActivity extends BaseActivity implements Runnable
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         if(isConnected)
         {
-            loadCommonData(true, new DataListener<CommonData>() {
-                @Override
-                public void onCallBack(CommonData data) {
-                    run();
-                }
+            if(getToken() != null) {
+                loadCommonData(true, new DataListener<CommonData>() {
+                    @Override
+                    public void onCallBack(CommonData data) {
+                        if(data.upgrade != null)
+                        {
+                            AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this)
+                                    .setTitle(R.string.upgrade)
+                                    .setMessage(data.upgrade.message)
+                                    .setCancelable(false);
+                            if(data.upgrade.forceUpgrade) {
+                                builder.setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                });
+                            }
+                            else {
+                                builder.setPositiveButton(R.string.continue_app, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        run();
+                                    }
+                                });
+                            }
+                            builder.create().show();
+                        }
+                        else
+                            run();
+                    }
 
-                @Override
-                public void onFailure() {
-                    run();
-                }
-            });
+                    @Override
+                    public void onFailure() {
+                        run();
+                    }
+                });
+            }
+            else
+                runDelayed();
         }
         else
         {
@@ -85,9 +114,9 @@ public class SplashActivity extends BaseActivity implements Runnable
         }
     }
 
-    private void runDelayed(int millis) {
+    private void runDelayed() {
         Handler handler = new Handler();
-        handler.postDelayed(this, millis);
+        handler.postDelayed(this, DELAY_MILLIS);
     }
 
     @Override
