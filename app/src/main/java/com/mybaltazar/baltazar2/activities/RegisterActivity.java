@@ -81,6 +81,7 @@ public class RegisterActivity extends BaseActivity
             }
             @Override
             public void onFailure() {
+                Toast.makeText(RegisterActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
                 onBackPressed();
             }
         });
