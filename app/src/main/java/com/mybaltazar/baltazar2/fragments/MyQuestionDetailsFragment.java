@@ -63,7 +63,8 @@ public class MyQuestionDetailsFragment extends BaseFragment
         imgAnswerImage.setVisibility(answer.hasImage ? View.VISIBLE : View.GONE);
         if(answer.hasImage)
         {
-            String url = getString(R.string.media_base_url) + getString(R.string.image_dir) + answer.id + ".jpg";
+            BaseActivity activity = (BaseActivity)getActivity();
+            String url = activity.getImageUrlById(answer.id);
             BaseActivity.loadImage(url, imgAnswerImage);
         }
     }

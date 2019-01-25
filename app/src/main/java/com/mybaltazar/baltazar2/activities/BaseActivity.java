@@ -209,6 +209,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
     }
 
+    public String getImageUrlById(String id) {
+        return getString(R.string.media_base_url) + getString(R.string.image_dir) + id + ".jpg";
+    }
+
     public static String getToken() {
         return PrefHelper.getStringVal(PREF_TOKEN, null);
     }

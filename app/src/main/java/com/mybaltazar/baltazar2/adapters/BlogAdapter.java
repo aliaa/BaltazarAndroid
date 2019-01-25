@@ -14,6 +14,7 @@ import com.mybaltazar.baltazar2.utils.StringUtils;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import ozaydin.serkan.com.image_zoom_view.ImageViewZoom;
 
 class BlogItemViewHolder extends RecyclerView.ViewHolder
@@ -25,6 +26,7 @@ class BlogItemViewHolder extends RecyclerView.ViewHolder
 
     BlogItemViewHolder(View itemView) {
         super(itemView);
+        ButterKnife.bind(this, itemView);
     }
 }
 
@@ -49,7 +51,7 @@ public class BlogAdapter extends BaseRecyclerViewAdapter<BlogItemViewHolder, Blo
         if(item.hasImage) {
             BaseActivity activity = activityRef.get();
             if(activity != null) {
-                String url = activity.getString(R.string.media_base_url) + item.id + ".jpg";
+                String url = activity.getImageUrlById(item.id);
                 BaseActivity.loadImage(url, vh.img);
             }
         }
