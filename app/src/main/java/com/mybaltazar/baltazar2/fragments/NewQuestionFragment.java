@@ -46,7 +46,6 @@ import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
@@ -230,8 +229,10 @@ public class NewQuestionFragment extends BaseFragment
                     onFinalFailure(call, new Exception("null body!"));
                 else if(!resp.success && resp.message != null)
                     Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
-                else if(imageFile == null)
+                else if(imageFile == null) {
+                    progress.dismiss();
                     done();
+                }
                 else
                     uploadImage(progress, resp.data);
             }
@@ -274,5 +275,6 @@ public class NewQuestionFragment extends BaseFragment
         Toast.makeText(getContext(), R.string.questionWillShowAfterConfirm, Toast.LENGTH_LONG).show();
         getActivity().onBackPressed();
         txtDescription.setText("");
+        ((BaseActivity)getActivity()).loadCommonData(true, null);
     }
 }
