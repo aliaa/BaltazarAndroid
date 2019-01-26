@@ -41,48 +41,40 @@ public class SplashActivity extends BaseActivity implements Runnable
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
-        if(isConnected)
-        {
-            if(getToken() != null) {
-                loadCommonData(true, new DataListener<CommonData>() {
-                    @Override
-                    public void onCallBack(CommonData data) {
-                        if(data.upgrade != null)
-                        {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this)
-                                    .setTitle(R.string.upgrade)
-                                    .setMessage(data.upgrade.message)
-                                    .setCancelable(false);
-                            if(data.upgrade.forceUpgrade) {
-                                builder.setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                });
-                            }
-                            else {
-                                builder.setPositiveButton(R.string.continue_app, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        run();
-                                    }
-                                });
-                            }
-                            builder.create().show();
+        if(isConnected) {
+            loadCommonData(true, new DataListener<CommonData>() {
+                @Override
+                public void onCallBack(CommonData data) {
+                    if (data.upgrade != null) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this)
+                                .setTitle(R.string.upgrade)
+                                .setMessage(data.upgrade.message)
+                                .setCancelable(false);
+                        if (data.upgrade.forceUpgrade) {
+                            builder.setPositiveButton(R.string.exit, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    finish();
+                                }
+                            });
+                        } else {
+                            builder.setPositiveButton(R.string.continue_app, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    run();
+                                }
+                            });
                         }
-                        else
-                            run();
-                    }
-
-                    @Override
-                    public void onFailure() {
+                        builder.create().show();
+                    } else
                         run();
-                    }
-                });
-            }
-            else
-                runDelayed();
+                }
+
+                @Override
+                public void onFailure() {
+                    run();
+                }
+            });
         }
         else
         {

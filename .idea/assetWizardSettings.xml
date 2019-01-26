@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_play" />
-                            <entry key="sourceFile" value="D:\MyCodes\AndroidStudioProjects\Baltazar2\graphics\baseline-play_circle_filled-24px.svg" />
+                            <entry key="outputName" value="ic_filter" />
+                            <entry key="sourceFile" value="D:\MyCodes\AndroidStudioProjects\Baltazar2\graphics\baseline-filter_list-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>

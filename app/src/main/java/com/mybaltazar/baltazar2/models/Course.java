@@ -13,4 +13,12 @@ public class Course implements Serializable
     public String toString() {
         return name;
     }
+
+    public static Course ALL;
+
+    static
+    {
+        ALL = new Course();
+        ALL.name = "همه";
+    }
 }

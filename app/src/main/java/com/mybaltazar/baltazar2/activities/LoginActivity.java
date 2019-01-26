@@ -8,6 +8,8 @@ import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.models.Student;
+import com.mybaltazar.baltazar2.utils.DataListener;
+import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.RetryableCallback;
 import com.mybaltazar.baltazar2.webservices.Services;
@@ -55,9 +57,19 @@ public class LoginActivity extends BaseActivity
                             setToken(resp.data.token);
                             setCoinCount(resp.data.coins);
                             cacheItem(resp.data, PREF_PROFILE);
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
+                            loadCommonData(true, new DataListener<CommonData>() {
+                                @Override
+                                public void onCallBack(CommonData data) {
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure() {
+                                    Toast.makeText(LoginActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
+                                }
+                            });
                         }
                         else
                         {

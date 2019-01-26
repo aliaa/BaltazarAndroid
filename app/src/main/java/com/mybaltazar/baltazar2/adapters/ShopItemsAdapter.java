@@ -58,11 +58,12 @@ public class ShopItemsAdapter extends BaseRecyclerViewAdapter<ShopItemViewHolder
         if(activity == null)
             return;
         vh.itemView.setTag(item);
+        vh.btnBuy.setTag(item);
         vh.lblName.setText(item.name);
         vh.lblCount.setText(String.valueOf(item.coinCost));
         vh.lblDate.setText(StringUtils.getPersianDate(item.dateAdded));
         if(item.hasImage) {
-            String url = activity.getString(R.string.media_base_url) + activity.getString(R.string.image_dir) + item.id + ".jpg";
+            String url = activity.getImageUrlById(item.id);
             BaseActivity.loadImage(url, vh.img);
         }
     }

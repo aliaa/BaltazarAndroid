@@ -104,7 +104,7 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
         vh.btnShowAnswer.setVisibility(item.answers.size() > 0 ? View.VISIBLE : View.GONE);
         vh.btnShowAnswer.setTag(item);
         if(item.hasImage) {
-            String url = activity.getString(R.string.media_base_url) + activity.getString(R.string.image_dir) + item.id + ".jpg";
+            String url = activity.getImageUrlById(item.id);
             BaseActivity.loadImage(url, vh.imgQuestionImage);
         }
     }

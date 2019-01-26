@@ -1,5 +1,8 @@
 package com.mybaltazar.baltazar2.fragments;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -8,6 +11,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
@@ -16,12 +22,16 @@ import com.mybaltazar.baltazar2.activities.LoginActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.adapters.QuestionsAdapter;
+import com.mybaltazar.baltazar2.models.Course;
 import com.mybaltazar.baltazar2.models.Question;
+import com.mybaltazar.baltazar2.models.StudyField;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.RetryableCallback;
 import com.mybaltazar.baltazar2.webservices.Services;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
@@ -42,6 +52,11 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
     private QuestionsAdapter adapter;
     private long lastUpdated = 0;
 
+    private Dialog filterDialog;
+    private Spinner spinnerGrade;
+    private Spinner spinnerStudyField;
+    private Spinner spinnerCourse;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -52,8 +67,70 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
 
         swipe.setOnRefreshListener(this);
         setupSwipe(swipe);
+        if(filterDialog == null)
+            createFilterDialog();
         loadList(false);
         return root;
+    }
+
+    private void createFilterDialog()
+    {
+        final View content = getLayoutInflater().inflate(R.layout.dialog_question_list_filter, null);
+
+        spinnerGrade = content.findViewById(R.id.spinnerGrade);
+        spinnerStudyField = content.findViewById(R.id.spinnerStudyField);
+        spinnerCourse = content.findViewById(R.id.spinnerCourse);
+        final CommonData commonData = BaseActivity.loadCache(getContext(), BaseActivity.PREF_COMMON, CommonData.class);
+
+        List<String> gradesList = new ArrayList<>(13);
+        gradesList.add(getString(R.string.all));
+        gradesList.addAll(Arrays.asList(getResources().getStringArray(R.array.grades)));
+        spinnerGrade.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, gradesList));
+        spinnerGrade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                content.findViewById(R.id.layoutStudyField).setVisibility(position >= 10 ? View.VISIBLE : View.GONE);
+                content.findViewById(R.id.layoutCourse).setVisibility(position > 0 ? View.VISIBLE : View.GONE);
+                if(position > 0)
+                    setCourseSpinnerAdapter(commonData.courses, spinnerCourse, position, (StudyField)spinnerStudyField.getSelectedItem());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+        spinnerStudyField.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, commonData.studyFields));
+        spinnerStudyField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                setCourseSpinnerAdapter(commonData.courses, spinnerCourse, spinnerGrade.getSelectedItemPosition(), (StudyField)spinnerStudyField.getSelectedItem());
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
+                .setTitle(R.string.filter)
+                .setView(content)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        loadList(true);
+                    }
+                });
+        filterDialog = builder.create();
+    }
+
+    private void setCourseSpinnerAdapter(List<Course> courses, Spinner spinnerCourse, int grade, StudyField studyField)
+    {
+        List<Course> list = new ArrayList<>();
+        list.add(Course.ALL);
+        for (Course c : courses)
+            if(c.grade == grade && (grade < 10 || studyField.id.equals(c.studyFieldId)))
+                list.add(c);
+        spinnerCourse.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, list));
     }
 
     @OnClick(R.id.btnAdd)
@@ -74,10 +151,19 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         if(adapter == null || force || System.currentTimeMillis() - lastUpdated > TIME_TO_SAVE_CACHE_MILLIS)
         {
             swipe.setRefreshing(true);
-            final BaseActivity activity = (BaseActivity) getActivity();
+            final MainActivity activity = (MainActivity) getActivity();
+
+            Integer grade = null;
+            if(spinnerGrade.getSelectedItemPosition() > 0)
+                grade = spinnerGrade.getSelectedItemPosition();
+            Course course = Course.ALL;
+            if(grade != null && spinnerCourse.getCount() > 0)
+                course = (Course)spinnerCourse.getSelectedItem();
+            int page = 0;
+            activity.setFilterMenuItemActive(grade != null);
 
             Call<DataResponse<List<Question>>> call = activity.createWebService(Services.class).questionList(
-                    BaseActivity.getToken(), null, null, null, 0);
+                    BaseActivity.getToken(), grade, course.id, null, page);
             call.enqueue(new RetryableCallback<DataResponse<List<Question>>>(call) {
                 @Override
                 public void onFinalFailure(Call<DataResponse<List<Question>>> call, Throwable t) {
@@ -120,5 +206,10 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
     {
         MainActivity activity = (MainActivity)getActivity();
         activity.openQuestionDetailsFragment(item);
+    }
+
+    public void showFilterDialog()
+    {
+        filterDialog.show();
     }
 }

@@ -133,9 +133,19 @@ public class RegisterActivity extends BaseActivity
                     setToken(response.body().data.token);
                     setCoinCount(response.body().data.coins);
                     cacheItem(response.body().data, PREF_PROFILE);
-                    Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    finish();
+                    loadCommonData(true, new DataListener<CommonData>() {
+                        @Override
+                        public void onCallBack(CommonData data) {
+                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            finish();
+                        }
+
+                        @Override
+                        public void onFailure() {
+                            Toast.makeText(RegisterActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
+                        }
+                    });
                 }
                 else if(response.body() != null && response.body().message != null)
                     Toast.makeText(RegisterActivity.this, response.body().message, Toast.LENGTH_LONG).show();

@@ -2,7 +2,6 @@ package com.mybaltazar.baltazar2.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -56,6 +55,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @BindView(R.id.bottomNavigationBar)
     BottomNavigationBar bottomNavigationBar;
 
+    private Menu menu;
+
     public MainActivity() {
         super(R.layout.activity_main, true);
     }
@@ -83,6 +84,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        this.menu = menu;
         return true;
     }
 
@@ -92,17 +94,25 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             case R.id.menu_item_my_questions:
                 changeFragment(myQuestionsFragment);
                 return true;
+
             case R.id.menu_item_logout:
                 PrefHelper.removeKey(PREF_TOKEN);
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return true;
+
             case R.id.menu_item_contact_us:
                 showOkDialog(R.string.contact_us, R.string.contact_us_text);
                 return true;
+
+            case R.id.menu_item_filter:
+                if(currentFragment instanceof QAFragment)
+                    ((QAFragment)currentFragment).showFilterDialog();
+                break;
         }
         return false;
     }
+
 
     @Override
     public void onTabSelected(int position) {
@@ -125,6 +135,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         FragmentTransaction transaction = manager.beginTransaction();
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();
+
+        if(menu != null)
+            menu.findItem(R.id.menu_item_filter).setVisible(fragment ==  pagesFragments[0]);
 
         refreshTitle();
     }
@@ -174,5 +187,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
             if(f == fragment)
                 return true;
         return false;
+    }
+
+    public void setFilterMenuItemActive(boolean active) {
+        if(menu == null)
+            return;
+        MenuItem filterItem = menu.findItem(R.id.menu_item_filter);
+        if(filterItem != null)
+            filterItem.setIcon(active ? R.drawable.ic_filter_active : R.drawable.ic_filter);
     }
 }
