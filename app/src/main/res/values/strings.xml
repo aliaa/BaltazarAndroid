@@ -77,6 +77,12 @@
     <string name="order_done">سفارش شما ثبت شد!</string>
     <string name="upgrade">بروز رسانی</string>
     <string name="continue_app">ادامه</string>
+    <string name="grade">مقطع:</string>
+    <string name="course_name">نام درس:</string>
+    <string name="filter">فیلتر لیست</string>
+    <string name="cancel">انصراف</string>
+    <string name="all">همه</string>
+
     <string-array name="grades">
         <item>اول</item>
         <item>دوم</item>
