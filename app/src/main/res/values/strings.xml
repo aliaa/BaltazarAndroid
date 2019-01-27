@@ -82,6 +82,7 @@
     <string name="filter">فیلتر لیست</string>
     <string name="cancel">انصراف</string>
     <string name="all">همه</string>
+    <string name="baltazar_question">بالتازار</string>
 
     <string-array name="grades">
         <item>اول</item>

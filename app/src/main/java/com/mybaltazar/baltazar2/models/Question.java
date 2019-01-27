@@ -13,4 +13,5 @@ public class Question extends BaseUserContent
     public List<Answer> answers;
     public int prize;
     public boolean hot;
+    public boolean fromBaltazar;
 }

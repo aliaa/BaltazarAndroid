@@ -22,6 +22,18 @@
             android:gravity="center_vertical">
 
             <TextView
+                android:id="@+id/lblBaltazarQuestion"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/baltazar_question"
+                android:textColor="@color/green"
+                android:textStyle="bold"
+                android:textSize="18sp"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/lblGradeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/level_colon"
@@ -38,6 +50,7 @@
                 android:layout_marginRight="6dp"/>
 
             <TextView
+                android:id="@+id/lblCourseText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/lesson_name_colon"
@@ -57,7 +70,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="97/01/01"
-                android:layout_marginRight="8dp"/>
+                android:layout_marginRight="8dp"
+                android:layout_gravity="left"/>
         </LinearLayout>
 
         <TextView
