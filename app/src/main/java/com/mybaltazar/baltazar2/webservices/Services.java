@@ -3,6 +3,7 @@ package com.mybaltazar.baltazar2.webservices;
 import com.mybaltazar.baltazar2.models.Answer;
 import com.mybaltazar.baltazar2.models.Blog;
 import com.mybaltazar.baltazar2.models.Question;
+import com.mybaltazar.baltazar2.models.ScoresData;
 import com.mybaltazar.baltazar2.models.ShopItem;
 import com.mybaltazar.baltazar2.models.ShopOrder;
 import com.mybaltazar.baltazar2.models.Student;
@@ -38,6 +39,10 @@ public interface Services
     @GET("Student/Login")
     Call<DataResponse<Student>> login(@Query("phone") String phone,
                                       @Query("password") String password);
+
+
+    @GET("Student/Scores")
+    Call<DataResponse<ScoresData>> getScores(@Header("token") String token);
 
     @POST("Question/Publish")
     Call<DataResponse<Question>> publishQuestion(@Header("token") String token,

@@ -3,6 +3,7 @@ package com.mybaltazar.baltazar2.adapters;
 import android.os.Build;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -60,5 +61,6 @@ public class BlogAdapter extends BaseRecyclerViewAdapter<BlogItemViewHolder, Blo
             vh.lblContent.setText(Html.fromHtml(item.htmlContent, Html.FROM_HTML_MODE_COMPACT));
         else
             vh.lblContent.setText(Html.fromHtml(item.htmlContent));
+        vh.lblContent.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }
