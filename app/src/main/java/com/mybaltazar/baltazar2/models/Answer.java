@@ -14,4 +14,5 @@ public class Answer extends BaseUserContent
 
     public String questionId;
     public QuestionerResponseEnum response;
+    public boolean toBaltazarQuestion;
 }
