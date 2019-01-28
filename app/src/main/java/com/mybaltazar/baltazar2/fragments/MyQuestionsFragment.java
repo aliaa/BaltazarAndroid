@@ -56,7 +56,7 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         swipe.setOnRefreshListener(this);
-        setupSwipe(swipe);
+        ((BaseActivity)getActivity()).setupSwipe(swipe);
         loadList(true);
         return root;
     }

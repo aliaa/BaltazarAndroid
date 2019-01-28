@@ -11,11 +11,5 @@ public abstract class BaseFragment extends Fragment
         return 0;
     }
 
-    protected void setupSwipe(SwipeRefreshLayout swipe)
-    {
-        swipe.setColorSchemeColors(
-                getResources().getColor(R.color.blue),
-                getResources().getColor(R.color.green),
-                getResources().getColor(R.color.red));
-    }
+
 }

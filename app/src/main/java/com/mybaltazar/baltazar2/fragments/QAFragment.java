@@ -66,7 +66,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         swipe.setOnRefreshListener(this);
-        setupSwipe(swipe);
+        ((BaseActivity)getActivity()).setupSwipe(swipe);
         if(filterDialog == null)
             createFilterDialog();
         loadList(false);

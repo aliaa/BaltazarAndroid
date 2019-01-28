@@ -2,6 +2,7 @@ package com.mybaltazar.baltazar2.webservices;
 
 import com.mybaltazar.baltazar2.models.Answer;
 import com.mybaltazar.baltazar2.models.Blog;
+import com.mybaltazar.baltazar2.models.CoinTransaction;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.models.ScoresData;
 import com.mybaltazar.baltazar2.models.ShopItem;
@@ -43,6 +44,9 @@ public interface Services
 
     @GET("Student/Scores")
     Call<DataResponse<ScoresData>> getScores(@Header("token") String token);
+
+    @GET("Student/MyCoinTransactions")
+    Call<DataResponse<List<CoinTransaction>>> myCoinTransactions(@Header("token") String token);
 
     @POST("Question/Publish")
     Call<DataResponse<Question>> publishQuestion(@Header("token") String token,

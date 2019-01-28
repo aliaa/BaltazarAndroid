@@ -57,7 +57,7 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
         lblCoinCount.setText(String.valueOf(BaseActivity.getCoinCount()));
         swipe.setOnRefreshListener(this);
-        setupSwipe(swipe);
+        ((BaseActivity)getActivity()).setupSwipe(swipe);
         loadList(false);
         return root;
     }
@@ -75,7 +75,7 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             swipe.setRefreshing(true);
             final BaseActivity activity = (BaseActivity) getActivity();
             if(activity == null)
-                return;;
+                return;
             Call<DataResponse<List<ShopItem>>> call = activity.createWebService(Services.class).listShopItems(BaseActivity.getToken());
             call.enqueue(new RetryableCallback<DataResponse<List<ShopItem>>>(call) {
                 @Override

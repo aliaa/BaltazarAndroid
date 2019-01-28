@@ -22,5 +22,4 @@ public class Student
     public int points;
     public int pointsFromLeague;
     public int pointsFromOtherQuestions;
-    public List<CoinTransaction> coinTransactions;
 }
