@@ -4,5 +4,6 @@ public class CoinTransaction
 {
     public int amount;
     public String date;
-    public String questionId;
+    public Question question;
+    public ShopItem shopItem;
 }

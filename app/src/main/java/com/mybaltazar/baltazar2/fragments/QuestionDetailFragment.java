@@ -52,6 +52,7 @@ import static android.app.Activity.RESULT_OK;
 public class QuestionDetailFragment extends BaseFragment
 {
     @BindView(R.id.lblUserName)         TextView lblUserName;
+    @BindView(R.id.layoutGradeLesson)   View layoutGradeLesson;
     @BindView(R.id.lblCourseText)       TextView lblCourseText;
     @BindView(R.id.lblCourseName)       TextView lblCourseName;
     @BindView(R.id.lblGrade)            TextView lblGrade;
@@ -80,6 +81,7 @@ public class QuestionDetailFragment extends BaseFragment
     {
         CommonData commonData = BaseActivity.loadCache(getContext(), BaseActivity.PREF_COMMON, CommonData.class);
         lblUserName.setText(item.userName);
+        layoutGradeLesson.setVisibility(item.fromBaltazar ? View.GONE : View.VISIBLE);
         if (item.courseId == null)
         {
             lblCourseName.setVisibility(View.GONE);
@@ -207,6 +209,7 @@ public class QuestionDetailFragment extends BaseFragment
         Answer answer = new Answer();
         answer.text = txtAnswer.getText().toString();
         answer.questionId = question.id;
+        answer.toBaltazarQuestion = question.fromBaltazar;
 
         Call<DataResponse<Answer>>  call = activity.createWebService(Services.class).publishAnswer(BaseActivity.getToken(), answer);
         call.enqueue(new RetryableCallback<DataResponse<Answer>>(call) {

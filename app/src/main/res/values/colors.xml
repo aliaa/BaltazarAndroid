@@ -15,5 +15,6 @@
     <color name="content_text_color">#373737</color>
     <color name="transparentWhite">#99ffffff</color>
     <color name="green">#0c9b0c</color>
+    <color name="lightGreen">#c8e6c9</color>
     <color name="gray">#ddd</color>
 </resources>

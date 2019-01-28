@@ -24,7 +24,10 @@ import ozaydin.serkan.com.image_zoom_view.ImageViewZoom;
 class QuestionItemViewHolder extends RecyclerView.ViewHolder
 {
     @BindView(R.id.cardView)        CardView cardView;
+    @BindView(R.id.lblBaltazarQuestion) TextView lblBaltazarQuestion;
+    @BindView(R.id.lblGradeText)    TextView lblGradeText;
     @BindView(R.id.lblGrade)        TextView lblGrade;
+    @BindView(R.id.lblCourseText)   TextView lblCourseText;
     @BindView(R.id.lblCourseName)   TextView lblCourseName;
     @BindView(R.id.lblDate)         TextView lblDate;
     @BindView(R.id.lblCount)        TextView lblCount;
@@ -60,6 +63,13 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
         BaseActivity activity = activityRef.get();
         if (activity == null)
             return;
+
+        vh.lblBaltazarQuestion.setVisibility(item.fromBaltazar ? View.VISIBLE : View.GONE);
+        vh.lblGradeText.setVisibility(item.fromBaltazar ? View.GONE : View.VISIBLE);
+        vh.lblGrade.setVisibility(item.fromBaltazar ? View.GONE : View.VISIBLE);
+        vh.lblCourseName.setVisibility(item.fromBaltazar ? View.GONE : View.VISIBLE);
+        vh.lblCourseText.setVisibility(item.fromBaltazar ? View.GONE : View.VISIBLE);
+
         vh.lblGrade.setText(grades[item.grade-1]);
         if(courses.containsKey(item.courseId))
             vh.lblCourseName.setText(courses.get(item.courseId));
@@ -67,8 +77,11 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
         vh.lblDate.setText(StringUtils.getPersianDate(item.createDate));
         // TODO: set icon
 
+
         vh.lblCount.setText(String.valueOf(item.prize));
-        if (item.hot)
+        if(item.fromBaltazar)
+            vh.cardView.setCardBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
+        else if (item.hot)
             vh.cardView.setCardBackgroundColor(activity.getResources().getColor(R.color.yellow));
     }
 }

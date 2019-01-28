@@ -82,6 +82,19 @@
     <string name="filter">فیلتر لیست</string>
     <string name="cancel">انصراف</string>
     <string name="all">همه</string>
+    <string name="baltazar_question">بالتازار</string>
+    <string name="total_points">امتیاز کل:</string>
+    <string name="league_points">امتیاز لیگ:</string>
+    <string name="other_questions_points">امتیاز از سایر سوالات:</string>
+    <string name="total_score">رتبه کل:</string>
+    <string name="score_on_base">رتبه در پایه:</string>
+    <string name="top10OnBase">10 نفر برتر در پایه</string>
+    <string name="top10Total">10 نفر برتر در کل</string>
+    <string name="fill_profile">تکمیل طلاعات پروفایل من</string>
+    <string name="view_coin_transactions">مشاهده تراکنش سکه های من</string>
+    <string name="transaction_type_question_answer">جایزه پاسخ به سوال</string>
+    <string name="transaction_type_league_answer">جایزه پاسخ به سوال لیگ</string>
+    <string name="transaction_type_buy">خرید از فروشگاه</string>
 
     <string-array name="grades">
         <item>اول</item>

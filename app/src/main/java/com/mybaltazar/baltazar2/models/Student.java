@@ -19,5 +19,7 @@ public class Student
     public String schoolName;
     public String token;
     public int coins;
-    public List<CoinTransaction> coinTransactions;
+    public int points;
+    public int pointsFromLeague;
+    public int pointsFromOtherQuestions;
 }

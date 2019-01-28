@@ -50,7 +50,7 @@ public class BlogFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         swipe.setOnRefreshListener(this);
-        setupSwipe(swipe);
+        ((BaseActivity)getActivity()).setupSwipe(swipe);
         loadList(true);
         return root;
     }
