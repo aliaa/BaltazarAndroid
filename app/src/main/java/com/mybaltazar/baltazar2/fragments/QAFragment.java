@@ -58,6 +58,11 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
     private Spinner spinnerCourse;
 
     @Override
+    public int getTitleId() {
+        return R.string.qa;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         View root = inflater.inflate(R.layout.fragment_qa, container, false);

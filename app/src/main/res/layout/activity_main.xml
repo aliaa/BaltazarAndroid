@@ -22,5 +22,6 @@
         android:id="@+id/bottomNavigationBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:bnbMode="mode_fixed" />
+        app:bnbMode="mode_fixed_no_title"
+        app:bnbBackgroundStyle="background_style_static"/>
 </LinearLayout>
