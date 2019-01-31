@@ -90,6 +90,10 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
                     statusColorId = R.color.colorAccent;
                     statusStrId = R.string.published;
                     break;
+                case Rejected:
+                    statusColorId = R.color.red;
+                    statusStrId = R.string.rejected;
+                    break;
             }
         }
         else {
