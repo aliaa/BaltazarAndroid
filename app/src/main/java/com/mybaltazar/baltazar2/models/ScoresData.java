@@ -12,11 +12,15 @@ public class ScoresData
         public int points;
     }
 
-    public int myPoints;
-    public int myPointsFromLeague;
-    public int myPointsFromOtherQuestions;
-    public int myTotalScore;
-    public int myScoreOnBase;
+    public String festivalName;
+    public int myFestivalPoints;
+    public int myFestivalPointsFromLeague;
+    public int myFestivalPointsFromOtherQuestions;
+    public int myFestivalScore;
+    public int myFestivalScoreOnGrade;
+    public int myAllTimePoints;
+    public int myAllTimeTotalScore;
     public List<TopStudent> totalTop;
-    public List<TopStudent> topOnBase;
+    public List<TopStudent> festivalTop;
+    public List<TopStudent> festivalTopOnGrade;
 }

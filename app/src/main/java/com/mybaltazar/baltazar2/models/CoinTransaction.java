@@ -8,6 +8,7 @@ public class CoinTransaction
         AnswerQuestion,
         AnswerBaltazar,
         Buy,
+        InviteFriend
     }
 
     public int amount;

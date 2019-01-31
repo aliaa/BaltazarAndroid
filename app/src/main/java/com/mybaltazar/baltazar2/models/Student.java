@@ -1,7 +1,5 @@
 package com.mybaltazar.baltazar2.models;
 
-import java.util.List;
-
 public class Student
 {
     public enum GenderEnum
@@ -10,8 +8,9 @@ public class Student
     }
 
     public String id;
-    public String firstName, lastName, phone, password;
+    public String firstName, lastName, nickName, phone, password;
     public int grade;
+    public int membershipDurationDays;
     public String studyFieldId;
     public String address;
     public GenderEnum gender;
@@ -19,7 +18,9 @@ public class Student
     public String schoolName;
     public String token;
     public int coins;
-    public int points;
-    public int pointsFromLeague;
-    public int pointsFromOtherQuestions;
+    public int totalPoints;
+    public int totalPointsFromLeague;
+    public int totalPointsFromOtherQuestions;
+    public String invitationCode;
+    public String invitedFromCode;
 }

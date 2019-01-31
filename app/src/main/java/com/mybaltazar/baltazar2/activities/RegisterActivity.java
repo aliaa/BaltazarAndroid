@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -29,9 +28,7 @@ import butterknife.OnClick;
 import butterknife.OnItemSelected;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.annotations.RegExp;
-import khangtran.preferenceshelper.PrefHelper;
 import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class RegisterActivity extends BaseActivity
@@ -53,6 +50,10 @@ public class RegisterActivity extends BaseActivity
     @RegExp(value = "^\\d{10}$", messageId = R.string.not_correct)
     @BindView(R.id.txtMelliCode)
     EditText txtMelliCode;
+
+    @NotEmpty(messageId = R.string.is_empty)
+    @BindView(R.id.txtNickName)
+    EditText txtNickName;
 
     @BindView(R.id.spinnerGrade)        Spinner spinnerGrade;
     @BindView(R.id.lblStudyField)       TextView lblStudyField;
@@ -112,9 +113,11 @@ public class RegisterActivity extends BaseActivity
         Student student = new Student();
         student.firstName = txtFirstName.getText().toString();
         student.lastName = txtLastName.getText().toString();
+        student.nickName = txtNickName.getText().toString();
         student.phone = txtMobileNum.getText().toString();
         student.password = txtMelliCode.getText().toString();
         student.grade = spinnerGrade.getSelectedItemPosition()+1;
+        student.invitedFromCode = txtInvitationCode.getText().toString().toUpperCase();
         if(student.grade >= 10)
             student.studyFieldId = ((StudyField)spinnerStudyField.getSelectedItem()).id;
         Call<DataResponse<Student>> call = createWebService(Services.class).registerStudent(student);

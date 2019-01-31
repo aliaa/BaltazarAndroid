@@ -63,6 +63,9 @@ public class TransactionsAdapter extends BaseRecyclerViewAdapter<TransactionItem
             case AnswerBaltazar:
                 typeStrId = R.string.transaction_type_league_answer;
                 break;
+            case InviteFriend:
+                typeStrId = R.string.invite_friends;
+                break;
             default:
                 return;
         }

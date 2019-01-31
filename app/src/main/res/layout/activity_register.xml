@@ -51,6 +51,19 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="@string/nickName"/>
+
+        <EditText
+            android:id="@+id/txtNickName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:imeOptions="actionNext"
+            android:singleLine="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="@string/mobile_number"
             android:layout_marginTop="16dp"/>
 
@@ -105,8 +118,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/invitation_code"
-            android:visibility="gone"/>
+            android:text="@string/invitation_code"/>
 
         <EditText
             android:id="@+id/txtInvitationCode"
@@ -115,7 +127,7 @@
             android:inputType="number"
             android:imeOptions="actionDone"
             android:singleLine="true"
-            android:visibility="gone"/>
+            android:hint="@string/optional"/>
 
         <Button
             android:id="@+id/btnRegister"

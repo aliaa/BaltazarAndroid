@@ -10,13 +10,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="16dp"
+        android:paddingBottom="36dp"
         android:gravity="center_horizontal">
 
         <TextView
-            android:id="@+id/lblUserName"
+            android:id="@+id/lblFestivalName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="18dp"/>
+            android:textSize="22dp"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -28,10 +29,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/total_points"/>
+                android:text="@string/points"/>
 
             <TextView
-                android:id="@+id/lblTotalPoints"
+                android:id="@+id/lblPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
@@ -41,12 +42,12 @@
                 android:text="0"/>
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
+        <GridLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layoutDirection="rtl"
-            android:layout_marginTop="16dp">
+            android:columnCount="4"
+            android:layout_marginTop="16dp"
+            android:layoutDirection="rtl">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -61,12 +62,8 @@
                 android:layout_marginRight="8dp"
                 android:textColor="@color/green"
                 android:textStyle="bold"
-                android:text="0"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
+                android:text="0"
+                android:layout_marginLeft="20dp"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,22 +79,14 @@
                 android:textColor="@color/green"
                 android:textStyle="bold"
                 android:text="0"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layoutDirection="rtl"
-            android:layout_marginTop="16dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/total_score"/>
+                android:text="@string/score"/>
 
             <TextView
-                android:id="@+id/lblTotalScore"
+                android:id="@+id/lblScore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
@@ -106,18 +95,13 @@
                 android:textStyle="bold"
                 android:text="0"/>
 
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/score_on_base"/>
+                android:text="@string/scoreOnGrade"/>
 
             <TextView
-                android:id="@+id/lblScoreOnBase"
+                android:id="@+id/lblScoreOnGrade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="16dp"
@@ -125,16 +109,29 @@
                 android:textColor="@color/green"
                 android:textStyle="bold"
                 android:text="0"/>
-        </LinearLayout>
+        </GridLayout>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/top10OnBase"
+            android:text="@string/top10OnGrade"
             android:layout_marginTop="32dp"/>
 
         <LinearLayout
-            android:id="@+id/lstTop10OnBase"
+            android:id="@+id/lstTop10OnGrade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/top10OnFestival"
+            android:layout_marginTop="32dp"/>
+
+        <LinearLayout
+            android:id="@+id/lstTop10OnFestival"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -151,8 +148,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="8dp"
-            android:paddingBottom="36dp"/>
+            android:layout_marginTop="8dp"/>
     </LinearLayout>
 
 </ScrollView>

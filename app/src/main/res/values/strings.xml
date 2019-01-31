@@ -83,14 +83,17 @@
     <string name="cancel">انصراف</string>
     <string name="all">همه</string>
     <string name="baltazar_question">بالتازار</string>
-    <string name="total_points">امتیاز کل:</string>
+    <string name="points">امتیاز:</string>
     <string name="league_points">امتیاز لیگ:</string>
     <string name="other_questions_points">امتیاز از سایر سوالات:</string>
-    <string name="total_score">رتبه کل:</string>
-    <string name="score_on_base">رتبه در پایه:</string>
-    <string name="top10OnBase">10 نفر برتر در پایه</string>
+    <string name="score">رتبه:</string>
+    <string name="scoreOnGrade">رتبه در پایه:</string>
+    <string name="top10OnGrade">10 نفر برتر فستیوال در پایه</string>
+    <string name="top10OnFestival">10 نفر برتر فستیوال در کل</string>
     <string name="top10Total">10 نفر برتر در کل</string>
-    <string name="fill_profile">تکمیل طلاعات پروفایل من</string>
+    <string name="fill_profile">تکمیل اطلاعات پروفایل + جایزه!</string>
+    <string name="invite_friends_with_prize">دعوت از دوستان + جایزه!</string>
+    <string name="invite_friends">دعوت از دوستان</string>
     <string name="view_coin_transactions">مشاهده تراکنش سکه های من</string>
     <string name="transaction_type_question_answer">جایزه پاسخ به سوال</string>
     <string name="transaction_type_league_answer">جایزه پاسخ به سوال لیگ</string>
@@ -98,6 +101,17 @@
     <string name="transaction_type_ask_question">پرسیدن سوال</string>
     <string name="coin_transactions">تراکنش سکه ها</string>
     <string name="rejected">رد شده</string>
+    <string name="name_lastName">نام و نام خانوادگی:</string>
+    <string name="membershipDuration">مدت عضویت:</string>
+    <string name="myTotalPoints">امتیاز کل من:</string>
+    <string name="myTotalScore">رتبه کل من:</string>
+    <string name="myCurrentGrade">پایه تحصیلی من:</string>
+    <string name="myCurrentField">رشته تحصیلی من:</string>
+    <string name="nickName">نام مستعار:</string>
+    <string name="festival">فستیوال</string>
+    <string name="change">تغییر</string>
+    <string name="additional_profile">تکمیل اطلاعات پروفایل</string>
+    <string name="optional">اختیاری</string>
 
     <string-array name="grades">
         <item>اول</item>
