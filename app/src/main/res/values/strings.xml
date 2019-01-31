@@ -95,6 +95,8 @@
     <string name="transaction_type_question_answer">جایزه پاسخ به سوال</string>
     <string name="transaction_type_league_answer">جایزه پاسخ به سوال لیگ</string>
     <string name="transaction_type_buy">خرید از فروشگاه</string>
+    <string name="transaction_type_ask_question">پرسیدن سوال</string>
+    <string name="coin_transactions">تراکنش سکه ها</string>
     <string name="rejected">رد شده</string>
 
     <string-array name="grades">

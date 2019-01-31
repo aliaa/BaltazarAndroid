@@ -41,7 +41,11 @@
         <activity
             android:name="com.theartofdev.edmodo.cropper.CropImageActivity"
             android:theme="@style/Base.Theme.AppCompat" />
-        <activity android:name=".activities.TransactionsActivity"></activity>
+        <activity
+            android:name=".activities.TransactionsActivity"
+            android:label="@string/coin_transactions"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".activities.MainActivity"/>
     </application>
 
 </manifest>

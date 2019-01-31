@@ -46,23 +46,26 @@ public class TransactionsAdapter extends BaseRecyclerViewAdapter<TransactionItem
         if(activity == null)
             return;
         vh.lblDate.setText(StringUtils.getPersianDate(item.date));
-
+        vh.lblAmount.setText(String.valueOf(item.amount));
+        vh.lblAmount.setTextColor(activity.getResources().getColor(item.amount > 0 ? R.color.green : R.color.red));
         int typeStrId;
-        if(item.question != null)
+        switch (item.type)
         {
-            if(item.question.fromBaltazar)
-                typeStrId = R.string.transaction_type_league_answer;
-            else
+            case Buy:
+                typeStrId = R.string.transaction_type_buy;
+                break;
+            case AskQuestion:
+                typeStrId = R.string.transaction_type_ask_question;
+                break;
+            case AnswerQuestion:
                 typeStrId = R.string.transaction_type_question_answer;
-            vh.lblAmount.setTextColor(activity.getResources().getColor(R.color.green));
-            vh.lblAmount.setText(String.valueOf(item.amount));
+                break;
+            case AnswerBaltazar:
+                typeStrId = R.string.transaction_type_league_answer;
+                break;
+            default:
+                return;
         }
-        else {
-            typeStrId = R.string.transaction_type_buy;
-            vh.lblAmount.setTextColor(activity.getResources().getColor(R.color.red));
-            vh.lblAmount.setText(String.valueOf(-item.amount));
-        }
-
         vh.lblType.setText(typeStrId);
     }
 }

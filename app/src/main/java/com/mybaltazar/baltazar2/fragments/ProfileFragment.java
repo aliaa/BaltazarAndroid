@@ -18,6 +18,11 @@ public class ProfileFragment extends BaseFragment
     public ProfileFragment() { }
 
     @Override
+    public int getTitleId() {
+        return R.string.profile;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, root);
