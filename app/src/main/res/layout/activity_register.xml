@@ -33,7 +33,9 @@
             android:layout_height="wrap_content"
             android:imeOptions="actionNext"
             android:singleLine="true"
-            android:textDirection="rtl" />
+            android:textDirection="rtl">
+            <requestFocus />
+        </EditText>
 
         <TextView
             android:layout_width="wrap_content"

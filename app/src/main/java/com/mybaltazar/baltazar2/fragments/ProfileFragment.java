@@ -47,6 +47,8 @@ public class ProfileFragment extends BaseFragment
     @BindView(R.id.lblMyCurrentFieldText)   TextView lblMyCurrentFieldText;
     @BindView(R.id.spinnerStudyField)       Spinner spinnerStudyField;
 
+    int spinnersSelectionChanged = 0;
+
     public ProfileFragment() { }
 
     @Override
@@ -108,6 +110,7 @@ public class ProfileFragment extends BaseFragment
         lblMyTotalScore.setText(String.valueOf(scoresData.myAllTimeTotalScore));
         lblMyMembershipDuration.setText(String.valueOf(profile.membershipDurationDays) + " " + getString(R.string.day));
 
+        spinnersSelectionChanged = 0;
         spinnerGrade.setAdapter(new ArrayAdapter<String>(getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.grades)));
@@ -116,9 +119,15 @@ public class ProfileFragment extends BaseFragment
         spinnerStudyField.setAdapter(new ArrayAdapter<StudyField>(getContext(),
                 android.R.layout.simple_spinner_dropdown_item,
                 commonData.studyFields));
+        int studyFieldIndex = 0;
+        for(; studyFieldIndex < commonData.studyFields.size(); studyFieldIndex++)
+            if(commonData.studyFields.get(studyFieldIndex).id.equals(profile.studyFieldId))
+                break;
+        if(studyFieldIndex == commonData.studyFields.size())
+            studyFieldIndex = 0;
+        spinnerStudyField.setSelection(studyFieldIndex);
         spinnerStudyField.setVisibility(profile.grade >= 10 ? View.VISIBLE : View.GONE);
         lblMyCurrentFieldText.setVisibility(profile.grade >= 10 ? View.VISIBLE : View.GONE);
-
     }
 
     @OnItemSelected({R.id.spinnerGrade, R.id.spinnerStudyField})
@@ -127,10 +136,13 @@ public class ProfileFragment extends BaseFragment
         int selectedGrade = spinnerGrade.getSelectedItemPosition() + 1;
         spinnerStudyField.setVisibility(selectedGrade >= 10 ? View.VISIBLE : View.GONE);
         lblMyCurrentFieldText.setVisibility(selectedGrade >= 10 ? View.VISIBLE : View.GONE);
-        Student update = new Student();
-        update.grade = selectedGrade;
-        update.studyFieldId = ((StudyField)spinnerStudyField.getSelectedItem()).id;
-        callUpdate(update);
+        if(spinnersSelectionChanged >= 2) {
+            Student update = new Student();
+            update.grade = selectedGrade;
+            update.studyFieldId = ((StudyField) spinnerStudyField.getSelectedItem()).id;
+            callUpdate(update);
+        }
+        spinnersSelectionChanged++;
     }
 
     private void callUpdate(Student update)

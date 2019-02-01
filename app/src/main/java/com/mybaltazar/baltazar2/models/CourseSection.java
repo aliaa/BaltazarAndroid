@@ -2,9 +2,8 @@ package com.mybaltazar.baltazar2.models;
 
 import java.io.Serializable;
 
-public class CourseSection implements Serializable
+public class CourseSection extends BaseEntity
 {
-    public String id;
     public String courseId;
     public String name;
 

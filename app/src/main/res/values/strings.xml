@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">بالتازار</string>
     <!--<string name="media_base_url">http://mybaltazar.com/public/storage/</string>-->
-    <string name="base_url">http://10.104.24.114:8080/Baltazar/</string>
-    <!--<string name="base_url">http://localhost:29830/</string>-->
-    <string name="media_base_url">http://10.104.24.114:8080/Baltazar/Uploads/</string>
-    <!--<string name="media_base_url">http://localhost:29830/Uploads/</string>-->
+    <!--<string name="base_url">http://10.104.24.114:8080/Baltazar/</string>-->
+    <string name="base_url">http://192.168.1.10:81/</string>
+    <!--<string name="media_base_url">http://10.104.24.114:8080/Baltazar/Uploads/</string>-->
+    <string name="media_base_url">http://192.168.1.10:81/Uploads/</string>
     <string name="image_dir">Image/</string>
     <string name="video_dir">Video/</string>
     <string name="voice_dir">Voice/</string>
@@ -112,6 +112,16 @@
     <string name="change">تغییر</string>
     <string name="additional_profile">تکمیل اطلاعات پروفایل</string>
     <string name="optional">اختیاری</string>
+    <string name="birthdate">تاریخ تولد:</string>
+    <string name="province">استان:</string>
+    <string name="city">شهر:</string>
+    <string name="gender">جنسیت:</string>
+    <string name="schoolName">نام مدرسه:</string>
+    <string name="schoolPhoneNumber">تلفن مدرسه:</string>
+    <string name="schoolAddress">آدرس مدرسه:</string>
+    <string name="value_incorrect">مقدار صحیح نیست!</string>
+    <string name="boy">پسر</string>
+    <string name="girl">دختر</string>
 
     <string-array name="grades">
         <item>اول</item>

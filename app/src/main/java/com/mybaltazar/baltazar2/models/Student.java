@@ -1,13 +1,12 @@
 package com.mybaltazar.baltazar2.models;
 
-public class Student
+public class Student extends BaseEntity
 {
     public enum GenderEnum
     {
-        male, female
+        Unspecified, Male, Female
     }
 
-    public String id;
     public String firstName, lastName, nickName, phone, password;
     public int grade;
     public int membershipDurationDays;
@@ -16,6 +15,7 @@ public class Student
     public GenderEnum gender;
     public String cityId;
     public String schoolName;
+    public String schoolPhone;
     public String token;
     public int coins;
     public int totalPoints;
@@ -23,4 +23,5 @@ public class Student
     public int totalPointsFromOtherQuestions;
     public String invitationCode;
     public String invitedFromCode;
+    public String birthDate;
 }

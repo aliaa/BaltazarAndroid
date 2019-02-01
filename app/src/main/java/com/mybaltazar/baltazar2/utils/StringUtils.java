@@ -77,7 +77,15 @@ public class StringUtils {
         return lsb.toString();
     }
 
-    public static String getPersianDate(String dateString)
+    public static String getPersianDateString(String dateString)
+    {
+        JalaliCalendar.YearMonthDate date = getPersianDate(dateString);
+        if(date == null)
+            return null;
+        return date.toPersianString();
+    }
+
+    public static JalaliCalendar.YearMonthDate getPersianDate(String dateString)
     {
         dateString = dateString.replace("T", " ");
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
@@ -86,8 +94,7 @@ public class StringUtils {
             date = fmt.parse(dateString);
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(date);
-            JalaliCalendar.YearMonthDate cDate = JalaliCalendar.gregorianToJalali(new JalaliCalendar.YearMonthDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE)));
-            return cDate.toPersianString();
+            return JalaliCalendar.gregorianToJalali(new JalaliCalendar.YearMonthDate(calendar.get(Calendar.YEAR),calendar.get(Calendar.MONTH),calendar.get(Calendar.DATE)));
         }
         catch (Exception e) {
             e.printStackTrace();

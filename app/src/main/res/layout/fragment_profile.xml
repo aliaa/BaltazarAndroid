@@ -3,15 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProfileFragment"
-    android:layout_margin="12dp">
+    tools:context=".fragments.ProfileFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
-        android:paddingBottom="20dp">
+        android:padding="18dp">
 
         <GridLayout
             android:layout_width="wrap_content"
@@ -63,7 +62,7 @@
                     android:id="@+id/btnEditNickName"
                     android:layout_width="34dp"
                     android:layout_height="34dp"
-                    android:padding="6dp"
+                    android:padding="8dp"
                     android:src="@mipmap/ic_edit"/>
             </LinearLayout>
 
@@ -129,7 +128,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|right"
-                android:layout_margin="8dp" />
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="8dp"/>
 
             <TextView
                 android:id="@+id/lblMyCurrentFieldText"
@@ -155,7 +155,8 @@
             android:textColor="@android:color/white"
             android:padding="8dp"
             android:text="@string/view_coin_transactions"
-            android:layout_marginTop="18dp"/>
+            android:layout_marginTop="18dp"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/btnFillProfile"
@@ -165,7 +166,8 @@
             android:textColor="@android:color/white"
             android:padding="8dp"
             android:text="@string/fill_profile"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:textStyle="bold"/>
 
         <Button
             android:id="@+id/btnInviteFriends"
@@ -175,6 +177,7 @@
             android:textColor="@android:color/white"
             android:padding="8dp"
             android:text="@string/invite_friends_with_prize"
-            android:layout_marginTop="18dp"/>
+            android:layout_marginTop="18dp"
+            android:textStyle="bold"/>
     </LinearLayout>
 </ScrollView>

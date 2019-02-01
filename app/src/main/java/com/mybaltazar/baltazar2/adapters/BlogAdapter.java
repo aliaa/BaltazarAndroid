@@ -46,7 +46,7 @@ public class BlogAdapter extends BaseRecyclerViewAdapter<BlogItemViewHolder, Blo
     @Override
     protected void onBindViewHolder(BlogItemViewHolder vh, Blog item) {
         vh.lblTitle.setText(item.title);
-        vh.lblDate.setText(StringUtils.getPersianDate(item.dateAdded));
+        vh.lblDate.setText(StringUtils.getPersianDateString(item.dateAdded));
 
         vh.img.setVisibility(item.hasImage ? View.VISIBLE : View.GONE);
         if(item.hasImage) {

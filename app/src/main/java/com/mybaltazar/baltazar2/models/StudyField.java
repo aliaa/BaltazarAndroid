@@ -2,9 +2,9 @@ package com.mybaltazar.baltazar2.models;
 
 import java.io.Serializable;
 
-public class StudyField implements Serializable
+public class StudyField extends BaseEntity
 {
-    public String id, name;
+    public String name;
 
     @Override
     public String toString() {

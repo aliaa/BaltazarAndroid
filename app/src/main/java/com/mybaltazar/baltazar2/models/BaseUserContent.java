@@ -2,7 +2,7 @@ package com.mybaltazar.baltazar2.models;
 
 import java.io.Serializable;
 
-public abstract class BaseUserContent implements Serializable
+public abstract class BaseUserContent extends BaseEntity
 {
     public enum PublishStatusEnum
     {
@@ -11,7 +11,6 @@ public abstract class BaseUserContent implements Serializable
         Rejected
     }
 
-    public String id;
     public String userId;
     public String userName;
     public String createDate;

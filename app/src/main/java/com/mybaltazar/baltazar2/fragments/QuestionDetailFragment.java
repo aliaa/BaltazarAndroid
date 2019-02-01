@@ -93,7 +93,7 @@ public class QuestionDetailFragment extends BaseFragment
         String[] grades = getResources().getStringArray(R.array.grades);
         lblGrade.setText(grades[item.grade-1]);
 
-        lblDate.setText(StringUtils.getPersianDate(item.createDate));
+        lblDate.setText(StringUtils.getPersianDateString(item.createDate));
         lblQuestionText.setText(item.text);
 
         if (item.hasImage)

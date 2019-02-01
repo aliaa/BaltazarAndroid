@@ -74,7 +74,7 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
         if(courses.containsKey(item.courseId))
             vh.lblCourseName.setText(courses.get(item.courseId));
         vh.lblText.setText(item.text);
-        vh.lblDate.setText(StringUtils.getPersianDate(item.createDate));
+        vh.lblDate.setText(StringUtils.getPersianDateString(item.createDate));
         // TODO: set icon
 
 

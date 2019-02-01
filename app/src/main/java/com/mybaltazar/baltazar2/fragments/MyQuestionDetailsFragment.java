@@ -58,7 +58,7 @@ public class MyQuestionDetailsFragment extends BaseFragment
     private void loadUI(Answer answer)
     {
         lblUserName.setText(answer.userName);
-        lblDate.setText(StringUtils.getPersianDate(answer.createDate));
+        lblDate.setText(StringUtils.getPersianDateString(answer.createDate));
         lblAnswerDescription.setText(answer.text);
         imgAnswerImage.setVisibility(answer.hasImage ? View.VISIBLE : View.GONE);
         if(answer.hasImage)

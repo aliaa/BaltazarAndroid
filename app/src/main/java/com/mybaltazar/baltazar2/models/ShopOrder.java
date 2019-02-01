@@ -1,6 +1,6 @@
 package com.mybaltazar.baltazar2.models;
 
-public class ShopOrder
+public class ShopOrder extends BaseEntity
 {
     public enum OrderStatus
     {

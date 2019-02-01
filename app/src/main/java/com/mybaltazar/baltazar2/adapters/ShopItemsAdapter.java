@@ -61,7 +61,7 @@ public class ShopItemsAdapter extends BaseRecyclerViewAdapter<ShopItemViewHolder
         vh.btnBuy.setTag(item);
         vh.lblName.setText(item.name);
         vh.lblCount.setText(String.valueOf(item.coinCost));
-        vh.lblDate.setText(StringUtils.getPersianDate(item.dateAdded));
+        vh.lblDate.setText(StringUtils.getPersianDateString(item.dateAdded));
         if(item.hasImage) {
             String url = activity.getImageUrlById(item.id);
             BaseActivity.loadImage(url, vh.img);
