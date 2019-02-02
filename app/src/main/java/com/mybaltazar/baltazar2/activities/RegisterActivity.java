@@ -132,10 +132,10 @@ public class RegisterActivity extends BaseActivity
             @Override
             public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
                 progress.dismiss();
-                if(response.body() != null && response.body().data != null) {
-                    setToken(response.body().data.token);
-                    setCoinCount(response.body().data.coins);
-                    cacheItem(response.body().data, PREF_PROFILE);
+                DataResponse<Student> resp = response.body();
+                if(resp != null && resp.data != null) {
+                    setToken(resp.data.token);
+                    setProfile(resp.data);
                     loadCommonData(true, new DataListener<CommonData>() {
                         @Override
                         public void onCallBack(CommonData data) {

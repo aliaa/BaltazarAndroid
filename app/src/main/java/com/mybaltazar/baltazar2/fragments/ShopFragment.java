@@ -17,6 +17,7 @@ import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.adapters.ShopItemsAdapter;
+import com.mybaltazar.baltazar2.events.CoinChangedEvent;
 import com.mybaltazar.baltazar2.models.ShopItem;
 import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
@@ -24,6 +25,10 @@ import com.mybaltazar.baltazar2.webservices.CommonResponse;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.RetryableCallback;
 import com.mybaltazar.baltazar2.webservices.Services;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -62,6 +67,22 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         return root;
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void coinCountChanged(CoinChangedEvent event) {
+        lblCoinCount.setText(String.valueOf(event.amount));
+    }
 
     @Override
     public void onRefresh() {
@@ -84,13 +105,6 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     DataResponse<List<ShopItem>> resp = response.body();
                     if (resp != null && resp.data != null)
                     {
-                        CommonData commonData = BaseActivity.loadCache(activity, BaseActivity.PREF_COMMON, CommonData.class);
-                        if(commonData == null)
-                        {
-                            onFinalFailure(call, new Exception("اطلاعات عمومی موجود نیست! لطفا دوباره وارد برنامه شوید."));
-                            return;
-                        }
-
                         adapter = new ShopItemsAdapter(activity, resp.data);
                         adapter.setOnItemClickListener(ShopFragment.this);
                         recycler.setAdapter(adapter);

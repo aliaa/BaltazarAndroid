@@ -55,8 +55,7 @@ public class LoginActivity extends BaseActivity
                     case 201:
                         if (resp != null && resp.data != null) {
                             setToken(resp.data.token);
-                            setCoinCount(resp.data.coins);
-                            cacheItem(resp.data, PREF_PROFILE);
+                            setProfile(resp.data);
                             loadCommonData(true, new DataListener<CommonData>() {
                                 @Override
                                 public void onCallBack(CommonData data) {

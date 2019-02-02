@@ -66,6 +66,9 @@ public class TransactionsAdapter extends BaseRecyclerViewAdapter<TransactionItem
             case InviteFriend:
                 typeStrId = R.string.invite_friends;
                 break;
+            case ProfileCompletion:
+                typeStrId = R.string.additional_profile;
+                break;
             default:
                 return;
         }

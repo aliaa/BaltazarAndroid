@@ -14,6 +14,7 @@ import java.util.List;
 import okhttp3.MultipartBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.Multipart;
@@ -67,6 +68,10 @@ public interface Services
 
     @GET("Question/Mine")
     Call<DataResponse<List<Question>>> myQuestions(@Header("token") String token);
+
+    @DELETE("Question/{id}")
+    Call<CommonResponse> deleteQuestion(@Header("token") String token,
+                                        @Path("id") String id);
 
     @POST("Answer/Publish")
     Call<DataResponse<Answer>> publishAnswer(@Header("token") String token,

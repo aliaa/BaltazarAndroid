@@ -9,8 +9,12 @@ import android.widget.TextView;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
+import com.mybaltazar.baltazar2.events.DeleteQuestionClickEvent;
+import com.mybaltazar.baltazar2.models.BaseUserContent;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.utils.StringUtils;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 import java.util.Map;
@@ -25,7 +29,7 @@ class MyQuestionItemViewHolder extends RecyclerView.ViewHolder
     @BindView(R.id.lblCourseName)   TextView lblCourseName;
     @BindView(R.id.lblDate)         TextView lblDate;
     @BindView(R.id.lblCount)        TextView lblCount;
-    @BindView(R.id.imgIcon)         ImageView imgIcon;
+    @BindView(R.id.btnDelete)       ImageView btnDelete;
     @BindView(R.id.lblText)         TextView lblText;
     @BindView(R.id.imgQuestionImage) ImageViewZoom imgQuestionImage;
     @BindView(R.id.btnShowAnswer)   Button btnShowAnswer;
@@ -53,8 +57,8 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
     @Override
     protected MyQuestionItemViewHolder createViewHolder(View view)
     {
-        MyQuestionItemViewHolder mvh = new MyQuestionItemViewHolder(view);
-        mvh.btnShowAnswer.setOnClickListener(new View.OnClickListener() {
+        MyQuestionItemViewHolder vh = new MyQuestionItemViewHolder(view);
+        vh.btnShowAnswer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Question item = (Question)view.getTag();
@@ -63,7 +67,14 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
                     activity.openMyQuestionDetailsFragment(item);
             }
         });
-        return mvh;
+        vh.btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Question item = (Question)view.getTag();
+                EventBus.getDefault().post(new DeleteQuestionClickEvent(item));
+            }
+        });
+        return vh;
     }
 
     @Override
@@ -111,5 +122,8 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
             String url = activity.getImageUrlById(item.id);
             BaseActivity.loadImage(url, vh.imgQuestionImage);
         }
+
+        vh.btnDelete.setVisibility(item.publishStatus == BaseUserContent.PublishStatusEnum.WaitForApprove ? View.VISIBLE : View.INVISIBLE);
+        vh.btnDelete.setTag(item);
     }
 }

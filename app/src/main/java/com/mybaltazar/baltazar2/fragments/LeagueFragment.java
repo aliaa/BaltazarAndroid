@@ -111,7 +111,7 @@ public class LeagueFragment extends BaseFragment
         lblScore.setText(String.valueOf(data.myFestivalScore));
         lblScoreOnGrade.setText(String.valueOf(data.myFestivalScoreOnGrade));
 
-        CommonData commonData = BaseActivity.loadCache(getActivity(), BaseActivity.PREF_COMMON, CommonData.class);
+        CommonData commonData = ((BaseActivity)getActivity()).loadCommonData(false, null);
 
         lstTop10OnGrade.removeAllViews();
         for (ScoresData.TopStudent st : data.festivalTopOnGrade) {

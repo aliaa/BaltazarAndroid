@@ -96,7 +96,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 return true;
 
             case R.id.menu_item_logout:
-                PrefHelper.removeKey(PREF_TOKEN);
+                setToken(null);
                 startActivity(new Intent(this, LoginActivity.class));
                 finish();
                 return true;

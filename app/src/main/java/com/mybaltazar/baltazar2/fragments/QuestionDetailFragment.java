@@ -79,7 +79,7 @@ public class QuestionDetailFragment extends BaseFragment
 
     private void loadUI(Question item)
     {
-        CommonData commonData = BaseActivity.loadCache(getContext(), BaseActivity.PREF_COMMON, CommonData.class);
+        CommonData commonData = ((BaseActivity)getActivity()).loadCommonData(false, null);
         lblUserName.setText(item.userName);
         layoutGradeLesson.setVisibility(item.fromBaltazar ? View.GONE : View.VISIBLE);
         if (item.courseId == null)

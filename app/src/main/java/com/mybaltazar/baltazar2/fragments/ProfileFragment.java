@@ -60,8 +60,9 @@ public class ProfileFragment extends BaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_profile, container, false);
         ButterKnife.bind(this, root);
-        Student profile = BaseActivity.loadCache(getContext(), BaseActivity.PREF_PROFILE, Student.class);
-        CommonData commonData = BaseActivity.loadCache(getContext(), BaseActivity.PREF_COMMON, CommonData.class);
+        BaseActivity activity = (BaseActivity)getActivity();
+        Student profile = activity.getProfile();
+        CommonData commonData = activity.loadCommonData(false, null);
         loadUI(commonData, profile);
         return  root;
     }
@@ -159,8 +160,9 @@ public class ProfileFragment extends BaseFragment
                 DataResponse<Student> resp = response.body();
                 if(resp != null && resp.data != null)
                 {
-                    BaseActivity.cacheItem(getContext(), resp.data, BaseActivity.PREF_PROFILE);
-                    CommonData commonData = BaseActivity.loadCache(getContext(), BaseActivity.PREF_COMMON, CommonData.class);
+                    BaseActivity activity = (BaseActivity)getActivity();
+                    activity.setProfile(resp.data);
+                    CommonData commonData = activity.loadCommonData(false, null);
                     loadUI(commonData, resp.data);
                 }
             }

@@ -122,6 +122,8 @@
     <string name="value_incorrect">مقدار صحیح نیست!</string>
     <string name="boy">پسر</string>
     <string name="girl">دختر</string>
+    <string name="sure_to_delete_question">آیا برای حذف سوال خود مطمئن هستید؟</string>
+    <string name="yes">بلی</string>
 
     <string-array name="grades">
         <item>اول</item>

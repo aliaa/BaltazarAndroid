@@ -55,7 +55,7 @@ public class NewQuestionFragment extends BaseFragment
     @BindView(R.id.spinnerGrade)        Spinner spinnerGrade;
     @BindView(R.id.spinnerStudyField)   Spinner spinnerStudyField;
     @BindView(R.id.spinnerCourse)       Spinner spinnerCourse;
-    @BindView(R.id.spinnerSection)      Spinner spinnerSection;
+//    @BindView(R.id.spinnerSection)      Spinner spinnerSection;
     @BindView(R.id.img)                 ImageView img;
 
     @NotEmpty(messageId = R.string.is_empty)
@@ -135,20 +135,20 @@ public class NewQuestionFragment extends BaseFragment
                 courses.add(c);
         }
         setSpinnerAdapter(spinnerCourse, courses);
-        setSectionsSpinnerAdapter(allSections);
+//        setSectionsSpinnerAdapter(allSections);
     }
 
-    private void setSectionsSpinnerAdapter(List<CourseSection> allSections)
-    {
-        Course course = (Course) spinnerCourse.getSelectedItem();
-        List<CourseSection> sections = new ArrayList<>();
-        for(CourseSection s : allSections) {
-            if(s.courseId.equals(course.id))
-                sections.add(s);
-        }
-        spinnerSection.setVisibility(sections.size() > 0 ? View.VISIBLE : View.GONE);
-        setSpinnerAdapter(spinnerSection, sections);
-    }
+//    private void setSectionsSpinnerAdapter(List<CourseSection> allSections)
+//    {
+//        Course course = (Course) spinnerCourse.getSelectedItem();
+//        List<CourseSection> sections = new ArrayList<>();
+//        for(CourseSection s : allSections) {
+//            if(s.courseId.equals(course.id))
+//                sections.add(s);
+//        }
+//        spinnerSection.setVisibility(sections.size() > 0 ? View.VISIBLE : View.GONE);
+//        setSpinnerAdapter(spinnerSection, sections);
+//    }
 
     private <T> void setSpinnerAdapter(Spinner spinner, List<T> list)
     {
@@ -208,9 +208,9 @@ public class NewQuestionFragment extends BaseFragment
         final Question question = new Question();
         question.grade = spinnerGrade.getSelectedItemPosition()+1;
         question.courseId = ((Course)spinnerCourse.getSelectedItem()).id;
-        CourseSection section = (CourseSection)spinnerSection.getSelectedItem();
-        if(section != null)
-            question.sectionId = section.id;
+//        CourseSection section = (CourseSection)spinnerSection.getSelectedItem();
+//        if(section != null)
+//            question.sectionId = section.id;
         question.text = txtDescription.getText().toString();
 
         Call<DataResponse<Question>> call = activity.createWebService(Services.class).publishQuestion(BaseActivity.getToken(), question);

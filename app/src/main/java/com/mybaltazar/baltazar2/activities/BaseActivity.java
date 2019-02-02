@@ -21,6 +21,8 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mybaltazar.baltazar2.R;
+import com.mybaltazar.baltazar2.events.CoinChangedEvent;
+import com.mybaltazar.baltazar2.models.Student;
 import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
@@ -28,6 +30,8 @@ import com.mybaltazar.baltazar2.webservices.Services;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -53,10 +57,10 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected final int layoutId;
     protected final boolean liveValidation;
 
-    public final static String PREF_TOKEN = "token";
-    public final static String PREF_COIN = "coin";
-    public final static String PREF_COMMON = "common";
-    public final static String PREF_PROFILE = "profile";
+    private final static String PREF_TOKEN = "token";
+    private final static String PREF_COIN = "coin";
+    private final static String PREF_COMMON = "common";
+    private final static String PREF_PROFILE = "profile";
 
     public BaseActivity(int layoutId, boolean liveValidation) {
         this.layoutId = layoutId;
@@ -131,11 +135,11 @@ public abstract class BaseActivity extends AppCompatActivity {
         return new Gson().fromJson(json, type);
     }
 
-    protected <T> void cacheItem(T item, String name) {
+    public  <T> void cacheItem(T item, String name) {
         cacheItem(this, item, name);
     }
 
-    protected <T> T loadCache(String name, Type type) {
+    public <T> T loadCache(String name, Type type) {
         return loadCache(this, name, type);
     }
 
@@ -226,8 +230,20 @@ public abstract class BaseActivity extends AppCompatActivity {
         return PrefHelper.getIntVal(PREF_COIN, 0);
     }
 
-    public static void setCoinCount(int val) {
+    private static void setCoinCount(int val) {
         PrefHelper.setVal(PREF_COIN, val);
+        EventBus.getDefault().post(new CoinChangedEvent(val));
+    }
+
+    public void setProfile(Student profile)
+    {
+        cacheItem(profile, PREF_PROFILE);
+        setCoinCount(profile.coins);
+    }
+
+    public Student getProfile()
+    {
+        return loadCache(PREF_PROFILE, Student.class);
     }
 
     public ProgressDialog showProgress() {
@@ -244,15 +260,22 @@ public abstract class BaseActivity extends AppCompatActivity {
         return progress;
     }
 
-    public void loadCommonData(boolean forceNetwork, final DataListener<CommonData> callback) {
-        if (forceNetwork)
+    private static CommonData commonDataCache = null;
+
+    public CommonData loadCommonData(boolean forceNetwork, final DataListener<CommonData> callback) {
+        if (forceNetwork) {
             loadCommonDataFromNetwork(callback);
+            return null;
+        }
         else {
-            CommonData data = loadCache(PREF_COMMON, CommonData.class);
-            if (data == null)
-                loadCommonDataFromNetwork(callback);
-            else if (callback != null)
-                callback.onCallBack(data);
+            if(commonDataCache == null) {
+                commonDataCache = loadCache(PREF_COMMON, CommonData.class);
+                if (commonDataCache == null)
+                    loadCommonDataFromNetwork(callback);
+            }
+            if (callback != null && commonDataCache != null)
+                callback.onCallBack(commonDataCache);
+            return commonDataCache;
         }
     }
 
@@ -303,10 +326,10 @@ public abstract class BaseActivity extends AppCompatActivity {
                     return;
                 }
                 if(resp.data != null) {
+                    commonDataCache = resp.data;
                     cacheItem(resp.data, PREF_COMMON);
                     if(resp.data.me != null) {
-                        cacheItem(resp.data.me, PREF_PROFILE);
-                        setCoinCount(resp.data.me.coins);
+                        setProfile(resp.data.me);
                     }
                     if(callback != null)
                         callback.onCallBack(resp.data);
@@ -323,6 +346,8 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     public void setupSwipe(SwipeRefreshLayout swipe)
     {

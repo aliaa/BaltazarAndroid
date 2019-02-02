@@ -85,7 +85,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         spinnerGrade = content.findViewById(R.id.spinnerGrade);
         spinnerStudyField = content.findViewById(R.id.spinnerStudyField);
         spinnerCourse = content.findViewById(R.id.spinnerCourse);
-        final CommonData commonData = BaseActivity.loadCache(getContext(), BaseActivity.PREF_COMMON, CommonData.class);
+        final CommonData commonData = ((BaseActivity)getActivity()).loadCommonData(false, null);
 
         List<String> gradesList = new ArrayList<>(13);
         gradesList.add(getString(R.string.all));
@@ -191,7 +191,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
                         Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
                     else
                     {
-                        CommonData commonData = BaseActivity.loadCache(activity, BaseActivity.PREF_COMMON, CommonData.class);
+                        CommonData commonData = activity.loadCommonData(false, null);
                         adapter = new QuestionsAdapter(activity, resp.data, commonData.getCoursesMap());
                         adapter.setOnItemClickListener(QAFragment.this);
                         recycler.setAdapter(adapter);

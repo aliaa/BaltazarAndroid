@@ -92,7 +92,7 @@ public class AdditionalProfileActivity extends BaseActivity
         loadCommonData(false, new DataListener<CommonData>() {
             @Override
             public void onCallBack(CommonData data) {
-                profile = loadCache(BaseActivity.PREF_PROFILE, Student.class);
+                profile = getProfile();
                 commonData = data;
                 loadUI();
                 progress.dismiss();
@@ -223,8 +223,8 @@ public class AdditionalProfileActivity extends BaseActivity
                     Toast.makeText(AdditionalProfileActivity.this, resp.message, Toast.LENGTH_LONG).show();
                 if(resp.data != null)
                 {
-                    cacheItem(resp.data, BaseActivity.PREF_PROFILE);
                     profile = resp.data;
+                    setProfile(resp.data);
                 }
                 if(resp.success)
                     finish();
