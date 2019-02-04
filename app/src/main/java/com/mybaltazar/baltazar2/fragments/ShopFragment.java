@@ -2,8 +2,10 @@ package com.mybaltazar.baltazar2.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -131,14 +133,33 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     }
 
     @Override
-    public void onItemClick(final ShopItem item) {
+    public void onItemClick(final ShopItem item)
+    {
         if (BaseActivity.getCoinCount() < item.coinCost) {
-            Toast.makeText(getContext(), "تعداد سکه شما برای خرید کافی نیست!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), R.string.not_enough_coins, Toast.LENGTH_SHORT).show();
             return;
         }
         final BaseActivity activity = (BaseActivity)getActivity();
         if(activity == null)
             return;
+
+        new AlertDialog.Builder(getContext())
+                .setMessage(R.string.sure_to_buy)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callBuy(item);
+                    }
+                })
+                .create().show();
+
+
+    }
+
+    private void callBuy(final ShopItem item)
+    {
+        final BaseActivity activity = (BaseActivity)getActivity();
         final ProgressDialog progress = activity.showProgress();
         Call<CommonResponse> call = activity.createWebService(Services.class).addOrder(BaseActivity.getToken(), item.id);
         call.enqueue(new RetryableCallback<CommonResponse>(call) {
@@ -160,16 +181,7 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     {
                         lblCoinCount.setText(String.valueOf(BaseActivity.getCoinCount() - item.coinCost));
                         Toast.makeText(getContext(), R.string.order_done, Toast.LENGTH_LONG).show();
-                        activity.loadCommonData(true, new DataListener<CommonData>() {
-                            @Override
-                            public void onCallBack(CommonData data) {
-                                if(data.me != null)
-                                    lblCoinCount.setText(String.valueOf(data.me.coins));
-                            }
-
-                            @Override
-                            public void onFailure() { }
-                        });
+                        activity.loadCommonData(true, null);
                     }
                 }
                 else

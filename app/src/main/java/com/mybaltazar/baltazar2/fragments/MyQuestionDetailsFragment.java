@@ -1,7 +1,9 @@
 package com.mybaltazar.baltazar2.fragments;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +94,34 @@ public class MyQuestionDetailsFragment extends BaseFragment
 
     private void sendResponse(final Answer.QuestionerResponseEnum questionerResponse)
     {
+        int msgId;
+        switch (questionerResponse) {
+            case Accepted:
+                msgId = R.string.sure_to_approve_answer;
+                break;
+            case Rejected:
+                msgId = R.string.sure_to_reject_answer;
+                break;
+            case Reported:
+                msgId = R.string.sure_to_report_answer;
+                break;
+            default:
+                return;
+        }
+        new AlertDialog.Builder(getContext())
+                .setMessage(msgId)
+                .setNegativeButton(R.string.cancel, null)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callResponse(questionerResponse);
+                    }
+                })
+                .create().show();
+    }
+
+    private void callResponse(final Answer.QuestionerResponseEnum questionerResponse)
+    {
         BaseActivity activity = (BaseActivity)getActivity();
         final ProgressDialog progress = activity.showProgress();
         Call<CommonResponse> call = activity.createWebService(Services.class).setAnswerResponse(
@@ -134,4 +164,6 @@ public class MyQuestionDetailsFragment extends BaseFragment
             }
         });
     }
+
+
 }

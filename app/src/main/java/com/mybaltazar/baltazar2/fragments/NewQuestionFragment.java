@@ -129,11 +129,19 @@ public class NewQuestionFragment extends BaseFragment
     {
         int grade = spinnerGrade.getSelectedItemPosition()+1;
         StudyField studyField = (StudyField) spinnerStudyField.getSelectedItem();
+        String otherCourses = getString(R.string.other_courses);
+        Course other = null;
         List<Course> courses = new ArrayList<>();
         for(Course c : allCourses) {
-            if(grade == c.grade && (grade < 10 || studyField.id.equals(c.studyFieldId)))
-                courses.add(c);
+            if(grade == c.grade && (grade < 10 || studyField.id.equals(c.studyFieldId))) {
+                if(c.name.equals(otherCourses))
+                    other = c;
+                else
+                    courses.add(c);
+            }
         }
+        if(other != null)
+            courses.add(other);
         setSpinnerAdapter(spinnerCourse, courses);
 //        setSectionsSpinnerAdapter(allSections);
     }
@@ -271,10 +279,14 @@ public class NewQuestionFragment extends BaseFragment
     }
 
     private void done() {
+        if(imageFile != null) {
+            imageFile.delete();
+            imageFile = null;
+        }
         Toast.makeText(getContext(), R.string.sendSuccess, Toast.LENGTH_SHORT).show();
         Toast.makeText(getContext(), R.string.questionWillShowAfterConfirm, Toast.LENGTH_LONG).show();
-        getActivity().onBackPressed();
         txtDescription.setText("");
+        getActivity().onBackPressed();
         ((BaseActivity)getActivity()).loadCommonData(true, null);
     }
 }
