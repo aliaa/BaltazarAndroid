@@ -131,6 +131,7 @@
     <string name="sure_to_approve_answer">آیا برای تائید این جواب مطمئن هستید؟</string>
     <string name="sure_to_reject_answer">آیا برای رد این جواب مطمئن هستید؟</string>
     <string name="sure_to_report_answer">آیا برای گزارش این جواب مطمئن هستید؟</string>
+    <string name="invite_description">با اشتراک کد زیر با دوستان و همکلاسی های خود،\n5 سکه به آنها هدیه دهید و پس از ثبت نام آنها،\nشما نیز 5 سکه دریافت خواهید کرد.</string>
 
     <string-array name="grades">
         <item>اول</item>
