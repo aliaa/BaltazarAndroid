@@ -132,6 +132,12 @@
     <string name="sure_to_reject_answer">آیا برای رد این جواب مطمئن هستید؟</string>
     <string name="sure_to_report_answer">آیا برای گزارش این جواب مطمئن هستید؟</string>
     <string name="invite_description">با اشتراک کد زیر با دوستان و همکلاسی های خود،\n5 سکه به آنها هدیه دهید و پس از ثبت نام آنها،\nشما نیز 5 سکه دریافت خواهید کرد.</string>
+    <string name="invitation_copied">کد معرفی کپی شد</string>
+    <string name="invitation_share_message">"با وارد کردن کد معرف زیر در هنگام ثبت نام 5 سکه هدیه دریافت کنید.\nاپلیکیشن بالتازار سیستمی برای حل سوالات و مشکلات درسی شماست.\nاپلیشکیشن بالتازار را میتوانید از http://mybaltazar.com دانلود نمائید.\nکد معرفی: "</string>
+    <string name="invite_email_subject">کد دعوت بالتازار</string>
+    <string name="send_email">ارسال ایمیل</string>
+    <string name="telegram_not_installed">برنامه تلگرام نصب نشده است!</string>
+    <string name="share_using">ارسال با…</string>
 
     <string-array name="grades">
         <item>اول</item>

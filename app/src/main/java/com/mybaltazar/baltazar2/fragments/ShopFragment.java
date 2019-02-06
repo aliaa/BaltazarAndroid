@@ -21,6 +21,7 @@ import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.adapters.ShopItemsAdapter;
 import com.mybaltazar.baltazar2.events.CoinChangedEvent;
 import com.mybaltazar.baltazar2.models.ShopItem;
+import com.mybaltazar.baltazar2.models.Student;
 import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.mybaltazar.baltazar2.webservices.CommonResponse;
@@ -37,6 +38,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, OnItemClickListener<ShopItem> {
@@ -181,11 +183,29 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                     {
                         lblCoinCount.setText(String.valueOf(BaseActivity.getCoinCount() - item.coinCost));
                         Toast.makeText(getContext(), R.string.order_done, Toast.LENGTH_LONG).show();
-                        activity.loadCommonData(true, null);
+                        reloadProfile();
                     }
                 }
                 else
                     onFinalFailure(call, null);
+            }
+        });
+    }
+
+    private void reloadProfile()
+    {
+        Call<DataResponse<Student>> call = ((BaseActivity)getActivity()).createWebService(Services.class).getProfile(BaseActivity.getToken());
+        call.enqueue(new Callback<DataResponse<Student>>() {
+            @Override
+            public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
+                DataResponse<Student> resp = response.body();
+                if(resp != null && resp.data != null)
+                    ((BaseActivity)getActivity()).setProfile(resp.data);
+            }
+
+            @Override
+            public void onFailure(Call<DataResponse<Student>> call, Throwable t) {
+                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
             }
         });
     }

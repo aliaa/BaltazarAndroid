@@ -1,19 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.InviteFriendsActivity"
     android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:layout_margin="24dp">
+    android:gravity="center_horizontal">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/invite_description"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:layout_margin="24dp"/>
 
     <Button
         android:id="@+id/btnInviteCode"
@@ -23,12 +22,45 @@
         android:padding="4dp"
         android:layout_margin="24dp"/>
 
+
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layoutDirection="rtl">
+        android:layoutDirection="ltr"
+        android:layout_margin="12dp">
 
+        <ImageView
+            android:id="@+id/btnShareBySMS"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_share_messages"
+            android:layout_margin="4dp"/>
+
+        <ImageView
+            android:id="@+id/btnShareByEmail"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_share_email"
+            android:layout_margin="4dp"/>
+
+        <ImageView
+            android:id="@+id/btnShareByTelegram"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_share_telegram"
+            android:layout_margin="4dp"/>
+
+        <ImageView
+            android:id="@+id/btnShareGeneral"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@drawable/ic_share_general"
+            android:layout_margin="4dp"/>
 
     </LinearLayout>
 </LinearLayout>

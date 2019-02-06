@@ -46,6 +46,9 @@ public interface Services
     @GET("Student/Scores")
     Call<DataResponse<ScoresData>> getScores(@Header("token") String token);
 
+    @GET("Student/Me")
+    Call<DataResponse<Student>> getProfile(@Header("token") String token);
+
     @GET("Student/MyCoinTransactions")
     Call<DataResponse<List<CoinTransaction>>> myCoinTransactions(@Header("token") String token);
 
