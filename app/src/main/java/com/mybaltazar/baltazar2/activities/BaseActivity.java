@@ -42,6 +42,7 @@ import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.ButterKnife;
+import co.ronash.pushe.Pushe;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 import khangtran.preferenceshelper.PrefHelper;
@@ -299,8 +300,14 @@ public abstract class BaseActivity extends AppCompatActivity {
         }
         catch (Exception ignored) { }
 
+        String pusheId = null;
+        try {
+            pusheId = Pushe.getPusheId(BaseActivity.this);
+        }
+        catch (Throwable ignored){}
+
         Call<DataResponse<CommonData>> call = createWebService(Services.class).getCommonData(getToken(),
-                appVersion, Build.VERSION.SDK_INT, uuid);
+                appVersion, Build.VERSION.SDK_INT, uuid, pusheId);
         call.enqueue(new retrofit2.Callback<DataResponse<CommonData>>()
         {
             @Override

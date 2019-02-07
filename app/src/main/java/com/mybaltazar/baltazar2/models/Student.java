@@ -24,4 +24,5 @@ public class Student extends BaseEntity
     public String invitationCode;
     public String invitedFromCode;
     public String birthDate;
+    public String pusheId;
 }

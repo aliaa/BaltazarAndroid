@@ -29,7 +29,8 @@ public interface Services
     Call<DataResponse<CommonData>> getCommonData(@Header("token") String token,
                                                  @Query("appVersion") int appVersion,
                                                  @Query("androidVersion") int androidVersion,
-                                                 @Query("uuid") String uuid);
+                                                 @Query("uuid") String uuid,
+                                                 @Query("pusheId") String pusheId);
 
     @POST("Student/Register")
     Call<DataResponse<Student>> registerStudent(@Body Student student);
