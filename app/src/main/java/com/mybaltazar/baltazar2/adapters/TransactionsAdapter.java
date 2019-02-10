@@ -46,7 +46,10 @@ public class TransactionsAdapter extends BaseRecyclerViewAdapter<TransactionItem
         if(activity == null)
             return;
         vh.lblDate.setText(StringUtils.getPersianDateString(item.date));
-        vh.lblAmount.setText(String.valueOf(item.amount));
+        String amountStr = String.valueOf(item.amount);
+        if(item.amount > 0)
+            amountStr = "+"+amountStr;
+        vh.lblAmount.setText(amountStr);
         vh.lblAmount.setTextColor(activity.getResources().getColor(item.amount > 0 ? R.color.green : R.color.red));
         int typeStrId;
         switch (item.type)

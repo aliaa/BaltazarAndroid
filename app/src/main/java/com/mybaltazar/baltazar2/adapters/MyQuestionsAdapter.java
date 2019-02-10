@@ -122,6 +122,7 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
             String url = activity.getImageUrlById(item.id);
             BaseActivity.loadImage(url, vh.imgQuestionImage);
         }
+        vh.imgQuestionImage.setVisibility(item.hasImage ? View.VISIBLE : View.GONE);
 
         vh.btnDelete.setVisibility(item.publishStatus == BaseUserContent.PublishStatusEnum.WaitForApprove ? View.VISIBLE : View.INVISIBLE);
         vh.btnDelete.setTag(item);

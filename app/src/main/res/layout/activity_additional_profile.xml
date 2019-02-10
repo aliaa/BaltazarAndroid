@@ -15,6 +15,16 @@
         android:layout_gravity="center_horizontal">
 
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:text="@string/additional_profile_info"
+            android:layout_gravity="center"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/birthdate"

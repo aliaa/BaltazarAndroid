@@ -24,6 +24,7 @@ import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.models.Course;
 import com.mybaltazar.baltazar2.models.CourseSection;
 import com.mybaltazar.baltazar2.models.Question;
+import com.mybaltazar.baltazar2.models.Student;
 import com.mybaltazar.baltazar2.models.StudyField;
 import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
@@ -86,7 +87,8 @@ public class NewQuestionFragment extends BaseFragment
             @Override
             public void onCallBack(CommonData data) {
                 progress.dismiss();
-                loadSpinners(data);
+                Student profile = activity.getProfile();
+                loadSpinners(data, profile);
             }
 
             @Override
@@ -97,11 +99,10 @@ public class NewQuestionFragment extends BaseFragment
         });
     }
 
-    private void loadSpinners(final CommonData data)
+    private void loadSpinners(final CommonData data, Student profile)
     {
         spinnerGrade.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item,
                 getResources().getStringArray(R.array.grades)));
-
         spinnerGrade.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -112,6 +113,7 @@ public class NewQuestionFragment extends BaseFragment
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+        spinnerGrade.setSelection(profile.grade-1);
 
         setSpinnerAdapter(spinnerStudyField, data.studyFields);
         spinnerStudyField.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -123,6 +125,16 @@ public class NewQuestionFragment extends BaseFragment
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+        int studyFieldPos = 0;
+        for (int i=0; i< data.studyFields.size(); i++)
+        {
+            if(profile.studyFieldId.equals(data.studyFields.get(i).id))
+            {
+                studyFieldPos = i;
+                break;
+            }
+        }
+        spinnerStudyField.setSelection(studyFieldPos);
     }
 
     private void setCoursesSpinnerAdapter(List<Course> allCourses, final List<CourseSection> allSections)
@@ -235,8 +247,10 @@ public class NewQuestionFragment extends BaseFragment
                 DataResponse<Question> resp = response.body();
                 if(resp == null)
                     onFinalFailure(call, new Exception("null body!"));
-                else if(!resp.success && resp.message != null)
+                else if(!resp.success && resp.message != null) {
+                    progress.dismiss();
                     Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
+                }
                 else if(imageFile == null) {
                     progress.dismiss();
                     done();
