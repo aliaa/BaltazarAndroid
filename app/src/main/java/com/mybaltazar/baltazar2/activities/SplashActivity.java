@@ -7,21 +7,13 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.Settings;
-import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
-import com.mybaltazar.baltazar2.webservices.DataResponse;
-import com.mybaltazar.baltazar2.webservices.Services;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
-public class SplashActivity extends BaseActivity implements Runnable
+public class SplashActivity extends BaseActivity
 {
     static final int DELAY_MILLIS = 1000;
 
@@ -44,7 +36,7 @@ public class SplashActivity extends BaseActivity implements Runnable
         if(isConnected) {
             loadCommonData(true, new DataListener<CommonData>(this) {
                 @Override
-                public void onCallBack(CommonData data) {
+                public void onCallBack(final CommonData data) {
                     if (data.upgrade != null) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(SplashActivity.this)
                                 .setTitle(R.string.upgrade)
@@ -61,18 +53,21 @@ public class SplashActivity extends BaseActivity implements Runnable
                             builder.setPositiveButton(R.string.continue_app, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    run();
+                                    openMainActivity(data.notification);
                                 }
                             });
                         }
                         builder.create().show();
-                    } else
-                        run();
+                    }
+                    else if(getToken() == null)
+                        openLoginActivity();
+                    else
+                        openMainActivity(data.notification);
                 }
 
                 @Override
                 public void onFailure() {
-                    run();
+                    openLoginActivity();
                 }
             });
         }
@@ -85,6 +80,7 @@ public class SplashActivity extends BaseActivity implements Runnable
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                            finish();
                         }
                     })
                     .setNegativeButton(R.string.mobile_data_settings, new DialogInterface.OnClickListener() {
@@ -93,6 +89,7 @@ public class SplashActivity extends BaseActivity implements Runnable
                             Intent intent = new Intent(Intent.ACTION_MAIN);
                             intent.setClassName("com.android.phone", "com.android.phone.NetworkSetting");
                             startActivity(intent);
+                            finish();
                         }
                     })
                     .setNeutralButton(R.string.exit, new DialogInterface.OnClickListener() {
@@ -106,17 +103,22 @@ public class SplashActivity extends BaseActivity implements Runnable
         }
     }
 
-    private void runDelayed() {
-        Handler handler = new Handler();
-        handler.postDelayed(this, DELAY_MILLIS);
+    private void openMainActivity(CommonData.Notifications notification)
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        if(notification != null)
+        {
+            intent.putExtra(MainActivity.NEW_BLOGS, notification.newBlogs);
+            intent.putExtra(MainActivity.NEW_ANSWERS, notification.newAnswers);
+            intent.putExtra(MainActivity.NEW_SHOPS, notification.newShops);
+        }
+        startActivity(intent);
+        finish();
     }
 
-    @Override
-    public void run() {
-        if(getToken() == null)
-            startActivity(new Intent(this, LoginActivity.class));
-        else
-            startActivity(new Intent(this, MainActivity.class));
+    private void openLoginActivity()
+    {
+        startActivity(new Intent(SplashActivity.this, LoginActivity.class));
         finish();
     }
 }

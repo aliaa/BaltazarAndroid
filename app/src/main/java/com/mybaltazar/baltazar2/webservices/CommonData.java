@@ -15,8 +15,16 @@ public class CommonData implements Serializable
         public boolean forceUpgrade;
     }
 
+    public class Notifications
+    {
+        public int newBlogs;
+        public int newAnswers;
+        public int newShops;
+    }
+
     public UpgradeData upgrade;
     public Student me;
+    public Notifications notification;
     public List<Province> provinces;
     public List<City> cities;
     public List<Course> courses;

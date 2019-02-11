@@ -7,10 +7,15 @@
         android:icon="@drawable/ic_filter"
         android:title="@string/filter"/>
 
-    <item android:id="@+id/menu_item_my_questions"
+    <!--<item android:id="@+id/menu_item_my_questions"-->
+        <!--app:showAsAction="always"-->
+        <!--android:icon="@drawable/ic_inbox"-->
+        <!--android:title="@string/my_questions"/>-->
+
+    <item android:id="@+id/menu_item_profile"
         app:showAsAction="always"
-        android:icon="@drawable/ic_inbox"
-        android:title="@string/my_questions"/>
+        android:icon="@drawable/ic_profile"
+        android:title="@string/profile" />
 
     <item android:id="@+id/menu_item_logout"
         app:showAsAction="never"
