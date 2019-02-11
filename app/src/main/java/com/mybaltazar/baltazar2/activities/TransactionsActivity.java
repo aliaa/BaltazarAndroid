@@ -56,26 +56,12 @@ public class TransactionsActivity extends BaseActivity implements SwipeRefreshLa
     {
         swipe.setRefreshing(true);
         Call<DataResponse<List<CoinTransaction>>> call = createWebService(Services.class).myCoinTransactions(getToken());
-        call.enqueue(new RetryableCallback<DataResponse<List<CoinTransaction>>>(call)
+        call.enqueue(new RetryableCallback<DataResponse<List<CoinTransaction>>>(this, swipe)
         {
             @Override
-            public void onFinalFailure(Call<DataResponse<List<CoinTransaction>>> call, Throwable t) {
-                Toast.makeText(TransactionsActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(Call<DataResponse<List<CoinTransaction>>> call, Response<DataResponse<List<CoinTransaction>>> response) {
-                swipe.setRefreshing(false);
-                DataResponse<List<CoinTransaction>> resp = response.body();
-                if(resp != null && resp.data != null)
-                {
-                    TransactionsAdapter adapter = new TransactionsAdapter(TransactionsActivity.this, resp.data);
-                    recycler.setAdapter(adapter);
-                }
-                else if (resp != null && resp.message != null)
-                    Toast.makeText(TransactionsActivity.this, resp.message, Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(TransactionsActivity.this, R.string.server_problem, Toast.LENGTH_SHORT).show();
+            public void onFinalSuccess(DataResponse<List<CoinTransaction>> response) {
+                TransactionsAdapter adapter = new TransactionsAdapter(TransactionsActivity.this, response.data);
+                recycler.setAdapter(adapter);
             }
         });
     }

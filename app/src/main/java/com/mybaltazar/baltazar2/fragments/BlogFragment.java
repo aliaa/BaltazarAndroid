@@ -68,28 +68,13 @@ public class BlogFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             swipe.setRefreshing(true);
             final BaseActivity activity = (BaseActivity) getActivity();
             Call<DataResponse<List<Blog>>> call = activity.createWebService(Services.class).blogList();
-            call.enqueue(new RetryableCallback<DataResponse<List<Blog>>>(call) {
+            call.enqueue(new RetryableCallback<DataResponse<List<Blog>>>(activity, swipe)
+            {
                 @Override
-                public void onResponse(Call<DataResponse<List<Blog>>> call, Response<DataResponse<List<Blog>>> response) {
-                    swipe.setRefreshing(false);
-                    DataResponse<List<Blog>> resp = response.body();
-                    if (resp != null && resp.data != null)
-                    {
-                        adapter = new BlogAdapter(activity, resp.data);
-                        recycler.setAdapter(adapter);
-                        lastUpdated = System.currentTimeMillis();
-                    }
-                    else if (resp != null && resp.message != null)
-                        Toast.makeText(activity, resp.message, Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(activity, R.string.server_problem, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFinalFailure(Call<DataResponse<List<Blog>>> call, Throwable t) {
-                    swipe.setRefreshing(false);
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.e(BlogFragment.class.getName(), t.getMessage());
+                public void onFinalSuccess(DataResponse<List<Blog>> response) {
+                    adapter = new BlogAdapter(activity, response.data);
+                    recycler.setAdapter(adapter);
+                    lastUpdated = System.currentTimeMillis();
                 }
             });
         }

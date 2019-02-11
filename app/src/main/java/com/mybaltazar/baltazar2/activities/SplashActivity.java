@@ -42,7 +42,7 @@ public class SplashActivity extends BaseActivity implements Runnable
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
         if(isConnected) {
-            loadCommonData(true, new DataListener<CommonData>() {
+            loadCommonData(true, new DataListener<CommonData>(this) {
                 @Override
                 public void onCallBack(CommonData data) {
                     if (data.upgrade != null) {

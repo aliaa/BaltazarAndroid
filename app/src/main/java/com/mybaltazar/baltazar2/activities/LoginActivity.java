@@ -45,57 +45,21 @@ public class LoginActivity extends BaseActivity
         String phone = txtMobileNum.getText().toString();
         String password = txtMelliCode.getText().toString();
         Call<DataResponse<Student>> response = createWebService(Services.class).login(phone, password);
-        response.enqueue(new RetryableCallback<DataResponse<Student>>(response) {
+        response.enqueue(new RetryableCallback<DataResponse<Student>>(this, progress)
+        {
             @Override
-            public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
-                progress.dismiss();
-                DataResponse<Student> resp = response.body();
-                switch (response.code()) {
-                    case 200:
-                    case 201:
-                        if (resp != null && resp.data != null) {
-                            setToken(resp.data.token);
-                            setProfile(resp.data);
-                            loadCommonData(true, new DataListener<CommonData>() {
-                                @Override
-                                public void onCallBack(CommonData data) {
-                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-
-                                @Override
-                                public void onFailure() {
-                                    Toast.makeText(LoginActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
-                                }
-                            });
-                        }
-                        else
-                        {
-                            if (resp == null)
-                                Toast.makeText(LoginActivity.this, R.string.server_problem, Toast.LENGTH_LONG).show();
-                            else
-                                Toast.makeText(LoginActivity.this, resp.message, Toast.LENGTH_LONG).show();
-                        }
-                        break;
-                    case 400:
-                    case 401:
-                        Toast.makeText(LoginActivity.this, R.string.wrong_credentials, Toast.LENGTH_LONG).show();
-                        break;
-                    default:
-                        if (resp == null)
-                            Toast.makeText(LoginActivity.this, R.string.server_problem, Toast.LENGTH_LONG).show();
-                        else
-                            Toast.makeText(LoginActivity.this, resp.message, Toast.LENGTH_LONG).show();
-                        break;
-                }
-            }
-
-            @Override
-            public void onFinalFailure(Call<DataResponse<Student>> call, Throwable t) {
-                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
-                progress.dismiss();
-                Log.d("error:", t.getMessage());
+            public void onFinalSuccess(DataResponse<Student> response)
+            {
+                setToken(response.data.token);
+                setProfile(response.data);
+                loadCommonData(true, new DataListener<CommonData>(LoginActivity.this) {
+                    @Override
+                    public void onCallBack(CommonData data) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
         });
 

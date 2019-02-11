@@ -149,21 +149,16 @@ public class ProfileFragment extends BaseFragment
     private void callUpdate(Student update)
     {
         Call<DataResponse<Student>> call = ((BaseActivity)getActivity()).createWebService(Services.class).updateStudent(BaseActivity.getToken(), update);
-        call.enqueue(new RetryableCallback<DataResponse<Student>>(call) {
+        call.enqueue(new RetryableCallback<DataResponse<Student>>(getContext())
+        {
             @Override
-            public void onFinalFailure(Call<DataResponse<Student>> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
-                DataResponse<Student> resp = response.body();
-                if(resp != null && resp.data != null)
-                {
-                    BaseActivity activity = (BaseActivity)getActivity();
-                    activity.setProfile(resp.data);
+            public void onFinalSuccess(DataResponse<Student> response)
+            {
+                BaseActivity activity = (BaseActivity)getActivity();
+                if(activity != null) {
+                    activity.setProfile(response.data);
                     CommonData commonData = activity.loadCommonData(false, null);
-                    loadUI(commonData, resp.data);
+                    loadUI(commonData, response.data);
                 }
             }
         });

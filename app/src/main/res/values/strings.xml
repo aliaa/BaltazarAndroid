@@ -139,6 +139,7 @@
     <string name="telegram_not_installed">برنامه تلگرام نصب نشده است!</string>
     <string name="share_using">ارسال با…</string>
     <string name="additional_profile_info">با تکمیل اطلاعات این صفحه 5 سکه جایزه بگیرید!</string>
+    <string name="message">پیام</string>
 
     <string-array name="grades">
         <item>اول</item>

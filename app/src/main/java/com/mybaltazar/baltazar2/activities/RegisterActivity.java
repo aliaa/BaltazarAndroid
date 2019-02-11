@@ -26,6 +26,7 @@ import butterknife.BindArray;
 import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.OnItemSelected;
+import co.ronash.pushe.Pushe;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.annotations.RegExp;
 import retrofit2.Call;
@@ -74,7 +75,7 @@ public class RegisterActivity extends BaseActivity
         spinnerGrade.setAdapter(new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, grades));
 
         final ProgressDialog progress = showProgress();
-        loadCommonData(false, new DataListener<CommonData>() {
+        loadCommonData(false, new DataListener<CommonData>(this) {
             @Override
             public void onCallBack(CommonData data) {
                 setUiData(data.studyFields);
@@ -82,8 +83,9 @@ public class RegisterActivity extends BaseActivity
             }
             @Override
             public void onFailure() {
-                Toast.makeText(RegisterActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
+                super.onFailure();
                 onBackPressed();
+                progress.dismiss();
             }
         });
     }
@@ -120,40 +122,27 @@ public class RegisterActivity extends BaseActivity
         student.invitedFromCode = txtInvitationCode.getText().toString().toUpperCase();
         if(student.grade >= 10)
             student.studyFieldId = ((StudyField)spinnerStudyField.getSelectedItem()).id;
+
+        try {
+            student.pusheId = Pushe.getPusheId(this);
+        }
+        catch (Throwable ignored){}
+
         Call<DataResponse<Student>> call = createWebService(Services.class).registerStudent(student);
-        call.enqueue(new RetryableCallback<DataResponse<Student>>(call)
+        call.enqueue(new RetryableCallback<DataResponse<Student>>(this, progress)
         {
             @Override
-            public void onFinalFailure(Call<DataResponse<Student>> call, Throwable t) {
-                progress.dismiss();
-                Toast.makeText(RegisterActivity.this, R.string.server_problem, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
-                progress.dismiss();
-                DataResponse<Student> resp = response.body();
-                if(resp != null && resp.data != null) {
-                    setToken(resp.data.token);
-                    setProfile(resp.data);
-                    loadCommonData(true, new DataListener<CommonData>() {
-                        @Override
-                        public void onCallBack(CommonData data) {
-                            Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        }
-
-                        @Override
-                        public void onFailure() {
-                            Toast.makeText(RegisterActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                }
-                else if(response.body() != null && response.body().message != null)
-                    Toast.makeText(RegisterActivity.this, response.body().message, Toast.LENGTH_LONG).show();
-                else
-                    Toast.makeText(RegisterActivity.this, R.string.server_problem, Toast.LENGTH_LONG).show();
+            public void onFinalSuccess(DataResponse<Student> response) {
+                setToken(response.data.token);
+                setProfile(response.data);
+                loadCommonData(true, new DataListener<CommonData>(RegisterActivity.this) {
+                    @Override
+                    public void onCallBack(CommonData data) {
+                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                });
             }
         });
     }

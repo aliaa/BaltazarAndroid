@@ -72,6 +72,8 @@ public class TransactionsAdapter extends BaseRecyclerViewAdapter<TransactionItem
             case ProfileCompletion:
                 typeStrId = R.string.additional_profile;
                 break;
+            case Register:
+                typeStrId = R.string.register;
             default:
                 return;
         }

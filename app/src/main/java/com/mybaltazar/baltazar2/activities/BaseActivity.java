@@ -327,7 +327,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 }
                 if(!resp.success)
                 {
-                    Toast.makeText(BaseActivity.this, resp.message, Toast.LENGTH_LONG).show();
+                    showOkDialog(R.string.error, resp.message);
                     if(callback != null)
                         callback.onFailure();
                     return;

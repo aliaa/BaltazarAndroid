@@ -103,48 +103,20 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
             swipe.setRefreshing(true);
             final BaseActivity activity = (BaseActivity) getActivity();
             Call<DataResponse<List<Question>>> call = activity.createWebService(Services.class).myQuestions(BaseActivity.getToken());
-            call.enqueue(new RetryableCallback<DataResponse<List<Question>>>(call) {
+            call.enqueue(new RetryableCallback<DataResponse<List<Question>>>(activity, swipe)
+            {
                 @Override
-                public void onResponse(Call<DataResponse<List<Question>>> call, Response<DataResponse<List<Question>>> response)
-                {
-                    final DataResponse<List<Question>> resp = response.body();
-                    if (resp != null && resp.data != null)
-                    {
-                        activity.loadCommonData(false, new DataListener<CommonData>() {
-                            @Override
-                            public void onCallBack(CommonData commonData)
-                            {
-                                swipe.setRefreshing(false);
-                                adapter = new MyQuestionsAdapter(activity, resp.data, commonData.getCoursesMap());
+                public void onFinalSuccess(final DataResponse<List<Question>> response) {
+                    activity.loadCommonData(false, new DataListener<CommonData>(activity) {
+                        @Override
+                        public void onCallBack(CommonData commonData)
+                        {
+                            adapter = new MyQuestionsAdapter(activity, response.data, commonData.getCoursesMap());
 //                              adapter.setOnItemClickListener(MyQuestionsFragment.this);
-                                recycler.setAdapter(adapter);
-                                lastUpdated = System.currentTimeMillis();
-                            }
-
-                            @Override
-                            public void onFailure()
-                            {
-                                swipe.setRefreshing(false);
-                                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
-                            }
-                        });
-
-                    }
-                    else if (resp != null && resp.message != null) {
-                        Toast.makeText(activity, resp.message, Toast.LENGTH_SHORT).show();
-                        swipe.setRefreshing(false);
-                    }
-                    else {
-                        Toast.makeText(activity, R.string.server_problem, Toast.LENGTH_SHORT).show();
-                        swipe.setRefreshing(false);
-                    }
-                }
-
-                @Override
-                public void onFinalFailure(Call<DataResponse<List<Question>>> call, Throwable t) {
-                    swipe.setRefreshing(false);
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.e(MyQuestionsFragment.class.getName(), t.getMessage());
+                            recycler.setAdapter(adapter);
+                            lastUpdated = System.currentTimeMillis();
+                        }
+                    });
                 }
             });
         }
@@ -172,24 +144,11 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
                     public void onClick(DialogInterface dialog, int which)
                     {
                         Call<CommonResponse> call = ((BaseActivity)getActivity()).createWebService(Services.class).deleteQuestion(BaseActivity.getToken(), event.item.id);
-                        call.enqueue(new RetryableCallback<CommonResponse>(call)
+                        call.enqueue(new RetryableCallback<CommonResponse>(getActivity())
                         {
                             @Override
-                            public void onFinalFailure(Call<CommonResponse> call, Throwable t) {
-                                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
-                            }
-
-                            @Override
-                            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
-                                CommonResponse resp = response.body();
-                                if(resp == null) {
-                                    onFinalFailure(call, null);
-                                    return;
-                                }
-                                if(resp.message != null)
-                                    Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
-                                if(resp.success)
-                                    loadList(true);
+                            public void onFinalSuccess(CommonResponse response) {
+                                loadList(true);
                             }
                         });
                     }

@@ -89,7 +89,7 @@ public class AdditionalProfileActivity extends BaseActivity
         super.onStart();
 
         final ProgressDialog progress = showProgress();
-        loadCommonData(false, new DataListener<CommonData>() {
+        loadCommonData(false, new DataListener<CommonData>(this) {
             @Override
             public void onCallBack(CommonData data) {
                 profile = getProfile();
@@ -100,8 +100,8 @@ public class AdditionalProfileActivity extends BaseActivity
 
             @Override
             public void onFailure() {
+                super.onFailure();
                 progress.dismiss();
-                Toast.makeText(AdditionalProfileActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -202,32 +202,12 @@ public class AdditionalProfileActivity extends BaseActivity
         update.address = txtSchoolAddress.getText().toString();
 
         Call<DataResponse<Student>> call = createWebService(Services.class).updateStudent(getToken(), update);
-        call.enqueue(new RetryableCallback<DataResponse<Student>>(call) {
+        call.enqueue(new RetryableCallback<DataResponse<Student>>(this, progress) {
             @Override
-            public void onFinalFailure(Call<DataResponse<Student>> call, Throwable t) {
-                progress.dismiss();
-                Toast.makeText(AdditionalProfileActivity.this, R.string.no_network, Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response)
-            {
-                progress.dismiss();
-                DataResponse<Student> resp = response.body();
-                if(resp == null)
-                {
-                    onFinalFailure(call, null);
-                    return;
-                }
-                if(resp.message != null)
-                    Toast.makeText(AdditionalProfileActivity.this, resp.message, Toast.LENGTH_LONG).show();
-                if(resp.data != null)
-                {
-                    profile = resp.data;
-                    setProfile(resp.data);
-                }
-                if(resp.success)
-                    finish();
+            public void onFinalSuccess(DataResponse<Student> response) {
+                profile = response.data;
+                setProfile(response.data);
+                finish();
             }
         });
     }

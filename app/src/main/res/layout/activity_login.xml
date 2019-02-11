@@ -32,8 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/melli_code"
-        android:inputType="number"/>
+        android:text="@string/melli_code"/>
 
     <EditText
         android:id="@+id/txtMelliCode"

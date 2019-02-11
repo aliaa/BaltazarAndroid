@@ -169,34 +169,28 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
 
             Call<DataResponse<List<Question>>> call = activity.createWebService(Services.class).questionList(
                     BaseActivity.getToken(), grade, course.id, null, page);
-            call.enqueue(new RetryableCallback<DataResponse<List<Question>>>(call) {
+            call.enqueue(new RetryableCallback<DataResponse<List<Question>>>(activity, swipe)
+            {
                 @Override
-                public void onFinalFailure(Call<DataResponse<List<Question>>> call, Throwable t) {
-                    Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
-                    swipe.setRefreshing(false);
+                public void onFinalSuccess(DataResponse<List<Question>> response)
+                {
+                    CommonData commonData = activity.loadCommonData(false, null);
+                    adapter = new QuestionsAdapter(activity, response.data, commonData.getCoursesMap());
+                    adapter.setOnItemClickListener(QAFragment.this);
+                    recycler.setAdapter(adapter);
+                    lastUpdated = System.currentTimeMillis();
                 }
 
                 @Override
                 public void onResponse(Call<DataResponse<List<Question>>> call, Response<DataResponse<List<Question>>> response) {
-                    swipe.setRefreshing(false);
-                    DataResponse<List<Question>> resp = response.body();
-                    if(response.code() == 401) // unauthorized
+                    if(response.code() == 401)
                     {
+                        BaseActivity.setToken(null);
                         startActivity(new Intent(getContext(), LoginActivity.class));
                         getActivity().finish();
                     }
-                    else if(resp == null)
-                        onFinalFailure(call, new Exception("null body!"));
-                    else if(resp.data == null && resp.message != null)
-                        Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
                     else
-                    {
-                        CommonData commonData = activity.loadCommonData(false, null);
-                        adapter = new QuestionsAdapter(activity, resp.data, commonData.getCoursesMap());
-                        adapter.setOnItemClickListener(QAFragment.this);
-                        recycler.setAdapter(adapter);
-                        lastUpdated = System.currentTimeMillis();
-                    }
+                        super.onResponse(call, response);
                 }
             });
         }

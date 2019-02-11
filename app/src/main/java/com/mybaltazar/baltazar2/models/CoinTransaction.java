@@ -10,6 +10,7 @@ public class CoinTransaction
         Buy,
         InviteFriend,
         ProfileCompletion,
+        Register,
     }
 
     public int amount;

@@ -102,29 +102,15 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             if(activity == null)
                 return;
             Call<DataResponse<List<ShopItem>>> call = activity.createWebService(Services.class).listShopItems(BaseActivity.getToken());
-            call.enqueue(new RetryableCallback<DataResponse<List<ShopItem>>>(call) {
+            call.enqueue(new RetryableCallback<DataResponse<List<ShopItem>>>(activity, swipe)
+            {
                 @Override
-                public void onResponse(Call<DataResponse<List<ShopItem>>> call, Response<DataResponse<List<ShopItem>>> response) {
-                    swipe.setRefreshing(false);
-                    DataResponse<List<ShopItem>> resp = response.body();
-                    if (resp != null && resp.data != null)
-                    {
-                        adapter = new ShopItemsAdapter(activity, resp.data);
-                        adapter.setOnItemClickListener(ShopFragment.this);
-                        recycler.setAdapter(adapter);
-                        lastUpdated = System.currentTimeMillis();
-                    }
-                    else if (resp != null && resp.message != null)
-                        Toast.makeText(activity, resp.message, Toast.LENGTH_SHORT).show();
-                    else
-                        Toast.makeText(activity, R.string.server_problem, Toast.LENGTH_SHORT).show();
-                }
-
-                @Override
-                public void onFinalFailure(Call<DataResponse<List<ShopItem>>> call, Throwable t) {
-                    swipe.setRefreshing(false);
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                    Log.e(ShopFragment.class.getName(), t.getMessage());
+                public void onFinalSuccess(DataResponse<List<ShopItem>> response)
+                {
+                    adapter = new ShopItemsAdapter(activity, response.data);
+                    adapter.setOnItemClickListener(ShopFragment.this);
+                    recycler.setAdapter(adapter);
+                    lastUpdated = System.currentTimeMillis();
                 }
             });
         }
@@ -164,30 +150,13 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         final BaseActivity activity = (BaseActivity)getActivity();
         final ProgressDialog progress = activity.showProgress();
         Call<CommonResponse> call = activity.createWebService(Services.class).addOrder(BaseActivity.getToken(), item.id);
-        call.enqueue(new RetryableCallback<CommonResponse>(call) {
+        call.enqueue(new RetryableCallback<CommonResponse>(activity, progress)
+        {
             @Override
-            public void onFinalFailure(Call<CommonResponse> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
-                progress.dismiss();
-            }
-
-            @Override
-            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
-                progress.dismiss();
-                CommonResponse resp = response.body();
-                if(resp != null)
-                {
-                    if(resp.message != null)
-                        Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
-                    if(resp.success)
-                    {
-                        lblCoinCount.setText(String.valueOf(BaseActivity.getCoinCount() - item.coinCost));
-                        Toast.makeText(getContext(), R.string.order_done, Toast.LENGTH_LONG).show();
-                        reloadProfile();
-                    }
-                }
-                else
-                    onFinalFailure(call, null);
+            public void onFinalSuccess(CommonResponse response) {
+                lblCoinCount.setText(String.valueOf(BaseActivity.getCoinCount() - item.coinCost));
+                Toast.makeText(getContext(), R.string.order_done, Toast.LENGTH_LONG).show();
+                reloadProfile();
             }
         });
     }
@@ -195,17 +164,11 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
     private void reloadProfile()
     {
         Call<DataResponse<Student>> call = ((BaseActivity)getActivity()).createWebService(Services.class).getProfile(BaseActivity.getToken());
-        call.enqueue(new Callback<DataResponse<Student>>() {
+        call.enqueue(new RetryableCallback<DataResponse<Student>>(getContext())
+        {
             @Override
-            public void onResponse(Call<DataResponse<Student>> call, Response<DataResponse<Student>> response) {
-                DataResponse<Student> resp = response.body();
-                if(resp != null && resp.data != null)
-                    ((BaseActivity)getActivity()).setProfile(resp.data);
-            }
-
-            @Override
-            public void onFailure(Call<DataResponse<Student>> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
+            public void onFinalSuccess(DataResponse<Student> response) {
+                ((BaseActivity)getActivity()).setProfile(response.data);
             }
         });
     }

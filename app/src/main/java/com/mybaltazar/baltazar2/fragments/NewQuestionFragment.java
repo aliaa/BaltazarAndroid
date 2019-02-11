@@ -83,7 +83,7 @@ public class NewQuestionFragment extends BaseFragment
     {
         final BaseActivity activity = (BaseActivity)getActivity();
         final ProgressDialog progress = activity.showProgress();
-        activity.loadCommonData(false, new DataListener<CommonData>() {
+        activity.loadCommonData(false, new DataListener<CommonData>(activity) {
             @Override
             public void onCallBack(CommonData data) {
                 progress.dismiss();
@@ -234,29 +234,22 @@ public class NewQuestionFragment extends BaseFragment
         question.text = txtDescription.getText().toString();
 
         Call<DataResponse<Question>> call = activity.createWebService(Services.class).publishQuestion(BaseActivity.getToken(), question);
-        call.enqueue(new RetryableCallback<DataResponse<Question>>(call) {
+        call.enqueue(new RetryableCallback<DataResponse<Question>>(activity) {
             @Override
             public void onFinalFailure(Call<DataResponse<Question>> call, Throwable t) {
-                progress.dismiss();
-                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_LONG).show();
+                super.onFinalFailure(call, t);
                 activity.onBackPressed();
+                progress.dismiss();
             }
 
             @Override
-            public void onResponse(Call<DataResponse<Question>> call, Response<DataResponse<Question>> response) {
-                DataResponse<Question> resp = response.body();
-                if(resp == null)
-                    onFinalFailure(call, new Exception("null body!"));
-                else if(!resp.success && resp.message != null) {
-                    progress.dismiss();
-                    Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
-                }
-                else if(imageFile == null) {
+            public void onFinalSuccess(DataResponse<Question> response) {
+                if(imageFile == null) {
                     progress.dismiss();
                     done();
                 }
                 else
-                    uploadImage(progress, resp.data);
+                    uploadImage(progress, response.data);
             }
         });
     }
@@ -267,27 +260,17 @@ public class NewQuestionFragment extends BaseFragment
         Call<CommonResponse> call = activity.createWebService(Services.class).uploadQuestionImage(BaseActivity.getToken(), data.id,
                 MultipartBody.Part.createFormData("image", imageFile.getName(),
                         RequestBody.create(MediaType.parse("image/*"), imageFile)));
-        call.enqueue(new RetryableCallback<CommonResponse>(call) {
+        call.enqueue(new RetryableCallback<CommonResponse>(activity, progress) {
             @Override
             public void onFinalFailure(Call<CommonResponse> call, Throwable t)
             {
-                progress.dismiss();
-                Log.i("Upload error:", t.getMessage());
-                Toast.makeText(getContext(), R.string.server_problem, Toast.LENGTH_LONG).show();
+                super.onFinalFailure(call, t);
                 activity.onBackPressed();
             }
 
             @Override
-            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response)
-            {
-                progress.dismiss();
-                CommonResponse resp = response.body();
-                if(resp == null)
-                    onFinalFailure(call, new Exception("null body!"));
-                else if(!resp.success && resp.message != null)
-                    Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
-                else
-                    done();
+            public void onFinalSuccess(CommonResponse response) {
+                done();
             }
         });
     }

@@ -126,39 +126,26 @@ public class MyQuestionDetailsFragment extends BaseFragment
         final ProgressDialog progress = activity.showProgress();
         Call<CommonResponse> call = activity.createWebService(Services.class).setAnswerResponse(
                 BaseActivity.getToken(), question.id, answer.id, questionerResponse);
-        call.enqueue(new RetryableCallback<CommonResponse>(call) {
+        call.enqueue(new RetryableCallback<CommonResponse>(activity, progress)
+        {
             @Override
-            public void onFinalFailure(Call<CommonResponse> call, Throwable t) {
-                Toast.makeText(getContext(), R.string.no_network, Toast.LENGTH_SHORT).show();
-                progress.dismiss();
-            }
-
-            @Override
-            public void onResponse(Call<CommonResponse> call, Response<CommonResponse> response) {
-                progress.dismiss();
-                CommonResponse resp = response.body();
-                if(resp == null)
-                    onFinalFailure(call, null);
-                else if(!resp.success)
-                    Toast.makeText(getContext(), resp.message, Toast.LENGTH_LONG).show();
-                else
-                {
-                    BaseActivity activity = (BaseActivity)getActivity();
-                    if(activity != null) {
-                        switch (questionerResponse) {
-                            case Accepted:
+            public void onFinalSuccess(CommonResponse data)
+            {
+                BaseActivity activity = (BaseActivity)getActivity();
+                if(activity != null) {
+                    switch (questionerResponse) {
+                        case Accepted:
+                            activity.onBackPressed();
+                            break;
+                        default:
+                            index++;
+                            if(question.answers.size() > index)
+                            {
+                                answer = question.answers.get(index);
+                                loadUI(answer);
+                            }
+                            else
                                 activity.onBackPressed();
-                                break;
-                            default:
-                                index++;
-                                if(question.answers.size() > index)
-                                {
-                                    answer = question.answers.get(index);
-                                    loadUI(answer);
-                                }
-                                else
-                                    activity.onBackPressed();
-                        }
                     }
                 }
             }
