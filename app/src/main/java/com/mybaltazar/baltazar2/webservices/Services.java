@@ -104,5 +104,5 @@ public interface Services
     Call<DataResponse<List<ShopOrder>>> myOrders(@Header("token") String token);
 
     @GET("Blog/App")
-    Call<DataResponse<List<Blog>>> blogList();
+    Call<DataResponse<List<Blog>>> blogList(@Header("token") String token);
 }

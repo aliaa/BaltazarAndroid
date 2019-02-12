@@ -67,7 +67,7 @@ public class BlogFragment extends BaseFragment implements SwipeRefreshLayout.OnR
         {
             swipe.setRefreshing(true);
             final BaseActivity activity = (BaseActivity) getActivity();
-            Call<DataResponse<List<Blog>>> call = activity.createWebService(Services.class).blogList();
+            Call<DataResponse<List<Blog>>> call = activity.createWebService(Services.class).blogList(BaseActivity.getToken());
             call.enqueue(new RetryableCallback<DataResponse<List<Blog>>>(activity, swipe)
             {
                 @Override
