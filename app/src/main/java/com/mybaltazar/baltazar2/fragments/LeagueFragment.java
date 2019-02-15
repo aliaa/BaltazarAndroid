@@ -1,6 +1,7 @@
 package com.mybaltazar.baltazar2.fragments;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
+import com.mybaltazar.baltazar2.activities.LeaguesArchiveActivity;
 import com.mybaltazar.baltazar2.models.ScoresData;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
@@ -18,6 +20,7 @@ import com.mybaltazar.baltazar2.webservices.Services;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -145,5 +148,10 @@ public class LeagueFragment extends BaseFragment
                 lblCityName.setText(cityName + " / " + st.school);
         }
         return v;
+    }
+
+    @OnClick(R.id.btnLeaguesArchive)
+    protected void btnLeaguesArchive_Click() {
+        startActivity(new Intent(getContext(), LeaguesArchiveActivity.class));
     }
 }

@@ -1,10 +1,21 @@
 package com.mybaltazar.baltazar2.models;
 
+import java.util.List;
+
 public class Student extends BaseEntity
 {
     public enum GenderEnum
     {
         Unspecified, Male, Female
+    }
+
+    public class FestivalPoint
+    {
+        public String name;
+        public String displayName;
+        public int pointsFromLeague;
+        public int pointsFromOtherQuestions;
+        public int points;
     }
 
     public String firstName, lastName, nickName, phone, password;
@@ -25,4 +36,5 @@ public class Student extends BaseEntity
     public String invitedFromCode;
     public String birthDate;
     public String pusheId;
+    public List<FestivalPoint> festivalPoints;
 }

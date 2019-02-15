@@ -111,11 +111,22 @@
                 android:text="0"/>
         </GridLayout>
 
+        <Button
+            android:id="@+id/btnLeaguesArchive"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:text="@string/leagues_archive"
+            android:textStyle="bold"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:padding="8dp"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/top10OnGrade"
-            android:layout_marginTop="32dp"/>
+            android:layout_marginTop="24dp"/>
 
         <LinearLayout
             android:id="@+id/lstTop10OnGrade"
