@@ -27,6 +27,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <!-- copied from pushe site -->
         <receiver android:name="co.ronash.pushe.receiver.UpdateReceiver">
             <intent-filter>
@@ -100,7 +101,12 @@
             android:name=".activities.LeaguesArchiveActivity"
             android:label="@string/leagues_archive"
             android:parentActivityName=".activities.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.MyOrdersActivity"
+            android:label="@string/my_orders"
+            android:parentActivityName=".activities.MainActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

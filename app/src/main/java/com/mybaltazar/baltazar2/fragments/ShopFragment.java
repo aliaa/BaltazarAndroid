@@ -3,6 +3,7 @@ package com.mybaltazar.baltazar2.fragments;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
+import com.mybaltazar.baltazar2.activities.MyOrdersActivity;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.adapters.ShopItemsAdapter;
 import com.mybaltazar.baltazar2.events.CoinChangedEvent;
@@ -37,6 +39,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -171,5 +174,11 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
                 ((BaseActivity)getActivity()).setProfile(response.data);
             }
         });
+    }
+
+    @OnClick(R.id.btnMyOrders)
+    protected void btnMyOrders_Click()
+    {
+        startActivity(new Intent(getContext(), MyOrdersActivity.class));
     }
 }

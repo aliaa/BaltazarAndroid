@@ -103,6 +103,9 @@ public interface Services
     @GET("Shop/MyOrders")
     Call<DataResponse<List<ShopOrder>>> myOrders(@Header("token") String token);
 
+    @DELETE("Shop/{id}")
+    Call<CommonResponse> cancelOrder(@Header("token") String token, @Path("id") String id);
+
     @GET("Blog/App")
     Call<DataResponse<List<Blog>>> blogList(@Header("token") String token);
 }

@@ -4,10 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.ShopFragment"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:gravity="center_horizontal">
 
     <LinearLayout
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layoutDirection="rtl"
@@ -30,10 +31,20 @@
             android:text="0"/>
     </LinearLayout>
 
+    <Button
+        android:id="@+id/btnMyOrders"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/my_orders"
+        android:background="@color/colorAccent"
+        android:textColor="@color/white"/>
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="12dp">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler"

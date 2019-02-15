@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.events.CoinChangedEvent;
+import com.mybaltazar.baltazar2.events.ProfileRefreshEvent;
 import com.mybaltazar.baltazar2.models.Student;
 import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
@@ -240,6 +241,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     {
         cacheItem(profile, PREF_PROFILE);
         setCoinCount(profile.coins);
+        EventBus.getDefault().post(new ProfileRefreshEvent(profile));
     }
 
     public Student getProfile()

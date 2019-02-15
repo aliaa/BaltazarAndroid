@@ -20,6 +20,7 @@ import com.mybaltazar.baltazar2.adapters.MyQuestionsAdapter;
 import com.mybaltazar.baltazar2.adapters.OnItemClickListener;
 import com.mybaltazar.baltazar2.events.DeleteQuestionClickEvent;
 import com.mybaltazar.baltazar2.models.BaseEntity;
+import com.mybaltazar.baltazar2.models.BaseUserContent;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
@@ -136,6 +137,9 @@ public class MyQuestionsFragment extends BaseFragment implements SwipeRefreshLay
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDeleteButtonClick(final DeleteQuestionClickEvent event)
     {
+        if(event.item.publishStatus != BaseUserContent.PublishStatusEnum.WaitForApprove)
+            return;
+
         new AlertDialog.Builder(getContext())
                 .setMessage(R.string.sure_to_delete_question)
                 .setNegativeButton(R.string.cancel, null)

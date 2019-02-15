@@ -130,8 +130,7 @@
                 android:layout_height="44dp"
                 android:src="@mipmap/ic_delete"
                 android:padding="3dp"
-                android:tint="@color/red"
-                android:visibility="visible"/>
+                android:tint="@color/red"/>
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
