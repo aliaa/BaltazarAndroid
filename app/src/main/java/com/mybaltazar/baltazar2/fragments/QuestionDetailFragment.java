@@ -107,6 +107,8 @@ public class QuestionDetailFragment extends BaseFragment
         else
             imgQuestionImage.setVisibility(View.GONE);
 
+        imgAnswerImage.setVisibility(item.fromBaltazar && item.allowUploadOnAnswer ? View.VISIBLE : View.GONE);
+
         if (item.hasVideo)
         {
             Uri url = Uri.parse(getString(R.string.media_base_url) + getString(R.string.video_dir) + item.id + ".mp4");
