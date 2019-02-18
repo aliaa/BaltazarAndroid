@@ -53,7 +53,10 @@ public class SplashActivity extends BaseActivity
                             builder.setPositiveButton(R.string.continue_app, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    openMainActivity(data.notification);
+                                    boolean isTeacher = false;
+                                    if(data.me != null && data.me.isTeacher)
+                                        isTeacher = true;
+                                    openMainActivity(data.notification, isTeacher);
                                 }
                             });
                         }
@@ -61,8 +64,12 @@ public class SplashActivity extends BaseActivity
                     }
                     else if(getToken() == null)
                         openLoginActivity();
-                    else
-                        openMainActivity(data.notification);
+                    else {
+                        boolean isTeacher = false;
+                        if(data.me != null && data.me.isTeacher)
+                            isTeacher = true;
+                        openMainActivity(data.notification, isTeacher);
+                    }
                 }
 
                 @Override
@@ -103,7 +110,7 @@ public class SplashActivity extends BaseActivity
         }
     }
 
-    private void openMainActivity(CommonData.Notifications notification)
+    private void openMainActivity(CommonData.Notifications notification, boolean isTeacher)
     {
         Intent intent = new Intent(this, MainActivity.class);
         if(notification != null)
@@ -111,6 +118,7 @@ public class SplashActivity extends BaseActivity
             intent.putExtra(MainActivity.NEW_BLOGS, notification.newBlogs);
             intent.putExtra(MainActivity.NEW_ANSWERS, notification.newAnswers);
             intent.putExtra(MainActivity.NEW_SHOPS, notification.newShops);
+            intent.putExtra(MainActivity.IS_TEACHER, isTeacher);
         }
         startActivity(intent);
         finish();

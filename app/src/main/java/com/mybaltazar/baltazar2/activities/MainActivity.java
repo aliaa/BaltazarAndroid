@@ -25,6 +25,9 @@ import com.mybaltazar.baltazar2.fragments.QuestionDetailFragment;
 import com.mybaltazar.baltazar2.fragments.ShopFragment;
 import com.mybaltazar.baltazar2.models.Question;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener
@@ -50,6 +53,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     public static final String NEW_BLOGS = "newBlog";
     public static final String NEW_ANSWERS = "newAnswer";
     public static final String NEW_SHOPS = "newShops";
+    public static final String IS_TEACHER = "isTeacher";
 
     private QAFragment qaFragment;
     private ShopFragment shopFragment;
@@ -58,7 +62,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private ProfileFragment profileFragment;
     private MyQuestionsFragment myQuestionsFragment;
     private NewQuestionFragment newQuestionFragment;
-    private BaseFragment[] pagesFragments;
+    private List<BaseFragment> pagesFragments;
     private BaseFragment currentFragment;
     private BottomNavigationItem[] bottomNavigationItems;
 
@@ -79,17 +83,26 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
 
-        pagesFragments = new BaseFragment[PAGES_ICON.length];
-        pagesFragments[0] = qaFragment = new QAFragment();
-        pagesFragments[1] = myQuestionsFragment = new MyQuestionsFragment();
-        pagesFragments[2] = shopFragment = new ShopFragment();
-        pagesFragments[3] = leagueFragment = new LeagueFragment();
-        pagesFragments[4] = blogFragment = new BlogFragment();
+        boolean isTeacher = getIntent().getBooleanExtra(IS_TEACHER, false);
+
+        pagesFragments = new ArrayList<>(PAGES_ICON.length);
+        qaFragment = new QAFragment();
+        myQuestionsFragment = new MyQuestionsFragment();
+        shopFragment = new ShopFragment();
+        leagueFragment = new LeagueFragment();
+        blogFragment = new BlogFragment();
         profileFragment = new ProfileFragment();
         newQuestionFragment = new NewQuestionFragment();
+
+        pagesFragments.add(qaFragment);
+        pagesFragments.add(myQuestionsFragment);
+        pagesFragments.add(shopFragment);
+        pagesFragments.add(leagueFragment);
+        pagesFragments.add(blogFragment);
 
         myQuestionsBadge = createBadge();
         blogBadge = createBadge();
@@ -191,7 +204,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void onTabSelected(int position) {
-        changeFragment(pagesFragments[position]);
+        changeFragment(pagesFragments.get(position));
     }
 
     @Override
@@ -199,8 +212,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void onTabReselected(int position) {
-        if(currentFragment != pagesFragments[position])
-            changeFragment(pagesFragments[position]);
+        if(currentFragment != pagesFragments.get(position))
+            changeFragment(pagesFragments.get(position));
     }
 
     private void changeFragment(BaseFragment fragment)
@@ -259,7 +272,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         else if(isPageFragment(currentFragment))
             super.onBackPressed();
         else
-            changeFragment(pagesFragments[0]);
+            changeFragment(qaFragment);
     }
 
     private boolean isPageFragment(BaseFragment fragment)

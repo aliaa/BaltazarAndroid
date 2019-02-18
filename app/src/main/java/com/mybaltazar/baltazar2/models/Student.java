@@ -37,4 +37,5 @@ public class Student extends BaseEntity
     public String birthDate;
     public String pusheId;
     public List<FestivalPoint> festivalPoints;
+    public boolean isTeacher;
 }
