@@ -32,49 +32,62 @@ import butterknife.BindView;
 
 public class MainActivity extends BaseActivity implements BottomNavigationBar.OnTabSelectedListener
 {
-    private static final int[] PAGES_ICON = new int[] {
-            R.drawable.ic_raise_hand,
-            R.drawable.ic_inbox,
-            R.drawable.ic_basket,
-            R.drawable.ic_cup,
-            R.drawable.ic_newspaper,
-//            R.drawable.ic_user
-    };
+    class FragmentPage
+    {
+        public int icon;
+        public int title;
+        private BottomNavigationItem bottomNavigationItem;
+        public BaseFragment fragment;
+        private ShapeBadgeItem badge = null;
 
-    private static final int[] PAGES_TITLE = new int[] {
-            R.string.qa,
-            R.string.my_questions,
-            R.string.shop,
-            R.string.league,
-            R.string.blog,
-//            R.string.profile
-    };
+        public FragmentPage(int icon, int title, BaseFragment fragment, boolean createBadge) {
+            this.icon = icon;
+            this.title = title;
+            this.bottomNavigationItem = new BottomNavigationItem(icon, title);
+            this.fragment = fragment;
+            if(createBadge) {
+                badge = new ShapeBadgeItem();
+                badge.setShape(ShapeBadgeItem.SHAPE_OVAL);
+                badge.setShapeColorResource(R.color.red);
+                badge.setGravity(Gravity.TOP | Gravity.RIGHT);
+                bottomNavigationItem.setBadgeItem(badge);
+            }
+        }
+
+        public void setBadgeItem(ShapeBadgeItem badgeItem) {
+            bottomNavigationItem.setBadgeItem(badgeItem);
+        }
+
+        public BottomNavigationItem getBottomNavigationItem(){
+            return bottomNavigationItem;
+        }
+
+        public ShapeBadgeItem getBadge() {
+            return badge;
+        }
+    }
 
     public static final String NEW_BLOGS = "newBlog";
     public static final String NEW_ANSWERS = "newAnswer";
     public static final String NEW_SHOPS = "newShops";
     public static final String IS_TEACHER = "isTeacher";
 
-    private QAFragment qaFragment;
-    private ShopFragment shopFragment;
-    private LeagueFragment leagueFragment;
-    private BlogFragment blogFragment;
+    private FragmentPage qaFragment;
+    private FragmentPage myQuestionsFragment;
+    private FragmentPage shopFragment;
+    private FragmentPage leagueFragment;
+    private FragmentPage blogFragment;
+    private List<FragmentPage> fragmentPages;
+
     private ProfileFragment profileFragment;
-    private MyQuestionsFragment myQuestionsFragment;
     private NewQuestionFragment newQuestionFragment;
-    private List<BaseFragment> pagesFragments;
     private BaseFragment currentFragment;
-    private BottomNavigationItem[] bottomNavigationItems;
 
     @BindView(R.id.fragmentContainer)
     FrameLayout fragmentContainer;
 
     @BindView(R.id.bottomNavigationBar)
     BottomNavigationBar bottomNavigationBar;
-
-    ShapeBadgeItem myQuestionsBadge;
-    ShapeBadgeItem blogBadge;
-    ShapeBadgeItem shopBadge;
 
     private Menu menu;
 
@@ -87,64 +100,40 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     {
         super.onCreate(savedInstanceState);
 
-        boolean isTeacher = getIntent().getBooleanExtra(IS_TEACHER, false);
-
-        pagesFragments = new ArrayList<>(PAGES_ICON.length);
-        qaFragment = new QAFragment();
-        myQuestionsFragment = new MyQuestionsFragment();
-        shopFragment = new ShopFragment();
-        leagueFragment = new LeagueFragment();
-        blogFragment = new BlogFragment();
+        qaFragment = new FragmentPage(R.drawable.ic_raise_hand, R.string.qa, new QAFragment(), false);
+        myQuestionsFragment = new FragmentPage(R.drawable.ic_inbox, R.string.my_questions, new MyQuestionsFragment(), true);
+        shopFragment = new FragmentPage(R.drawable.ic_basket, R.string.shop, new ShopFragment(), true);
+        leagueFragment = new FragmentPage(R.drawable.ic_cup, R.string.league, new LeagueFragment(), false);
+        blogFragment = new FragmentPage(R.drawable.ic_newspaper, R.string.blog, new BlogFragment(), true);
         profileFragment = new ProfileFragment();
         newQuestionFragment = new NewQuestionFragment();
 
-        pagesFragments.add(qaFragment);
-        pagesFragments.add(myQuestionsFragment);
-        pagesFragments.add(shopFragment);
-        pagesFragments.add(leagueFragment);
-        pagesFragments.add(blogFragment);
+        boolean isTeacher = getIntent().getBooleanExtra(IS_TEACHER, false);
+        fragmentPages = new ArrayList<>();
+        if(isTeacher) {
+            fragmentPages.add(qaFragment);
+            fragmentPages.add(blogFragment);
+        }
+        else {
+            fragmentPages.add(qaFragment);
+            fragmentPages.add(myQuestionsFragment);
+            fragmentPages.add(shopFragment);
+            fragmentPages.add(leagueFragment);
+            fragmentPages.add(blogFragment);
+        }
 
-        myQuestionsBadge = createBadge();
-        blogBadge = createBadge();
-        shopBadge = createBadge();
-
-        bottomNavigationItems = new BottomNavigationItem[PAGES_ICON.length];
-        for (int i = 0; i < PAGES_ICON.length; i++) {
-            BottomNavigationItem item = new BottomNavigationItem(PAGES_ICON[i], PAGES_TITLE[i]);
-            bottomNavigationItems[i] = item;
-            if(PAGES_ICON[i] == R.drawable.ic_inbox)
-                item.setBadgeItem(myQuestionsBadge);
-            else if(PAGES_ICON[i] == R.drawable.ic_newspaper)
-                item.setBadgeItem(blogBadge);
-            else if(PAGES_ICON[i] == R.drawable.ic_basket)
-                item.setBadgeItem(shopBadge);
-            bottomNavigationBar.addItem(item);
+        for (FragmentPage page : fragmentPages) {
+            bottomNavigationBar.addItem(page.getBottomNavigationItem());
         }
         bottomNavigationBar.initialise();
         bottomNavigationBar.setTabSelectedListener(this);
         bottomNavigationBar.selectTab(0, true);
     }
 
-    private ShapeBadgeItem createBadge()
-    {
-        return new ShapeBadgeItem()
-            .setShape(ShapeBadgeItem.SHAPE_OVAL)
-            .setShapeColorResource(R.color.red)
-            .setGravity(Gravity.TOP | Gravity.RIGHT);
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         this.menu = menu;
-
-//        int newAnswers = getIntent().getIntExtra(NEW_ANSWERS, 0);
-//        MenuItem myQuestionsMenuItem = menu.findItem(R.id.menu_item_my_questions);
-//        if(newAnswers > 0)
-//            myQuestionsMenuItem.setIcon(R.drawable.ic_inbox_active);
-//        else
-//            myQuestionsMenuItem.setIcon(R.drawable.ic_inbox);
-
         return true;
     }
 
@@ -158,27 +147,24 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         int newAnswers = getIntent().getIntExtra(NEW_ANSWERS, 0);
 
         if(newBlogs > 0)
-            blogBadge.show();
+            blogFragment.getBadge().show();
         else
-            blogBadge.hide();
+            blogFragment.getBadge().hide();
 
         if(newShops > 0)
-            shopBadge.show();
+            shopFragment.getBadge().show();
         else
-            shopBadge.hide();
+            shopFragment.getBadge().hide();
 
         if(newAnswers > 0)
-            myQuestionsBadge.show();
+            myQuestionsFragment.getBadge().show();
         else
-            myQuestionsBadge.hide();
+            myQuestionsFragment.getBadge().hide();
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-//            case R.id.menu_item_my_questions:
-//                changeFragment(myQuestionsFragment);
-//                return true;
             case R.id.menu_item_profile:
                 changeFragment(profileFragment);
                 return true;
@@ -204,7 +190,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void onTabSelected(int position) {
-        changeFragment(pagesFragments.get(position));
+        changeFragment(fragmentPages.get(position).fragment);
     }
 
     @Override
@@ -212,8 +198,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
 
     @Override
     public void onTabReselected(int position) {
-        if(currentFragment != pagesFragments.get(position))
-            changeFragment(pagesFragments.get(position));
+        if(currentFragment != fragmentPages.get(position).fragment)
+            changeFragment(fragmentPages.get(position).fragment);
     }
 
     private void changeFragment(BaseFragment fragment)
@@ -225,13 +211,13 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         transaction.commit();
 
         if(menu != null)
-            menu.findItem(R.id.menu_item_filter).setVisible(fragment ==  qaFragment);
-        if(fragment == blogFragment)
-            blogBadge.hide();
-        else if(fragment == shopFragment)
-            shopBadge.hide();
-        else if(fragment == myQuestionsFragment)
-            myQuestionsBadge.hide();
+            menu.findItem(R.id.menu_item_filter).setVisible(fragment ==  qaFragment.fragment);
+        if(fragment == blogFragment.fragment)
+            blogFragment.getBadge().hide();
+        else if(fragment == shopFragment.fragment)
+            shopFragment.getBadge().hide();
+        else if(fragment == myQuestionsFragment.fragment)
+            myQuestionsFragment.getBadge().hide();
 
         refreshTitle();
     }
@@ -268,17 +254,17 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     @Override
     public void onBackPressed() {
         if(currentFragment instanceof MyQuestionDetailsFragment)
-            changeFragment(myQuestionsFragment);
+            changeFragment(myQuestionsFragment.fragment);
         else if(isPageFragment(currentFragment))
             super.onBackPressed();
         else
-            changeFragment(qaFragment);
+            changeFragment(qaFragment.fragment);
     }
 
     private boolean isPageFragment(BaseFragment fragment)
     {
-        for (BaseFragment f : pagesFragments)
-            if(f == fragment)
+        for (FragmentPage f : fragmentPages)
+            if(f.fragment == fragment)
                 return true;
         return false;
     }
