@@ -126,7 +126,7 @@
     <string name="sure_to_delete_question">آیا برای حذف سوال خود مطمئن هستید؟</string>
     <string name="yes">بلی</string>
     <string name="other_courses">سایر دروس</string>
-    <string name="sure_to_buy">آیا از خرید این کالا مطمئن هستید؟\nکالا پس از تائید توسط بالتازار، به آدرس مدرسه شما ارسال خواهد شد.</string>
+    <string name="sure_to_buy">آیا از خرید این کالا مطمئن هستید؟\nکالا پس از تائید توسط بالتازار، به آدرس مدرسه شما که در قسمت اطلاعات پروفایل تکمیل کرده اید ارسال خواهد شد.</string>
     <string name="not_enough_coins">تعداد سکه شما برای خرید کافی نیست!</string>
     <string name="sure_to_approve_answer">آیا برای تائید این جواب مطمئن هستید؟</string>
     <string name="sure_to_reject_answer">آیا برای رد این جواب مطمئن هستید؟</string>
@@ -145,6 +145,7 @@
     <string name="status">وضعیت:</string>
     <string name="sending">در حال ارسال</string>
     <string name="sent">ارسال شده</string>
+    <string name="enter_correct">لطفا اطلاعات خود را صحیح وارد کنید.\nاین اطلاعات صرفا برای بهبود خدمات در بالتازار استفاده خواهد شد.</string>
 
     <string-array name="grades">
         <item>اول</item>

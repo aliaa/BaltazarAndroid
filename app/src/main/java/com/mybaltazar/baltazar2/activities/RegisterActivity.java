@@ -138,8 +138,7 @@ public class RegisterActivity extends BaseActivity
                 loadCommonData(true, new DataListener<CommonData>(RegisterActivity.this) {
                     @Override
                     public void onCallBack(CommonData data) {
-                        Intent intent = new Intent(RegisterActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        MainActivity.open(RegisterActivity.this, data.notification, data.me.isTeacher);
                         finish();
                     }
                 });

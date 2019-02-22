@@ -56,7 +56,7 @@ public class SplashActivity extends BaseActivity
                                     boolean isTeacher = false;
                                     if(data.me != null && data.me.isTeacher)
                                         isTeacher = true;
-                                    openMainActivity(data.notification, isTeacher);
+                                    MainActivity.open(SplashActivity.this, data.notification, isTeacher);
                                 }
                             });
                         }
@@ -68,7 +68,8 @@ public class SplashActivity extends BaseActivity
                         boolean isTeacher = false;
                         if(data.me != null && data.me.isTeacher)
                             isTeacher = true;
-                        openMainActivity(data.notification, isTeacher);
+                        MainActivity.open(SplashActivity.this, data.notification, isTeacher);
+                        finish();
                     }
                 }
 
@@ -108,20 +109,6 @@ public class SplashActivity extends BaseActivity
                     .setCancelable(false)
                     .show();
         }
-    }
-
-    private void openMainActivity(CommonData.Notifications notification, boolean isTeacher)
-    {
-        Intent intent = new Intent(this, MainActivity.class);
-        if(notification != null)
-        {
-            intent.putExtra(MainActivity.NEW_BLOGS, notification.newBlogs);
-            intent.putExtra(MainActivity.NEW_ANSWERS, notification.newAnswers);
-            intent.putExtra(MainActivity.NEW_SHOPS, notification.newShops);
-            intent.putExtra(MainActivity.IS_TEACHER, isTeacher);
-        }
-        startActivity(intent);
-        finish();
     }
 
     private void openLoginActivity()

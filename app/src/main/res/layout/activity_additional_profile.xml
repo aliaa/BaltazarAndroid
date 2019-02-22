@@ -152,6 +152,17 @@
             android:layout_gravity="center_vertical|right"
             android:gravity="right|center_vertical"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_columnSpan="2"
+            android:text="@string/enter_correct"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            android:layout_marginTop="8dp"/>
+
         <Button
             android:id="@+id/btnSave"
             android:layout_width="wrap_content"

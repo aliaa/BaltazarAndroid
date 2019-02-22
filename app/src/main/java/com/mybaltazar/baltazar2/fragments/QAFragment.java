@@ -46,6 +46,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
 
     @BindView(R.id.recycler)    RecyclerView recycler;
     @BindView(R.id.swipe)       SwipeRefreshLayout swipe;
+    @BindView(R.id.btnAdd)      View btnAdd;
 
     private static final int TIME_TO_SAVE_CACHE_MILLIS = 60000;
 
@@ -67,7 +68,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
     {
         View root = inflater.inflate(R.layout.fragment_qa, container, false);
         ButterKnife.bind(this, root);
-
+        btnAdd.setVisibility(View.GONE);
         recycler.setLayoutManager(new LinearLayoutManager(getContext()));
 
         swipe.setOnRefreshListener(this);
@@ -136,13 +137,6 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
             if(c.grade == grade && (grade < 10 || studyField.id.equals(c.studyFieldId)))
                 list.add(c);
         spinnerCourse.setAdapter(new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_dropdown_item, list));
-    }
-
-    @OnClick(R.id.btnAdd)
-    protected void btnAdd_Click()
-    {
-        MainActivity activity = (MainActivity)getActivity();
-        activity.openNewQuestionFragment();
     }
 
     @Override

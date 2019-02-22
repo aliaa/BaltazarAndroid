@@ -55,8 +55,7 @@ public class LoginActivity extends BaseActivity
                 loadCommonData(true, new DataListener<CommonData>(LoginActivity.this) {
                     @Override
                     public void onCallBack(CommonData data) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        MainActivity.open(LoginActivity.this, data.notification, data.me.isTeacher);
                         finish();
                     }
                 });

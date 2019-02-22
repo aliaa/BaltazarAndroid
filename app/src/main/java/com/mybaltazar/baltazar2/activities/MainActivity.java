@@ -1,5 +1,6 @@
 package com.mybaltazar.baltazar2.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +25,7 @@ import com.mybaltazar.baltazar2.fragments.QAFragment;
 import com.mybaltazar.baltazar2.fragments.QuestionDetailFragment;
 import com.mybaltazar.baltazar2.fragments.ShopFragment;
 import com.mybaltazar.baltazar2.models.Question;
+import com.mybaltazar.baltazar2.webservices.CommonData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,15 +97,28 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         super(R.layout.activity_main, true);
     }
 
+    public static void open(Context context, CommonData.Notifications notification, boolean isTeacher)
+    {
+        Intent intent = new Intent(context, MainActivity.class);
+        if(notification != null)
+        {
+            intent.putExtra(MainActivity.NEW_BLOGS, notification.newBlogs);
+            intent.putExtra(MainActivity.NEW_ANSWERS, notification.newAnswers);
+            intent.putExtra(MainActivity.NEW_SHOPS, notification.newShops);
+            intent.putExtra(MainActivity.IS_TEACHER, isTeacher);
+        }
+        context.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
 
-        qaFragment = new FragmentPage(R.drawable.ic_raise_hand, R.string.qa, new QAFragment(), false);
-        myQuestionsFragment = new FragmentPage(R.drawable.ic_inbox, R.string.my_questions, new MyQuestionsFragment(), true);
-        shopFragment = new FragmentPage(R.drawable.ic_basket, R.string.shop, new ShopFragment(), true);
+        qaFragment = new FragmentPage(R.drawable.ic_question, R.string.qa, new QAFragment(), false);
+        myQuestionsFragment = new FragmentPage(R.drawable.ic_raise_hand, R.string.my_questions, new MyQuestionsFragment(), true);
         leagueFragment = new FragmentPage(R.drawable.ic_cup, R.string.league, new LeagueFragment(), false);
+        shopFragment = new FragmentPage(R.drawable.ic_basket, R.string.shop, new ShopFragment(), true);
         blogFragment = new FragmentPage(R.drawable.ic_newspaper, R.string.blog, new BlogFragment(), true);
         profileFragment = new ProfileFragment();
         newQuestionFragment = new NewQuestionFragment();
@@ -117,8 +132,8 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         else {
             fragmentPages.add(qaFragment);
             fragmentPages.add(myQuestionsFragment);
-            fragmentPages.add(shopFragment);
             fragmentPages.add(leagueFragment);
+            fragmentPages.add(shopFragment);
             fragmentPages.add(blogFragment);
         }
 

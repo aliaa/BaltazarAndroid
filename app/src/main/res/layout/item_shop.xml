@@ -13,22 +13,19 @@
         android:orientation="vertical"
         android:layout_margin="6dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/lblDate"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layoutDirection="rtl">
+            android:layout_gravity="left"/>
 
-            <TextView
-                android:id="@+id/lblName"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"/>
+        <TextView
+            android:id="@+id/lblName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"/>
 
-            <TextView
-                android:id="@+id/lblDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
 
         <ozaydin.serkan.com.image_zoom_view.ImageViewZoom
             android:id="@+id/img"

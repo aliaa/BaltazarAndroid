@@ -22,7 +22,7 @@
             app:layout_constraintTop_toTopOf="parent"
             android:backgroundTintMode="src_atop"
             android:indeterminate="true"
-            android:indeterminateTint="@color/blue"/>
+            android:indeterminateTint="@color/colorAccent"/>
 
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>
