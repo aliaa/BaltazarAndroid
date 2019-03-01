@@ -6,6 +6,7 @@ public class ScoresData
 {
     public class TopStudent
     {
+        public String studentId;
         public String userName;
         public String cityId;
         public String school;

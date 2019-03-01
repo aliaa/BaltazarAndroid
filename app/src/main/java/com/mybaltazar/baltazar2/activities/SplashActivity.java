@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.Settings;
 
 import com.mybaltazar.baltazar2.R;
@@ -15,7 +16,7 @@ import com.mybaltazar.baltazar2.webservices.CommonData;
 
 public class SplashActivity extends BaseActivity
 {
-    static final int DELAY_MILLIS = 1000;
+    static final int DELAY_MILLIS = 2500;
 
     public SplashActivity() {
         super(R.layout.activity_splash, false);
@@ -27,9 +28,10 @@ public class SplashActivity extends BaseActivity
     }
 
     @Override
-    protected void onResume() {
+    protected void onResume()
+    {
         super.onResume();
-
+        final long startTime = System.currentTimeMillis();
         ConnectivityManager cm = (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
         boolean isConnected = activeNetwork != null && activeNetwork.isConnectedOrConnecting();
@@ -56,7 +58,7 @@ public class SplashActivity extends BaseActivity
                                     boolean isTeacher = false;
                                     if(data.me != null && data.me.isTeacher)
                                         isTeacher = true;
-                                    MainActivity.open(SplashActivity.this, data.notification, isTeacher);
+                                    openMainActivity(data.notification, isTeacher, startTime);
                                 }
                             });
                         }
@@ -68,8 +70,7 @@ public class SplashActivity extends BaseActivity
                         boolean isTeacher = false;
                         if(data.me != null && data.me.isTeacher)
                             isTeacher = true;
-                        MainActivity.open(SplashActivity.this, data.notification, isTeacher);
-                        finish();
+                        openMainActivity(data.notification, isTeacher, startTime);
                     }
                 }
 
@@ -115,5 +116,25 @@ public class SplashActivity extends BaseActivity
     {
         startActivity(new Intent(SplashActivity.this, LoginActivity.class));
         finish();
+    }
+
+    private void openMainActivity(final CommonData.Notifications notifications, final boolean isTeacher, long startTime)
+    {
+        long duration = System.currentTimeMillis() - startTime;
+        if(duration > DELAY_MILLIS) {
+            MainActivity.open(SplashActivity.this, notifications, isTeacher);
+            finish();
+        }
+        else
+        {
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    MainActivity.open(SplashActivity.this, notifications, isTeacher);
+                    finish();
+                }
+            }, DELAY_MILLIS - duration);
+        }
     }
 }

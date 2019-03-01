@@ -44,7 +44,7 @@ public interface Services
                                       @Query("password") String password);
 
 
-    @GET("Student/Scores")
+    @GET("Scores/Mine")
     Call<DataResponse<ScoresData>> getScores(@Header("token") String token);
 
     @GET("Student/Me")
