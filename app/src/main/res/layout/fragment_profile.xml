@@ -23,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/name_lastName"
+                android:text="@string/name_lastName_colon"
                 android:layout_gravity="center_vertical|right"
                 android:layout_column="0"/>
 

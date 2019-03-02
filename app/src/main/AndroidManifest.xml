@@ -110,7 +110,6 @@
         <activity
             android:name=".activities.ContactUsActivity"
             android:label="@string/contact_us"
-            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"/>
     </application>
 

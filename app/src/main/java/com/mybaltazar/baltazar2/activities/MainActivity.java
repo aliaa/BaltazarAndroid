@@ -191,7 +191,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 return true;
 
             case R.id.menu_item_contact_us:
-                showOkDialog(R.string.contact_us, R.string.contact_us_text);
+                startActivity(new Intent(this, ContactUsActivity.class));
                 return true;
 
             case R.id.menu_item_filter:

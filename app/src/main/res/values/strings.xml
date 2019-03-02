@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">بالتازار</string>
     <!--<string name="media_base_url">http://mybaltazar.com/public/storage/</string>-->
     <string name="base_url">http://10.104.24.114:8080/Baltazar/</string>
@@ -69,9 +69,7 @@
     <string name="irrelevant_answer">پاسخ نامرتبط</string>
     <string name="logout">خروج از حساب کاربری</string>
     <string name="contact_us">تماس با ما</string>
-    <string name="contact_us_text">
-        شرکت ... با چندین سال سابقه...
-    </string>
+    <string name="contact_us_text">لطفا نظرات و پیشنهادهای خود را برای افزایش کیفیت این سیستم با ما در میان بگذارید:</string>
     <string name="price">قیمت:</string>
     <string name="buy">خرید</string>
     <string name="your_coin_count">تعداد سکه های شما:</string>
@@ -102,7 +100,8 @@
     <string name="transaction_type_ask_question">پرسیدن سوال</string>
     <string name="coin_transactions">تراکنش سکه ها</string>
     <string name="rejected">رد شده</string>
-    <string name="name_lastName">نام و نام خانوادگی:</string>
+    <string name="name_lastName_colon">نام و نام خانوادگی:</string>
+    <string name="name_lastName">نام و نام خانوادگی</string>
     <string name="membershipDuration">مدت عضویت:</string>
     <string name="myTotalPoints">امتیاز کل من:</string>
     <string name="myTotalScore">رتبه کل من:</string>
@@ -139,13 +138,14 @@
     <string name="telegram_not_installed">برنامه تلگرام نصب نشده است!</string>
     <string name="share_using">ارسال با…</string>
     <string name="additional_profile_info">با تکمیل اطلاعات این صفحه 5 سکه جایزه بگیرید!</string>
-    <string name="message">پیام</string>
+    <string name="message" tools:ignore="ExtraTranslation">پیام</string>
     <string name="leagues_archive">آرشیو لیگ های من</string>
     <string name="my_orders">خریدهای من</string>
     <string name="status">وضعیت:</string>
     <string name="sending">در حال ارسال</string>
     <string name="sent">ارسال شده</string>
     <string name="enter_correct">لطفا اطلاعات خود را صحیح وارد کنید.\nاین اطلاعات صرفا برای بهبود خدمات در بالتازار استفاده خواهد شد.</string>
+    <string name="email_optional">آدرس ایمیل در صورت وجود</string>
 
     <string-array name="grades">
         <item>اول</item>

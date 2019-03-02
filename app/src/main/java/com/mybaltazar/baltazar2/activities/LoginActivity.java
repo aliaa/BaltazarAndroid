@@ -3,6 +3,8 @@ package com.mybaltazar.baltazar2.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -69,5 +71,22 @@ public class LoginActivity extends BaseActivity
     {
         Intent i = new Intent(this, RegisterActivity.class);
         startActivity(i);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_logout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.menu_item_contact_us:
+                startActivity(new Intent(this, ContactUsActivity.class));
+                return true;
+        }
+        return false;
     }
 }

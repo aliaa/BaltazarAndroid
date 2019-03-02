@@ -3,6 +3,7 @@ package com.mybaltazar.baltazar2.webservices;
 import com.mybaltazar.baltazar2.models.Answer;
 import com.mybaltazar.baltazar2.models.Blog;
 import com.mybaltazar.baltazar2.models.CoinTransaction;
+import com.mybaltazar.baltazar2.models.ContactUsMessage;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.models.ScoresData;
 import com.mybaltazar.baltazar2.models.ShopItem;
@@ -108,4 +109,7 @@ public interface Services
 
     @GET("Blog/App")
     Call<DataResponse<List<Blog>>> blogList(@Header("token") String token);
+
+    @POST("ContactUs/Submit")
+    Call<CommonResponse> submitContactUsMessage(@Header("token") String token, @Body ContactUsMessage message);
 }
