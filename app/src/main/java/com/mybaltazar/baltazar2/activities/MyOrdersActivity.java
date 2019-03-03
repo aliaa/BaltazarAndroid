@@ -27,13 +27,14 @@ import java.util.List;
 import butterknife.BindView;
 import retrofit2.Call;
 
-public class MyOrdersActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MyOrdersActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener
+{
     @BindView(R.id.recycler)    RecyclerView recycler;
     @BindView(R.id.swipe)       SwipeRefreshLayout swipe;
 
     public MyOrdersActivity()
     {
-        super(R.layout.activity_my_orders, false);
+        super(R.layout.activity_my_orders, false, true);
     }
 
     @Override

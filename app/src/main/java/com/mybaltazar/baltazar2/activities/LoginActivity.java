@@ -34,7 +34,7 @@ public class LoginActivity extends BaseActivity
 
     public LoginActivity()
     {
-        super(R.layout.activity_login, true);
+        super(R.layout.activity_login, true, false);
     }
 
     @OnClick(R.id.btnLogin)

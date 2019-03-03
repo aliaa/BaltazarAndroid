@@ -75,7 +75,7 @@ public class AdditionalProfileActivity extends BaseActivity
     private String[] GENDERS;
 
     public AdditionalProfileActivity() {
-        super(R.layout.activity_additional_profile, true);
+        super(R.layout.activity_additional_profile, true, true);
     }
 
     @Override

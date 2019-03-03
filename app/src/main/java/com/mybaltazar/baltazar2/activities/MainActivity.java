@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private Menu menu;
 
     public MainActivity() {
-        super(R.layout.activity_main, true);
+        super(R.layout.activity_main, true, false);
     }
 
     public static void open(Context context, CommonData.Notifications notification, boolean isTeacher)
@@ -198,6 +198,9 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
                 if(currentFragment instanceof QAFragment)
                     ((QAFragment)currentFragment).showFilterDialog();
                 break;
+            case R.id.menu_item_my_orders:
+                if(currentFragment instanceof ShopFragment)
+                    startActivity(new Intent(this, MyOrdersActivity.class));
         }
         return false;
     }
@@ -225,8 +228,10 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
         transaction.replace(R.id.fragmentContainer, fragment);
         transaction.commit();
 
-        if(menu != null)
-            menu.findItem(R.id.menu_item_filter).setVisible(fragment ==  qaFragment.fragment);
+        if(menu != null) {
+            menu.findItem(R.id.menu_item_filter).setVisible(fragment == qaFragment.fragment);
+            menu.findItem(R.id.menu_item_my_orders).setVisible(fragment == shopFragment.fragment);
+        }
         if(fragment == blogFragment.fragment)
             blogFragment.getBadge().hide();
         else if(fragment == shopFragment.fragment)

@@ -58,25 +58,32 @@ public abstract class BaseActivity extends AppCompatActivity {
     private static Retrofit retrofit = null;
     protected final int layoutId;
     protected final boolean liveValidation;
+    protected final boolean showBackButton;
 
     private final static String PREF_TOKEN = "token";
     private final static String PREF_COIN = "coin";
     private final static String PREF_COMMON = "common";
     private final static String PREF_PROFILE = "profile";
 
-    public BaseActivity(int layoutId, boolean liveValidation) {
+    public BaseActivity(int layoutId, boolean liveValidation, boolean showBackButton) {
         this.layoutId = layoutId;
         this.liveValidation = liveValidation;
+        this.showBackButton = showBackButton;
     }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(layoutId);
         ButterKnife.bind(this);
         getWindow().getDecorView().setLayoutDirection(View.LAYOUT_DIRECTION_RTL);
         if (liveValidation)
             FormValidator.startLiveValidation(this, findViewById(android.R.id.content), new SimpleErrorPopupCallback(this));
+        if(showBackButton) {
+            assert getSupportActionBar() != null;
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         //TODO uncomment this
 //            Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
@@ -84,6 +91,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 //                public void uncaughtException(Thread thread, Throwable t) {
 //                }
 //            });
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 
     @Override

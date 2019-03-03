@@ -82,28 +82,23 @@
         <activity
             android:name=".activities.TransactionsActivity"
             android:label="@string/coin_transactions"
-            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.AdditionalProfileActivity"
             android:label="@string/additional_profile"
-            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.InviteFriendsActivity"
             android:label="@string/invite_friends"
-            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.LeaguesArchiveActivity"
             android:label="@string/leagues_archive"
-            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.MyOrdersActivity"
             android:label="@string/my_orders"
-            android:parentActivityName=".activities.MainActivity"
             android:screenOrientation="portrait" />
 
         <activity

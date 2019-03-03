@@ -20,7 +20,7 @@ public class InviteFriendsActivity extends BaseActivity
     @BindView(R.id.btnInviteCode)   Button btnInviteCode;
 
     public InviteFriendsActivity() {
-        super(R.layout.activity_invite_friends, false);
+        super(R.layout.activity_invite_friends, false, true);
     }
 
     @Override

@@ -175,10 +175,4 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
             }
         });
     }
-
-    @OnClick(R.id.btnMyOrders)
-    protected void btnMyOrders_Click()
-    {
-        startActivity(new Intent(getContext(), MyOrdersActivity.class));
-    }
 }

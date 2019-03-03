@@ -27,7 +27,7 @@ public class TransactionsActivity extends BaseActivity implements SwipeRefreshLa
     @BindView(R.id.lblCoinCount)    TextView lblCoinCount;
 
     public TransactionsActivity() {
-        super(R.layout.activity_transactions, false);
+        super(R.layout.activity_transactions, false, false);
     }
 
     @Override

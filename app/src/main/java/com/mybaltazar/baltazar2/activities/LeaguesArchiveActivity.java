@@ -15,7 +15,7 @@ public class LeaguesArchiveActivity extends BaseActivity
     RecyclerView recycler;
 
     public LeaguesArchiveActivity() {
-        super(R.layout.activity_leagues_archive, false);
+        super(R.layout.activity_leagues_archive, false, true);
     }
 
     @Override

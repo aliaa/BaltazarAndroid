@@ -64,7 +64,7 @@ public class RegisterActivity extends BaseActivity
     @BindArray(R.array.grades)  String[] grades;
 
     public RegisterActivity() {
-        super(R.layout.activity_register, true);
+        super(R.layout.activity_register, true, false);
     }
 
     @Override

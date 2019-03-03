@@ -19,7 +19,7 @@ public class SplashActivity extends BaseActivity
     static final int DELAY_MILLIS = 2500;
 
     public SplashActivity() {
-        super(R.layout.activity_splash, false);
+        super(R.layout.activity_splash, false, false);
     }
 
     @Override
