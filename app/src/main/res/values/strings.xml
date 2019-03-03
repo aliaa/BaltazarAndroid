@@ -146,6 +146,7 @@
     <string name="sent">ارسال شده</string>
     <string name="enter_correct">لطفا اطلاعات خود را صحیح وارد کنید.\nاین اطلاعات صرفا برای بهبود خدمات در بالتازار استفاده خواهد شد.</string>
     <string name="email_optional">آدرس ایمیل در صورت وجود</string>
+    <string name="more">بیشتر</string>
 
     <string-array name="grades">
         <item>اول</item>
@@ -161,4 +162,7 @@
         <item>یازدهم</item>
         <item>دوازدهم</item>
     </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

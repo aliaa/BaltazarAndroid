@@ -14,8 +14,11 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
@@ -377,5 +380,14 @@ public abstract class BaseActivity extends AppCompatActivity {
                 getResources().getColor(R.color.blue),
                 getResources().getColor(R.color.green),
                 getResources().getColor(R.color.red));
+    }
+
+    public static void setHtmlContentToTextView(TextView textView, String html)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            textView.setText(Html.fromHtml(html, Html.FROM_HTML_MODE_COMPACT));
+        else
+            textView.setText(Html.fromHtml(html));
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
     }
 }

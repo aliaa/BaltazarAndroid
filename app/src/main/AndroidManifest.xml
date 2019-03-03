@@ -100,10 +100,13 @@
             android:name=".activities.MyOrdersActivity"
             android:label="@string/my_orders"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".activities.ContactUsActivity"
             android:label="@string/contact_us"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.BlogDetailsActivity"
+            android:label="@string/blog"
             android:screenOrientation="portrait"/>
     </application>
 

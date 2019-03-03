@@ -1,14 +1,14 @@
 package com.mybaltazar.baltazar2.adapters;
 
-import android.os.Build;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.text.Html;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
+import com.mybaltazar.baltazar2.activities.BlogDetailsActivity;
 import com.mybaltazar.baltazar2.models.Blog;
 import com.mybaltazar.baltazar2.utils.StringUtils;
 
@@ -24,6 +24,7 @@ class BlogItemViewHolder extends RecyclerView.ViewHolder
     @BindView(R.id.lblDate)     TextView lblDate;
     @BindView(R.id.lblContent)  TextView lblContent;
     @BindView(R.id.img)         ImageViewZoom img;
+    @BindView(R.id.btnReadMore) Button btnReadMore;
 
     BlogItemViewHolder(View itemView) {
         super(itemView);
@@ -33,18 +34,32 @@ class BlogItemViewHolder extends RecyclerView.ViewHolder
 
 public class BlogAdapter extends BaseRecyclerViewAdapter<BlogItemViewHolder, Blog>
 {
-
     public BlogAdapter(BaseActivity activity, List<Blog> list) {
         super(activity, list, R.layout.item_blog);
     }
 
     @Override
     protected BlogItemViewHolder createViewHolder(View view) {
-        return new BlogItemViewHolder(view);
+        BlogItemViewHolder vh = new BlogItemViewHolder(view);
+        vh.btnReadMore.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Blog item = (Blog)v.getTag();
+                BaseActivity activity = activityRef.get();
+                if(item != null && activity != null)
+                {
+                    Intent i = new Intent(activity, BlogDetailsActivity.class);
+                    i.putExtra("item", item);
+                    activity.startActivity(i);
+                }
+            }
+        });
+        return vh;
     }
 
     @Override
-    protected void onBindViewHolder(BlogItemViewHolder vh, Blog item) {
+    protected void onBindViewHolder(BlogItemViewHolder vh, Blog item)
+    {
         vh.lblTitle.setText(item.title);
         vh.lblDate.setText(StringUtils.getPersianDateString(item.dateAdded));
 
@@ -56,11 +71,12 @@ public class BlogAdapter extends BaseRecyclerViewAdapter<BlogItemViewHolder, Blo
                 BaseActivity.loadImage(url, vh.img);
             }
         }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
-            vh.lblContent.setText(Html.fromHtml(item.htmlContent, Html.FROM_HTML_MODE_COMPACT));
-        else
-            vh.lblContent.setText(Html.fromHtml(item.htmlContent));
-        vh.lblContent.setMovementMethod(LinkMovementMethod.getInstance());
+        String summary = item.summary;
+        if(summary == null || summary.equals("")) {
+            int length = Math.min(100, item.htmlContent.length());
+            summary = item.htmlContent.substring(0, length) + "...";
+        }
+        BaseActivity.setHtmlContentToTextView(vh.lblContent, summary);
+        vh.btnReadMore.setTag(item);
     }
 }
