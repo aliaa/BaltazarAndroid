@@ -25,7 +25,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import ozaydin.serkan.com.image_zoom_view.ImageViewZoom;
 import retrofit2.Call;
-import retrofit2.Response;
 
 public class MyQuestionDetailsFragment extends BaseFragment
 {
@@ -33,6 +32,7 @@ public class MyQuestionDetailsFragment extends BaseFragment
     @BindView(R.id.lblDate)                 TextView lblDate;
     @BindView(R.id.imgAnswerImage)          ImageViewZoom imgAnswerImage;
     @BindView(R.id.lblAnswerDescription)    TextView lblAnswerDescription;
+    @BindView(R.id.layoutResponseButtons)   View layoutResponseButtons;
 
     Question question;
     Answer answer;
@@ -41,18 +41,26 @@ public class MyQuestionDetailsFragment extends BaseFragment
     public MyQuestionDetailsFragment() { }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         View view = inflater.inflate(R.layout.fragment_my_question_details, container, false);
         ButterKnife.bind(this, view);
         final MainActivity activity = (MainActivity)getActivity();
         question = (Question)getArguments().getSerializable("item");
-        if(question.answers == null || question.answers.size() == 0)
+        if((question.answers == null || question.answers.size() == 0) && question.acceptedAnswer == null)
         {
             Toast.makeText(getContext(), "جواب موجود نیست!", Toast.LENGTH_SHORT).show();
             activity.onBackPressed();
             return view;
         }
-        answer = question.answers.get(0);
+        if(question.answers.size() > 0) {
+            answer = question.answers.get(0);
+            layoutResponseButtons.setVisibility(View.VISIBLE);
+        }
+        else {
+            answer = question.acceptedAnswer;
+            layoutResponseButtons.setVisibility(View.GONE);
+        }
         loadUI(answer);
         return view;
     }

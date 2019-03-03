@@ -86,7 +86,7 @@
                 android:textSize="18dp"/>
 
             <LinearLayout
-                android:id="@+id/layoutHaveAnswer"
+                android:id="@+id/layoutAnswersCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -108,16 +108,17 @@
                     android:textColor="@color/green"
                     android:textStyle="bold"
                     android:textSize="16sp"/>
-
-                <Button
-                    android:id="@+id/btnShowAnswer"
-                    android:layout_width="wrap_content"
-                    android:layout_height="38dp"
-                    android:text="@string/view_answer"
-                    android:layout_marginRight="24dp"
-                    android:background="@color/colorAccent"
-                    android:textColor="@android:color/white"/>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btnShowAnswer"
+                android:layout_width="wrap_content"
+                android:layout_height="38dp"
+                android:text="@string/view_answer"
+                android:layout_marginRight="24dp"
+                android:background="@color/colorAccent"
+                android:textColor="@android:color/white"/>
+
 
             <View
                 android:layout_width="0dp"

@@ -10,6 +10,7 @@ import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.activities.BaseActivity;
 import com.mybaltazar.baltazar2.activities.MainActivity;
 import com.mybaltazar.baltazar2.events.DeleteQuestionClickEvent;
+import com.mybaltazar.baltazar2.models.BaseEntity;
 import com.mybaltazar.baltazar2.models.BaseUserContent;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.utils.StringUtils;
@@ -33,7 +34,7 @@ class MyQuestionItemViewHolder extends RecyclerView.ViewHolder
     @BindView(R.id.lblText)         TextView lblText;
     @BindView(R.id.imgQuestionImage) ImageViewZoom imgQuestionImage;
     @BindView(R.id.btnShowAnswer)   Button btnShowAnswer;
-    @BindView(R.id.layoutHaveAnswer) View layoutHaveAnswer;
+    @BindView(R.id.layoutAnswersCount) View layoutAnswersCount;
     @BindView(R.id.lblStatus)       TextView lblStatus;
 
     MyQuestionItemViewHolder(View itemView) {
@@ -114,9 +115,9 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
         vh.lblStatus.setText(statusStrId);
         vh.lblStatus.setTextColor(activity.getResources().getColor(statusColorId));
 
-        vh.layoutHaveAnswer.setVisibility(item.answers.size() > 0 ? View.VISIBLE : View.GONE);
+        vh.layoutAnswersCount.setVisibility(item.answers.size() > 0 ? View.VISIBLE : View.GONE);
         vh.lblCount.setText(String.valueOf(item.answers.size()));
-        vh.btnShowAnswer.setVisibility(item.answers.size() > 0 ? View.VISIBLE : View.GONE);
+        vh.btnShowAnswer.setVisibility(item.answers.size() > 0 || item.acceptedAnswer != null ? View.VISIBLE : View.GONE);
         vh.btnShowAnswer.setTag(item);
         if(item.hasImage) {
             String url = activity.getImageUrlById(item.id);

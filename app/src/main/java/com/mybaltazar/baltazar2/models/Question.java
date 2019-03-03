@@ -9,7 +9,7 @@ public class Question extends BaseUserContent
     public int grade;
     public String courseId;
     public String sectionId;
-    public String acceptedAnswerId;
+    public Answer acceptedAnswer;
     public List<Answer> answers;
     public int prize;
     public boolean hot;
