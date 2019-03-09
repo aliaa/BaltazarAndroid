@@ -107,7 +107,7 @@ public class QuestionDetailFragment extends BaseFragment
         else
             imgQuestionImage.setVisibility(View.GONE);
 
-        imgAnswerImage.setVisibility(item.fromBaltazar && item.allowUploadOnAnswer ? View.VISIBLE : View.GONE);
+        imgAnswerImage.setVisibility(!item.fromBaltazar || item.allowUploadOnAnswer ? View.VISIBLE : View.GONE);
 
         if (item.hasVideo)
         {
