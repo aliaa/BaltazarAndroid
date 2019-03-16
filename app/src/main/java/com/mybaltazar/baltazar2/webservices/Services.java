@@ -9,6 +9,7 @@ import com.mybaltazar.baltazar2.models.ScoresData;
 import com.mybaltazar.baltazar2.models.ShopItem;
 import com.mybaltazar.baltazar2.models.ShopOrder;
 import com.mybaltazar.baltazar2.models.Student;
+import com.mybaltazar.baltazar2.models.TeacherStatus;
 
 import java.util.List;
 
@@ -112,4 +113,10 @@ public interface Services
 
     @POST("ContactUs/Submit")
     Call<CommonResponse> submitContactUsMessage(@Header("token") String token, @Body ContactUsMessage message);
+
+    @GET("Student/TeacherStats")
+    Call<DataResponse<TeacherStatus>> teacherStats(@Header("token") String token);
+
+    @GET("Student/RequestWithdrawal")
+    Call<CommonResponse> requestWithdrawal(@Header("token") String token, @Query("card") String card);
 }

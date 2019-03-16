@@ -1,6 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.TeacherProfileFragment"/>
+    tools:context=".fragments.TeacherProfileFragment"
+    android:orientation="vertical"
+    android:padding="18dp"
+    android:gravity="center_horizontal">
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:columnCount="3"
+        android:layout_gravity="center"
+        android:layoutDirection="rtl">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/name_lastName_colon"
+            android:layout_gravity="center_vertical|right"
+            android:layout_column="0"/>
+
+        <TextView
+            android:id="@+id/lblUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_vertical|right"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/nickName"
+            android:layout_gravity="center_vertical|right"
+            android:layout_column="0"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layoutDirection="rtl"
+            android:gravity="center_vertical|right">
+
+            <TextView
+                android:id="@+id/lblNickName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:maxWidth="150dp"/>
+
+            <ImageView
+                android:id="@+id/btnEditNickName"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:padding="8dp"
+                android:src="@mipmap/ic_edit"/>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/membershipDuration"
+            android:layout_gravity="center_vertical|right"
+            android:layout_column="0"/>
+
+        <TextView
+            android:id="@+id/lblMyMembershipDuration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_vertical|right"
+            android:textStyle="bold"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/myAnswersCount"
+            android:layout_gravity="center_vertical|right"
+            android:layout_column="0"/>
+
+        <TextView
+            android:id="@+id/lblMyAnswersCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_vertical|right"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/green"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/myAcceptedAnswersCount"
+            android:layout_gravity="center_vertical|right"
+            android:layout_column="0"/>
+
+        <TextView
+            android:id="@+id/lblMyAcceptedAnswersCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_gravity="center_vertical|right"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:textColor="@color/green"/>
+    </GridLayout>
+
+    <Button
+        android:id="@+id/btnRequestWithdrawal"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:background="@color/colorAccent"
+        android:textColor="@android:color/white"
+        android:padding="8dp"
+        android:text="@string/requestWithdrawal"
+        android:layout_marginTop="18dp"
+        android:textStyle="bold"/>
+</LinearLayout>

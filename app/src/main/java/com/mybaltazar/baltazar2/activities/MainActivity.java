@@ -24,6 +24,7 @@ import com.mybaltazar.baltazar2.fragments.ProfileFragment;
 import com.mybaltazar.baltazar2.fragments.QAFragment;
 import com.mybaltazar.baltazar2.fragments.QuestionDetailFragment;
 import com.mybaltazar.baltazar2.fragments.ShopFragment;
+import com.mybaltazar.baltazar2.fragments.TeacherProfileFragment;
 import com.mybaltazar.baltazar2.models.Question;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 
@@ -81,7 +82,7 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     private FragmentPage blogFragment;
     private List<FragmentPage> fragmentPages;
 
-    private ProfileFragment profileFragment;
+    private BaseFragment profileFragment;
     private NewQuestionFragment newQuestionFragment;
     private BaseFragment currentFragment;
 
@@ -114,16 +115,19 @@ public class MainActivity extends BaseActivity implements BottomNavigationBar.On
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        boolean isTeacher = getIntent().getBooleanExtra(IS_TEACHER, false);
 
         qaFragment = new FragmentPage(R.drawable.ic_question, R.string.qa, new QAFragment(), false);
         myQuestionsFragment = new FragmentPage(R.drawable.ic_raise_hand, R.string.my_questions, new MyQuestionsFragment(), true);
         leagueFragment = new FragmentPage(R.drawable.ic_cup, R.string.league, new LeagueFragment(), false);
         shopFragment = new FragmentPage(R.drawable.ic_basket, R.string.shop, new ShopFragment(), true);
         blogFragment = new FragmentPage(R.drawable.ic_newspaper, R.string.blog, new BlogFragment(), true);
-        profileFragment = new ProfileFragment();
+        if(isTeacher)
+            profileFragment = new TeacherProfileFragment();
+        else
+            profileFragment = new ProfileFragment();
         newQuestionFragment = new NewQuestionFragment();
 
-        boolean isTeacher = getIntent().getBooleanExtra(IS_TEACHER, false);
         fragmentPages = new ArrayList<>();
         if(isTeacher) {
             fragmentPages.add(qaFragment);

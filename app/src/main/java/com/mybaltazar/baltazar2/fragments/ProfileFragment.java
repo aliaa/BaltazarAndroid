@@ -39,7 +39,6 @@ import retrofit2.Response;
 
 public class ProfileFragment extends BaseFragment
 {
-    @BindView(R.id.gridLayout)              GridLayout gridLayout;
     @BindView(R.id.lblUserName)             TextView lblUserName;
     @BindView(R.id.lblNickName)             TextView lblNickName;
     @BindView(R.id.lblMyMembershipDuration) TextView lblMyMembershipDuration;

@@ -147,6 +147,10 @@
     <string name="enter_correct">لطفا اطلاعات خود را صحیح وارد کنید.\nاین اطلاعات صرفا برای بهبود خدمات در بالتازار استفاده خواهد شد.</string>
     <string name="email_optional">آدرس ایمیل در صورت وجود</string>
     <string name="more">بیشتر</string>
+    <string name="myAnswersCount">تعداد جوابهای من:</string>
+    <string name="myAcceptedAnswersCount">تعداد جوابهای صحیح من:</string>
+    <string name="requestWithdrawal">درخواست تسویه حساب</string>
+    <string name="enter_card_num">کارت بانکی خود را وارد کنید:</string>
 
     <string-array name="grades">
         <item>اول</item>
