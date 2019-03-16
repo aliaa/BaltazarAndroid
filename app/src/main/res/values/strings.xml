@@ -145,7 +145,7 @@
     <string name="sending">در حال ارسال</string>
     <string name="sent">ارسال شده</string>
     <string name="enter_correct">لطفا اطلاعات خود را صحیح وارد کنید.\nاین اطلاعات صرفا برای بهبود خدمات در بالتازار استفاده خواهد شد.</string>
-    <string name="email_optional">آدرس ایمیل در صورت وجود</string>
+    <string name="email_optional">شماره تماس یا تلگرام و یا ایمیل شما</string>
     <string name="more">بیشتر</string>
     <string name="myAnswersCount">تعداد جوابهای من:</string>
     <string name="myAcceptedAnswersCount">تعداد جوابهای صحیح من:</string>

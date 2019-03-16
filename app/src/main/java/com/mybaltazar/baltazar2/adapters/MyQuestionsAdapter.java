@@ -107,10 +107,14 @@ public class MyQuestionsAdapter extends BaseRecyclerViewAdapter<MyQuestionItemVi
                     statusStrId = R.string.rejected;
                     break;
             }
+            vh.btnShowAnswer.setBackgroundColor(activity.getResources().getColor(R.color.gray));
+            vh.btnShowAnswer.setTextColor(activity.getResources().getColor(R.color.black));
         }
         else {
             statusColorId = R.color.green;
             statusStrId = R.string.has_answer;
+            vh.btnShowAnswer.setBackgroundColor(activity.getResources().getColor(R.color.colorAccent));
+            vh.btnShowAnswer.setTextColor(activity.getResources().getColor(R.color.white));
         }
         vh.lblStatus.setText(statusStrId);
         vh.lblStatus.setTextColor(activity.getResources().getColor(statusColorId));
