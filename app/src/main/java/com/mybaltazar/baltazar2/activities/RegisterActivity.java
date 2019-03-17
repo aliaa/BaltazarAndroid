@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
@@ -64,7 +66,7 @@ public class RegisterActivity extends BaseActivity
     @BindArray(R.array.grades)  String[] grades;
 
     public RegisterActivity() {
-        super(R.layout.activity_register, true, false);
+        super(R.layout.activity_register, true, true);
     }
 
     @Override
@@ -144,5 +146,23 @@ public class RegisterActivity extends BaseActivity
                 });
             }
         });
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_logout, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId())
+        {
+            case R.id.menu_item_contact_us:
+                startActivity(new Intent(this, ContactUsActivity.class));
+                return true;
+        }
+        return false;
     }
 }

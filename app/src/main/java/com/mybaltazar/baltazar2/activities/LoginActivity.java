@@ -73,20 +73,10 @@ public class LoginActivity extends BaseActivity
         startActivity(i);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_logout, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.menu_item_contact_us:
-                startActivity(new Intent(this, ContactUsActivity.class));
-                return true;
-        }
-        return false;
+    @OnClick(R.id.lblContactUs)
+    protected void lblContactUs_Click()
+    {
+        Intent i = new Intent(this, ContactUsActivity.class);
+        startActivity(i);
     }
 }
