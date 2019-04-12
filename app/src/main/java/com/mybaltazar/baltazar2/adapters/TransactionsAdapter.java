@@ -74,6 +74,7 @@ public class TransactionsAdapter extends BaseRecyclerViewAdapter<TransactionItem
                 break;
             case Register:
                 typeStrId = R.string.register;
+                break;
             default:
                 return;
         }

@@ -10,10 +10,15 @@ import android.widget.Toast;
 
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.adapters.TransactionsAdapter;
+import com.mybaltazar.baltazar2.events.CoinChangedEvent;
 import com.mybaltazar.baltazar2.models.CoinTransaction;
 import com.mybaltazar.baltazar2.webservices.DataResponse;
 import com.mybaltazar.baltazar2.webservices.RetryableCallback;
 import com.mybaltazar.baltazar2.webservices.Services;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.List;
 
@@ -42,9 +47,22 @@ public class TransactionsActivity extends BaseActivity implements SwipeRefreshLa
     protected void onStart()
     {
         super.onStart();
+        EventBus.getDefault().register(this);
         lblCoinCount.setText(String.valueOf(BaseActivity.getCoinCount()));
         loadList();
     }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void coinCountChanged(CoinChangedEvent event) {
+        lblCoinCount.setText(String.valueOf(event.amount));
+    }
+
 
     @Override
     public void onRefresh() {

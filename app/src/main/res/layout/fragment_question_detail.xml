@@ -12,10 +12,13 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.CardView
+            android:id="@+id/cardQuestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardCornerRadius="4dp"
-            app:cardUseCompatPadding="true">
+            app:cardUseCompatPadding="true"
+            android:layout_marginTop="16dp"
+            app:cardBackgroundColor="@color/lightGreen">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -32,9 +35,12 @@
                     android:gravity="center_vertical">
 
                     <ImageView
+                        android:id="@+id/imgAvatar"
                         android:layout_width="48dp"
                         android:layout_height="48dp"
-                        android:src="@drawable/balatazar_logo"/>
+                        android:src="@drawable/ic_raise_hand"
+                        android:padding="10dp"
+                        android:tint="@color/colorAccent"/>
 
                     <TextView
                         android:id="@+id/lblUserName"
@@ -89,7 +95,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="200dp"
                     android:layout_marginTop="12dp"
-                    android:id="@+id/imgQuestionImage"/>
+                    android:id="@+id/imgQuestionImage"
+                    android:background="@color/white"/>
 
                 <VideoView
                     android:layout_width="match_parent"
@@ -116,11 +123,11 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/lblQuestionText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:id="@+id/lblQuestionText"
-                    android:background="@color/gray"
+                    android:background="@color/midGreen"
                     android:padding="6dp"/>
             </LinearLayout>
         </android.support.v7.widget.CardView>

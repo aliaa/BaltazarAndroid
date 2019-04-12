@@ -1,11 +1,14 @@
 package com.mybaltazar.baltazar2.activities;
 
+import android.Manifest;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -48,10 +51,37 @@ public class InviteFriendsActivity extends BaseActivity
     @OnClick(R.id.btnShareBySMS)
     protected void btnShareBySMS_Click()
     {
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.putExtra("sms_body", getMessage());
-        startActivity(intent);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED)
+        {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_CONTACTS}, 1);
+        }
+        else
+            sendSms();
+    }
+
+    private void sendSms()
+    {
+//        Intent intent = new Intent(Intent.ACTION_SENDTO);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        intent.putExtra("sms_body", getMessage());
+//        startActivity(intent);
+
+        Intent smsIntent = new Intent(android.content.Intent.ACTION_VIEW);
+        smsIntent.setType("vnd.android-dir/mms-sms");
+        smsIntent.putExtra("sms_body",getMessage());
+        startActivity(smsIntent);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 1: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    sendSms();
+                }
+                break;
+            }
+        }
     }
 
     @OnClick(R.id.btnShareByEmail)

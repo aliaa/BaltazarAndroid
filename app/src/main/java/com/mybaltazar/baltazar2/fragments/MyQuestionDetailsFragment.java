@@ -118,7 +118,7 @@ public class MyQuestionDetailsFragment extends BaseFragment
         }
         new AlertDialog.Builder(getContext())
                 .setMessage(msgId)
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancell, null)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

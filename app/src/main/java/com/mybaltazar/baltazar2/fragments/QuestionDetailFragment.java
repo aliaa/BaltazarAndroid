@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v7.widget.CardView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -51,6 +52,8 @@ import static android.app.Activity.RESULT_OK;
 
 public class QuestionDetailFragment extends BaseFragment
 {
+    @BindView(R.id.cardQuestion)        CardView cardQuestion;
+    @BindView(R.id.imgAvatar)           ImageView imgAvatar;
     @BindView(R.id.lblUserName)         TextView lblUserName;
     @BindView(R.id.layoutGradeLesson)   View layoutGradeLesson;
     @BindView(R.id.lblCourseText)       TextView lblCourseText;
@@ -70,6 +73,11 @@ public class QuestionDetailFragment extends BaseFragment
     public QuestionDetailFragment() { }
 
     @Override
+    public int getTitleId() {
+        return R.string.question_details;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_question_detail, container, false);
         ButterKnife.bind(this, view);
@@ -82,6 +90,9 @@ public class QuestionDetailFragment extends BaseFragment
         CommonData commonData = ((BaseActivity)getActivity()).loadCommonData(false, null);
         lblUserName.setText(item.userName);
         layoutGradeLesson.setVisibility(item.fromBaltazar ? View.GONE : View.VISIBLE);
+        cardQuestion.setCardBackgroundColor(getResources().getColor(item.fromBaltazar ?  R.color.lightGreen : R.color.white));
+        lblQuestionText.setBackgroundColor(getResources().getColor(item.fromBaltazar ? R.color.midGreen : R.color.gray));
+        imgAvatar.setVisibility(item.fromBaltazar ? View.GONE : View.VISIBLE);
         if (item.courseId == null)
         {
             lblCourseName.setVisibility(View.GONE);

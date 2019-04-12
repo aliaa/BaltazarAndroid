@@ -79,7 +79,7 @@ public class TeacherProfileFragment extends BaseFragment
                         callUpdate(update);
                     }
                 })
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancell, null)
                 .create().show();
     }
 
@@ -122,7 +122,7 @@ public class TeacherProfileFragment extends BaseFragment
                         });
                     }
                 })
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancell, null)
                 .create().show();
     }
 }

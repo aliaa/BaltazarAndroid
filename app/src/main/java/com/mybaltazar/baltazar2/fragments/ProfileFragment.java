@@ -182,7 +182,7 @@ public class ProfileFragment extends BaseFragment
                         callUpdate(update);
                     }
                 })
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancell, null)
                 .create().show();
     }
 

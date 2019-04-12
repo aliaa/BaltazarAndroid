@@ -79,16 +79,16 @@
     <string name="grade">مقطع:</string>
     <string name="course_name">نام درس:</string>
     <string name="filter">فیلتر لیست</string>
-    <string name="cancel">انصراف</string>
+    <string name="cancell">انصراف</string>
     <string name="all">همه</string>
-    <string name="baltazar_question">بالتازار</string>
-    <string name="points">امتیاز:</string>
-    <string name="league_points">امتیاز لیگ:</string>
-    <string name="other_questions_points">امتیاز از سایر سوالات:</string>
-    <string name="score">رتبه:</string>
-    <string name="scoreOnGrade">رتبه در پایه:</string>
-    <string name="top10OnGrade">10 نفر برتر لیگ در پایه</string>
-    <string name="top10OnFestival">10 نفر برتر لیگ در کل</string>
+    <string name="baltazar_question">سوال بالتازار</string>
+    <string name="points">مجموع امتیازات:</string>
+    <string name="league_points">امتیاز از سوالات بالتازار:</string>
+    <string name="other_questions_points">امتیاز از سوالات دانش آموزان:</string>
+    <string name="score">رتبه من در تمام پایه ها:</string>
+    <string name="scoreOnGrade">رتبه من در پایه انتخابی:</string>
+    <string name="top10OnGrade">10 نفر برتر در پایه انتخابی</string>
+    <string name="top10OnFestival">10 نفر برتر در تمام پایه ها</string>
     <string name="top10Total">10 نفر برتر در کل</string>
     <string name="fill_profile">تکمیل اطلاعات پروفایل + جایزه!</string>
     <string name="invite_friends_with_prize">دعوت از دوستان + جایزه!</string>
@@ -132,14 +132,14 @@
     <string name="sure_to_report_answer">آیا برای گزارش این جواب مطمئن هستید؟</string>
     <string name="invite_description">با اشتراک کد زیر با دوستان و همکلاسی های خود،\n3 سکه به آنها هدیه دهید و پس از ثبت نام آنها،\nشما نیز 5 سکه دریافت خواهید کرد.</string>
     <string name="invitation_copied">کد معرفی کپی شد</string>
-    <string name="invitation_share_message">"با وارد کردن کد دعوت زیر در هنگام ثبت نام 3 سکه هدیه دریافت کنید.\nبالتازار اپلیکیشنی برای حل سوالات و مشکلات درسی شماست.\nاپلیشکیشن بالتازار را میتوانید از http://mybaltazar.com دانلود نمائید.\nکد دعوت: "</string>
+    <string name="invitation_share_message">"سلام\nاپلیکیشن بالتازار رو دانلود کن و با کد دعوت زیر ثبت نام کن تا 3 سکه جایزه بگیری\nبالتازار اپلیکیشنی برای سوال و جواب و رفع اشکال درسهامونه.\nاپلیشکیشن بالتازار رو میتونی از http://mybaltazar.com دانلود کنی.\nکد دعوت: "</string>
     <string name="invite_email_subject">کد دعوت بالتازار</string>
     <string name="send_email">ارسال ایمیل</string>
     <string name="telegram_not_installed">برنامه تلگرام نصب نشده است!</string>
     <string name="share_using">ارسال با…</string>
     <string name="additional_profile_info">با تکمیل اطلاعات این صفحه 5 سکه جایزه بگیرید!</string>
     <string name="message" tools:ignore="ExtraTranslation">پیام</string>
-    <string name="leagues_archive">آرشیو لیگ های من</string>
+    <string name="leagues_archive">امتیاز من در لیگهای قبلی</string>
     <string name="my_orders">خریدهای من</string>
     <string name="status">وضعیت:</string>
     <string name="sending">در حال ارسال</string>
@@ -151,6 +151,8 @@
     <string name="myAcceptedAnswersCount">تعداد جوابهای صحیح من:</string>
     <string name="requestWithdrawal">درخواست تسویه حساب</string>
     <string name="enter_card_num">کارت بانکی خود را وارد کنید:</string>
+    <string name="league_description">توجه: محاسبه و بروز رسانی امتیازات و رتبه ها\n با فاصله یک ساعت اعمال میشود.</string>
+    <string name="question_details">شرح سوال</string>
 
     <string-array name="grades">
         <item>اول</item>
@@ -166,7 +168,4 @@
         <item>یازدهم</item>
         <item>دوازدهم</item>
     </string-array>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

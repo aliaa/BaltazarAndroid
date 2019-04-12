@@ -20,107 +20,130 @@
             android:textSize="22dp"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layoutDirection="rtl"
-            android:layout_marginTop="16dp">
+            android:orientation="vertical"
+            android:gravity="right"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/points"/>
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:layout_marginTop="16dp">
 
-            <TextView
-                android:id="@+id/lblPoints"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/points"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/lblPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:layout_marginRight="8dp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="0"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginRight="8dp"
-                android:textColor="@color/green"
-                android:textStyle="bold"
-                android:text="0"/>
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/league_points"/>
+
+                <TextView
+                    android:id="@+id/lblLeaguePoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="0"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/other_questions_points"/>
+
+                <TextView
+                    android:id="@+id/lblOtherPoints"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="0"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/score"/>
+
+                <TextView
+                    android:id="@+id/lblScore"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="0"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layoutDirection="rtl"
+                android:layout_marginTop="12dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/scoreOnGrade"/>
+
+                <TextView
+                    android:id="@+id/lblScoreOnGrade"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="@color/green"
+                    android:textStyle="bold"
+                    android:text="0"/>
+            </LinearLayout>
         </LinearLayout>
-
-        <GridLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnCount="4"
-            android:layout_marginTop="16dp"
-            android:layoutDirection="rtl">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/league_points"/>
-
-            <TextView
-                android:id="@+id/lblLeaguePoints"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginRight="8dp"
-                android:textColor="@color/green"
-                android:textStyle="bold"
-                android:text="0"
-                android:layout_marginLeft="20dp"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/other_questions_points"/>
-
-            <TextView
-                android:id="@+id/lblOtherPoints"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginRight="8dp"
-                android:textColor="@color/green"
-                android:textStyle="bold"
-                android:text="0"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/score"/>
-
-            <TextView
-                android:id="@+id/lblScore"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginRight="8dp"
-                android:textColor="@color/green"
-                android:textStyle="bold"
-                android:text="0"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/scoreOnGrade"/>
-
-            <TextView
-                android:id="@+id/lblScoreOnGrade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="16dp"
-                android:layout_marginRight="8dp"
-                android:textColor="@color/green"
-                android:textStyle="bold"
-                android:text="0"/>
-        </GridLayout>
-
-        <Button
-            android:id="@+id/btnLeaguesArchive"
-            android:layout_width="140dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
-            android:text="@string/leagues_archive"
-            android:textStyle="bold"
-            android:background="@color/colorAccent"
-            android:textColor="@android:color/white"
-            android:padding="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -160,6 +183,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/league_description"
+            android:layout_margin="16dp"
+            android:textColor="@color/colorAccent"/>
+
+        <Button
+            android:id="@+id/btnLeaguesArchive"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/leagues_archive"
+            android:textStyle="bold"
+            android:background="@color/colorAccent"
+            android:textColor="@android:color/white"
+            android:padding="4dp"/>
     </LinearLayout>
 
 </ScrollView>

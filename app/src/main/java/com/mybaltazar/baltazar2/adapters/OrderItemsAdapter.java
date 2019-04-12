@@ -74,7 +74,7 @@ public class OrderItemsAdapter extends BaseRecyclerViewAdapter<OrderItemViewHold
                 break;
             case Approved:
                 statusColorId = R.color.colorAccent;
-                statusStrId = R.string.sending;
+                statusStrId = R.string.sent;
                 break;
             case Delivered:
                 statusColorId = R.color.green;

@@ -136,7 +136,7 @@ public class ShopFragment extends BaseFragment implements SwipeRefreshLayout.OnR
 
         new AlertDialog.Builder(getContext())
                 .setMessage(R.string.sure_to_buy)
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancell, null)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

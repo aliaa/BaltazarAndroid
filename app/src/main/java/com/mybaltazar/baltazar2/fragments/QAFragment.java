@@ -119,7 +119,7 @@ public class QAFragment extends BaseFragment implements SwipeRefreshLayout.OnRef
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext())
                 .setTitle(R.string.filter)
                 .setView(content)
-                .setNegativeButton(R.string.cancel, null)
+                .setNegativeButton(R.string.cancell, null)
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
