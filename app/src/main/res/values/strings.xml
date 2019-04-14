@@ -132,7 +132,7 @@
     <string name="sure_to_report_answer">آیا برای گزارش این جواب مطمئن هستید؟</string>
     <string name="invite_description">با اشتراک کد زیر با دوستان و همکلاسی های خود،\n3 سکه به آنها هدیه دهید و پس از ثبت نام آنها،\nشما نیز 5 سکه دریافت خواهید کرد.</string>
     <string name="invitation_copied">کد معرفی کپی شد</string>
-    <string name="invitation_share_message">"سلام\nاپلیکیشن بالتازار رو دانلود کن و با کد دعوت زیر ثبت نام کن تا 3 سکه جایزه بگیری\nبالتازار اپلیکیشنی برای سوال و جواب و رفع اشکال درسهامونه.\nاپلیشکیشن بالتازار رو میتونی از http://mybaltazar.com دانلود کنی.\nکد دعوت: "</string>
+    <string name="invitation_share_message">"سلام\nاپلیکیشن بالتازار رو دانلود کن و با کد دعوت زیر ثبت نام کن تا 3 سکه جایزه بگیری\nبالتازار اپلیکیشنی برای سوال و جواب و رفع اشکال درسهامونه.\nاپلیشکیشن بالتازار رو میتونی از mybaltazar.com دانلود کنی.\nکد دعوت: "</string>
     <string name="invite_email_subject">کد دعوت بالتازار</string>
     <string name="send_email">ارسال ایمیل</string>
     <string name="telegram_not_installed">برنامه تلگرام نصب نشده است!</string>
