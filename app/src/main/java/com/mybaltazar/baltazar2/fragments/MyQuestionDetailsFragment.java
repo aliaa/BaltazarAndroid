@@ -140,22 +140,8 @@ public class MyQuestionDetailsFragment extends BaseFragment
             public void onFinalSuccess(CommonResponse data)
             {
                 BaseActivity activity = (BaseActivity)getActivity();
-                if(activity != null) {
-                    switch (questionerResponse) {
-                        case Accepted:
-                            activity.onBackPressed();
-                            break;
-                        default:
-                            index++;
-                            if(question.answers.size() > index)
-                            {
-                                answer = question.answers.get(index);
-                                loadUI(answer);
-                            }
-                            else
-                                activity.onBackPressed();
-                    }
-                }
+                if(activity != null)
+                    activity.onBackPressed();
             }
         });
     }

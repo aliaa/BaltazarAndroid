@@ -26,13 +26,14 @@ import butterknife.BindView;
 import retrofit2.Call;
 import retrofit2.Response;
 
-public class TransactionsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class TransactionsActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener
+{
     @BindView(R.id.recycler)        RecyclerView recycler;
     @BindView(R.id.swipe)           SwipeRefreshLayout swipe;
     @BindView(R.id.lblCoinCount)    TextView lblCoinCount;
 
     public TransactionsActivity() {
-        super(R.layout.activity_transactions, false, false);
+        super(R.layout.activity_transactions, false, true);
     }
 
     @Override
