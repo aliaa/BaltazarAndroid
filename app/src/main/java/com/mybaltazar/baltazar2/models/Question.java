@@ -15,4 +15,5 @@ public class Question extends BaseUserContent
     public boolean hot;
     public boolean fromBaltazar;
     public boolean allowUploadOnAnswer;
+    public boolean iAlreadyAnswered;
 }

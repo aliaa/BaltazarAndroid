@@ -79,7 +79,9 @@ public class QuestionsAdapter extends BaseRecyclerViewAdapter<QuestionItemViewHo
 
 
         vh.lblCount.setText(String.valueOf(item.prize));
-        if(item.fromBaltazar)
+        if (item.iAlreadyAnswered)
+            vh.cardView.setCardBackgroundColor(activity.getResources().getColor(R.color.gray));
+        else if(item.fromBaltazar)
             vh.cardView.setCardBackgroundColor(activity.getResources().getColor(R.color.lightGreen));
         else if (item.hot)
             vh.cardView.setCardBackgroundColor(activity.getResources().getColor(R.color.yellow));
