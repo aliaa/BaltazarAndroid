@@ -24,5 +24,16 @@
             android:indeterminate="true"
             android:indeterminateTint="@color/colorAccent"/>
 
+        <TextView
+            android:id="@+id/lblVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_margin="16px"
+            android:text="version"
+            android:textSize="10dp"/>
+
     </android.support.constraint.ConstraintLayout>
 </FrameLayout>

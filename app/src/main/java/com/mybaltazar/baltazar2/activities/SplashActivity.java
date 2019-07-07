@@ -9,14 +9,20 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.Settings;
+import android.widget.TextView;
 
+import com.mybaltazar.baltazar2.BuildConfig;
 import com.mybaltazar.baltazar2.R;
 import com.mybaltazar.baltazar2.utils.DataListener;
 import com.mybaltazar.baltazar2.webservices.CommonData;
 
+import butterknife.BindView;
+
 public class SplashActivity extends BaseActivity
 {
     static final int DELAY_MILLIS = 2500;
+
+    @BindView(R.id.lblVersion) TextView lblVersion;
 
     public SplashActivity() {
         super(R.layout.activity_splash, false, false);
@@ -25,6 +31,7 @@ public class SplashActivity extends BaseActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        lblVersion.setText("v" + BuildConfig.VERSION_NAME);
     }
 
     @Override

@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">بالتازار</string>
     <!--<string name="media_base_url">http://mybaltazar.com/public/storage/</string>-->
-    <string name="base_url">http://10.104.24.114:8080/Baltazar/</string>
+    <string name="base_url">http://mybaltazaradmin.ir/</string>
     <!--<string name="base_url">http://172.26.9.155:81/</string>-->
-    <string name="media_base_url">http://10.104.24.114:8080/Baltazar/Uploads/</string>
+    <string name="media_base_url">http://mybaltazaradmin.ir/Uploads/</string>
     <!--<string name="media_base_url">http://172.26.9.155:81/Uploads/</string>-->
 
     <string name="image_dir">Image/</string>
